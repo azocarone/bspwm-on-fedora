@@ -1,1 +1,1 @@
-# BSPWM | Professional bspwm desktop environment for kali linux, collection with Theme Selector,
+## BSPWM | Professional bspwm desktop environment for kali linux, collection with Theme Selector, Mode Selector
