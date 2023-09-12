@@ -1,1 +1,1 @@
-## BSPWM | Professional bspwm desktop environment for kali linux, collection with Theme Selector, Mode Selector
+## <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f409.gif" width ="50"><b> BSPWM | Professional bspwm desktop environment for kali linux, collection with Theme Selector, Mode Selector</b><br>
