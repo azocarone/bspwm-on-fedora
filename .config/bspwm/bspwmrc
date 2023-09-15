@@ -5,7 +5,7 @@
 # | _ \__ \  _/\ \/\/ /| |\/| | | (_| (_) | .` | _| | | (_ |
 # |___/___/_|   \_/\_/ |_|  |_|  \___\___/|_|\_|_| |___\___|
 # AlvinPix: https://github.com/AlvinPix
-# Color-theme: Itachi
+# Default bspwmrc
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
@@ -28,14 +28,9 @@ bspc config pointer_follows_focus true
 bspc config gapless_monocle true
 bspc config paddingless_monocle true
 
-#bspc rule -a Gim desktop='^8' state=floating follow=on
-#bspc rule -a ranger state=floating
-bspc rule -a Google-chrome desktop='I'
-bspc rule -a firefox desktop='I'
-bspc rule -a simplescreenrecorder state=floating follow=on
-#bspc rule -a mplayer2 state=floating
-#bspc rule -a Kupfer.py focus=on
-#bspc rule -a Screenkey manage=off
+bspc rule -a "Google-chrome" desktop='I'
+bspc rule -a "firefox" desktop='I'
+bspc rule -a "SimpleScreenRecorder" state=floating follow=on
 
 # Auto-Start
 
