@@ -1,15 +1,1 @@
-# The Simon Riley - Ghost theme
-~ a ghost ~ 9/96
-     .-.
-   .'   `.
-   :g g   :
-   : o    `.
-  :         ``.
- :             `.
-:  :         .   `.
-:   :          ` . `.
- `.. :            `. ``;
-    `:;             `:'
-       :              `.
-        `.              `.     .
-          `'`'`'`---..,___`;.-'
+# The Simon Riley Ghost theme
