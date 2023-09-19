@@ -1,1 +1,1 @@
-# The Simon Riley Ghost theme
+# The Simon Riley Ghost theme 💀
