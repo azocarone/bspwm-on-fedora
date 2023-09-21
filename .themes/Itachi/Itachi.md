@@ -1,1 +1,0 @@
-# The Itachi Uchija Theme 🧛🏻‍♀️
