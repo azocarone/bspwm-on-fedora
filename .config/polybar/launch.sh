@@ -74,8 +74,6 @@ else
 	Usage : launch.sh --theme
 		
 	Available Themes :
-	--blocks    --colorblocks    --cuts      --docky
-	--forest    --grayblocks     --hack      --material
-	--panels    --pwidgets       --shades    --shapes
+	--cuts
 	EOF
 fi
