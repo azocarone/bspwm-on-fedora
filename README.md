@@ -5,6 +5,7 @@
 
 - **BSPWM**, Tiling window manager based on binary space partitioning
 - **POLYBAR**, Fast and easy-to-use status bar
+- **KALI LINUX**, Kali Linux is an open-source, Debian-based Linux distribution geared towards various information security tasks, such as Penetration Testing, Security Research, Computer Forensics and Reverse Engineering.
 
 <img src="Resources/Feth.png" alt="Kali Linux Fetch" align="right" width="450">
 
