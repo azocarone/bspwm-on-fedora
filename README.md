@@ -3,9 +3,9 @@
 ## Documentation 🗂️
 **8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
 
-- **BSPWM**, Tiling window manager based on binary space partitioning
-- **POLYBAR**, Fast and easy-to-use status bar
-- **KALI LINUX**, Kali Linux is an open-source, Debian-based Linux distribution geared towards various information security tasks, such as Penetration Testing, Security Research, Computer Forensics and Reverse Engineering.
+- **BSPWM**, tiling window manager based on binary space partitioning
+- **POLYBAR**, fast and easy-to-use status bar
+- **KALI LINUX**, is an open-source, Debian-based Linux distribution geared towards various information security tasks, such as Penetration Testing, Security Research, Computer Forensics and Reverse Engineering.
 
 <img src="Resources/Feth.png" alt="Kali Linux Fetch" align="right" width="450">
 
