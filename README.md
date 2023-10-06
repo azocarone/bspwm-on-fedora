@@ -1,4 +1,4 @@
-## <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f409.gif" width ="50"><b> BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/)collection with Theme Selector, Mode Selector. 🎨</b><br> 
+## <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f409.gif" width ="50"><b> BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/) collection with Theme Selector, Mode Selector. 🎨</b><br> 
 
 ## Information 🗂️
 
