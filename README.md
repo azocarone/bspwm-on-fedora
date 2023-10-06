@@ -1,8 +1,6 @@
 ## <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/animated/1f409.gif" width ="50"><b> BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/) collection with Theme Selector, Mode Selector. 🎨</b><br> 
 
 ## Information 🗂️
-<img src="Resources/Feth.png" alt="Fetch" align="right" width="450">
-
 **8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
 
 |Distro|[Kali Linux](https://www.kali.org/)|
