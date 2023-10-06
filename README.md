@@ -11,7 +11,7 @@
 
 |Distro|[Kali Linux](https://www.kali.org/)|
 |:---:|:---:|
-|WM|[ BSPWM ](https://github.com/baskerville/bspwm)|
+|WM|[BSPWM                        ](https://github.com/baskerville/bspwm)|
 |Bar|[Polybar](https://github.com/polybar/polybar)|
 |Menu|[Rofi](https://github.com/davatorium/rofi)|
 |Compositor|[Picom](https://archlinux.org/packages/community/x86_64/picom/)|
