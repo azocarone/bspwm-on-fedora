@@ -7,7 +7,7 @@
 - **POLYBAR**, fast and easy-to-use status bar
 - **KALI LINUX**, is an open-source, Debian-based Linux distribution geared towards various information security tasks, such as Penetration Testing, Security Research, Computer Forensics and Reverse Engineering.
 
-<img src="Resources/Feth.png" alt="Kali Linux Fetch" align="right" width="450">
+<img src="resources/Feth.png" alt="Kali Linux Fetch" align="right" width="450">
 
 |Distro|[Kali Linux](https://www.kali.org/)|
 |:---:|:---:|
