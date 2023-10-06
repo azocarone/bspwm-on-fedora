@@ -3,6 +3,9 @@
 ## Documentation 🗂️
 **8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
 
+> **BSPWM** Tiling window manager based on binary space partitioning
+> **POLYBAR** Fast and easy-to-use status bar
+
 <img src="Resources/Feth.png" alt="Kali Linux Fetch" align="right" width="450">
 
 |Distro|[Kali Linux](https://www.kali.org/)|
