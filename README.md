@@ -18,3 +18,5 @@
 |Terminal|[kitty](https://github.com/kovidgoyal/kitty.git)|
 |File Manager|[Thunar](https://archlinux.org/packages/extra/x86_64/thunar/)|
 |Shell|[Zsh](https://archlinux.org/packages/extra/x86_64/zsh/)|
+
+## Scripts 🚀
