@@ -3,7 +3,7 @@
 ## Information 🗂️
 <img src="Resources/Feth.png" alt="Fetch" align="right" width="450">
 
-<h3 align="left">**8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.</h3>
+**8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
 
 |Distro|[Kali Linux](https://www.kali.org/)|
 |:---:|:---:|
