@@ -12,7 +12,7 @@
 |Distro|[Kali Linux](https://www.kali.org/)|
 |:---:|:---:|
 |WM|[BSPWM](https://github.com/baskerville/bspwm)|
-|Bar||Theme|[Polybar](https://github.com/polybar/polybar)-[Cuts](https://github.com/adi1090x/polybar-themes#cuts)|
+|Bar|[Polybar](https://github.com/polybar/polybar)-[Cuts](https://github.com/adi1090x/polybar-themes#cuts)|
 |Menu|[Rofi](https://github.com/davatorium/rofi)|
 |Compositor|[Picom](https://archlinux.org/packages/community/x86_64/picom/)|
 |Terminal|[kitty](https://github.com/kovidgoyal/kitty.git)|
