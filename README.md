@@ -5,3 +5,5 @@
 ## Software
 
 This configuration uses the following software
+
+- WM > [**BSPWM**](https://github.com/baskerville/bspwm.git)
