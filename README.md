@@ -1,7 +1,6 @@
 ## BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/)
 
-## Documentation 🗂️
-**8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
+> **8** different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**,](https://github.com/polybar/polybar.git) With a **Theme selector** and to **Mode Selector** change on the fly.
 
 - **BSPWM**, tiling window manager based on binary space partitioning
 - **POLYBAR**, fast and easy-to-use status bar
