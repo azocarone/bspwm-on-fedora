@@ -8,7 +8,7 @@ This configuration uses the following software
 
 <img src="resources/kali.png" alt="Kali linux" align="right" width="450">
 
-- **WM** ➤ [bspwm](https://github.com/baskerville/bspwm.git)
+- **WM:**  [bspwm](https://github.com/baskerville/bspwm.git)
 - **Hotkey** ➤ [sxhkd](https://github.com/baskerville/sxhkd)
 - **Locker** ➤ [betterlockscreen](https://github.com/betterlockscreen/betterlockscreen)
 - **Shell** ➤ [zsh](https://www.zsh.org/)
