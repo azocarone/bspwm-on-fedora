@@ -9,3 +9,5 @@ This configuration uses the following software
 - WM > [bspwm](https://github.com/baskerville/bspwm.git)
 - Hotkey > [sxhkd](https://github.com/baskerville/sxhkd)
 - Locker > [betterlockscreen](https://github.com/betterlockscreen/betterlockscreen)
+- Shell > [zsh](https://www.zsh.org/)
+- Bars > [polybar](https://github.com/polybar/polybar) [cuts](https://github.com/adi1090x/polybar-themes#cuts) 
