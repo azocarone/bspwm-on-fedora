@@ -21,3 +21,4 @@ This configuration uses the following software
 - **Static Wallpaper** ➤ [feh](https://github.com/derf/feh) | [nitrogen](https://wiki.archlinux.org/title/nitrogen)
 - **Screenshot** ➤ [flameshot](https://flameshot.org/)
 - **Color Scheme** ➤ [theaming](https://github.com/AlvinPix/bspwm/tree/main/.scripts)
+- **Default Theme** ➤ [xavier](https://github.com/AlvinPix/bspwm/tree/main/.scripts)
