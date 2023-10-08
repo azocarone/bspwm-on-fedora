@@ -24,3 +24,5 @@ This configuration uses the following software
 - **Screenshot** ➤ [flameshot](https://flameshot.org/)
 - **Color Scheme** ➤ [theaming](https://github.com/AlvinPix/bspwm/tree/main/.scripts)
 - **Default Theme** ➤ [xavier](https://github.com/AlvinPix/bspwm/tree/main/.scripts)
+
+## Overview of the environment
