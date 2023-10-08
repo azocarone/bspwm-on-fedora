@@ -6,7 +6,7 @@
 
 This configuration uses the following software
 
-<img src="kali.png" alt="Kali linux" align="right" width="450">
+<img src="resources/kali.png" alt="Kali linux" align="right" width="450">
 
 - **WM** ➤ [bspwm](https://github.com/baskerville/bspwm.git)
 - **Hotkey** ➤ [sxhkd](https://github.com/baskerville/sxhkd)
