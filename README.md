@@ -14,3 +14,4 @@ This configuration uses the following software
 - Compositor > [picom](https://github.com/yshui/picom)
 - File Manager > [thunar](https://docs.xfce.org/xfce/thunar/start) | [nautilus](https://wiki.gnome.org/action/show/Apps/Files?action=show&redirect=Apps%2FNautilus)
 - Font terminal > [comicmono](https://dtinth.github.io/comic-mono-font/)
+- Fonts > [iosevka](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Iosevka) | [hack](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Hack)
