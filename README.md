@@ -13,3 +13,4 @@ This configuration uses the following software
 - Bars > [polybar](https://github.com/polybar/polybar) | [cuts](https://github.com/adi1090x/polybar-themes#cuts) 
 - Compositor > [picom](https://github.com/yshui/picom)
 - File Manager > [thunar](https://docs.xfce.org/xfce/thunar/start) | [nautilus](https://wiki.gnome.org/action/show/Apps/Files?action=show&redirect=Apps%2FNautilus)
+- Font terminal > [comicmono](https://dtinth.github.io/comic-mono-font/)
