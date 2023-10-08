@@ -6,5 +6,5 @@
 
 This configuration uses the following software
 
-- WM > [**bspwm**](https://github.com/baskerville/bspwm.git)
-- Hotkey > [**sxhkd**](https://github.com/baskerville/bspwm.git)
+- WM > [bspwm](https://github.com/baskerville/bspwm.git)
+- Hotkey > [sxhkd](https://github.com/baskerville/bspwm.git)
