@@ -30,7 +30,7 @@ This configuration uses the following software
 This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range
 The topics are as follows.
 
-1. **Zenitsu**
+1. **Zenitsu** color range `#ffffff`
 2. **Raven**
 3. **Simon**
 4. **Camila**
