@@ -59,7 +59,7 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/raven up.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Raven pentest.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Zenitsu</b></summary>
+<summary><b>Extra wallpapers Raven</b></summary>
 </details>
 
 ## Simon
@@ -71,7 +71,7 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/Simon wi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Simon desk.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Zenitsu</b></summary>
+<summary><b>Extra wallpapers Simon</b></summary>
 </details>
 
 ## Camila
@@ -83,5 +83,5 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/Camila fa.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Camila ght.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Zenitsu</b></summary>
+<summary><b>Extra wallpapers Camila</b></summary>
 </details>
