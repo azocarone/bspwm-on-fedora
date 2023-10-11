@@ -97,3 +97,15 @@ This environment comes with 8 different themes where each theme has its own name
 <details>
 <summary><b>Extra wallpapers Ryan</b></summary>
 </details>
+
+## Esmeralda
+
+|<img src="resources/Esmeralda.png" alt="Raven" align="center">|
+|---|
+## Pentest
+
+|<img src="resources/Esmeralda n.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Esmeralda z.png" alt="Zenitsu" align="center" width="390">|
+|---|---|
+<details>
+<summary><b>Extra wallpapers Ryan</b></summary>
+</details>
