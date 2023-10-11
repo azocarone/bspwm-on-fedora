@@ -37,3 +37,5 @@ This environment comes with 8 different themes where each theme has its own name
 6. **Esmeralda**
 7. **Xavier**
 8. **Nami**
+
+## Zenitsu
