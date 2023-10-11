@@ -107,5 +107,5 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/Esmeralda n.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Esmeralda z.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Ryan</b></summary>
+<summary><b>Extra wallpapers Esmeralda</b></summary>
 </details>
