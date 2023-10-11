@@ -47,7 +47,7 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/pentest ze.png" alt="Zenitsu" align="center" width="390">|<img src="resources/theamin ze.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers **Zenitsu**</b></summary>
+<summary><b>Extra wallpapers Zenitsu</b></summary>
 </details>
 
 ## Raven
