@@ -30,11 +30,11 @@ This configuration uses the following software
 This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range
 The topics are as follows.
 
-- **Zenitsu**
-- **Raven**
-- **Simon**
-- **Camila**
-- **Ryan**
-- **Esmeralda**
-- **Xavier**
-- **Nami**
+1. **Zenitsu**
+2. **Raven**
+3. **Simon**
+4. **Camila**
+5. **Ryan**
+6. **Esmeralda**
+7. **Xavier**
+8. **Nami**
