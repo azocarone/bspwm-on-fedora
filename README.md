@@ -39,3 +39,5 @@ This environment comes with 8 different themes where each theme has its own name
 8. **Nami**
 
 ## Zenitsu
+
+<img src="resources/Zenitsu.png" alt="Zenitsu">
