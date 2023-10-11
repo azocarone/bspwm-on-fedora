@@ -121,5 +121,5 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/Xavier me.png" alt="Xavier" align="center" width="390">|<img src="resources/Xavier pe.png" alt="Xavier" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Esmeralda</b></summary>
+<summary><b>Extra wallpapers Xavier</b></summary>
 </details>
