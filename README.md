@@ -32,7 +32,7 @@ This environment comes with 8 different themes where each theme has its own name
 1. [**Zenitsu**](https://github.com/AlvinPix/bspwm/tree/main#zenitsu)
 2. [**Raven**](https://github.com/AlvinPix/bspwm/tree/main#raven)
 3. [**Simon**](https://github.com/AlvinPix/bspwm/tree/main#simon)
-4. **Camila**
+4. [**Camila**](https://github.com/AlvinPix/bspwm/tree/main#camila)
 5. **Ryan**
 6. **Esmeralda**
 7. **Xavier**
@@ -81,6 +81,18 @@ This environment comes with 8 different themes where each theme has its own name
 ## Pentest
 
 |<img src="resources/Camila fa.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Camila ght.png" alt="Zenitsu" align="center" width="390">|
+|---|---|
+<details>
+<summary><b>Extra wallpapers Camila</b></summary>
+</details>
+
+## Ryan
+
+|<img src="resources/Ryan.png" alt="Raven" align="center">|
+|---|
+## Pentest
+
+|<img src="resources/Ryan fi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Ryan po.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Camila</b></summary>
