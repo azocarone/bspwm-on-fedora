@@ -26,3 +26,15 @@ This configuration uses the following software
 - **Default Theme:** [xavier](https://github.com/AlvinPix/bspwm/tree/main/.scripts)
 
 ## Overview of the environment
+
+This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range
+The topics are as follows.
+
+- **Zenitsu**
+- **Raven**
+- **Simon**
+- **Camila**
+- **Ryan**
+- **Esmeralda**
+- **Xavier**
+- **Nami**
