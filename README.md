@@ -41,3 +41,7 @@ This environment comes with 8 different themes where each theme has its own name
 ## Zenitsu
 
 <img src="resources/Zenitsu.png" alt="Zenitsu">
+
+## Pentest
+
+<img src="resources/pentest ze.png" alt="Zenitsu" width="450">
