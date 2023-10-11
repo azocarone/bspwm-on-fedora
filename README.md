@@ -29,7 +29,7 @@ This configuration uses the following software
 
 This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
 
-1. **Zenitsu**
+1. [**Zenitsu**](https://github.com/AlvinPix/bspwm/tree/main#zenitsu)
 2. **Raven**
 3. **Simon**
 4. **Camila**
