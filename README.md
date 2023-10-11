@@ -36,7 +36,7 @@ This environment comes with 8 different themes where each theme has its own name
 5. [**Ryan**](https://github.com/AlvinPix/bspwm/tree/main#ryan)
 6. [**Esmeralda**](https://github.com/AlvinPix/bspwm/tree/main#esmeralda)
 7. [**Xavier**](https://github.com/AlvinPix/bspwm/tree/main#xavier)
-8. **Nami**
+8. [**Nami**](https://github.com/AlvinPix/bspwm/tree/main#nami)
 
 ## Zenitsu
 
