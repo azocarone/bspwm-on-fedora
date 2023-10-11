@@ -31,7 +31,7 @@ This environment comes with 8 different themes where each theme has its own name
 
 1. [**Zenitsu**](https://github.com/AlvinPix/bspwm/tree/main#zenitsu)
 2. [**Raven**](https://github.com/AlvinPix/bspwm/tree/main#raven)
-3. **Simon**
+3. [**Simon**](https://github.com/AlvinPix/bspwm/tree/main#simon)
 4. **Camila**
 5. **Ryan**
 6. **Esmeralda**
