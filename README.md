@@ -61,3 +61,15 @@ This environment comes with 8 different themes where each theme has its own name
 <details>
 <summary><b>Extra wallpapers Zenitsu</b></summary>
 </details>
+
+## Simon
+
+|<img src="resources/Simon.png" alt="Raven" align="center">|
+|---|
+## Pentest
+
+|<img src="resources/Simon wi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Simon desk.png" alt="Zenitsu" align="center" width="390">|
+|---|---|
+<details>
+<summary><b>Extra wallpapers Zenitsu</b></summary>
+</details>
