@@ -56,7 +56,7 @@ This environment comes with 8 different themes where each theme has its own name
 |---|
 ## Pentest
 
-|<img src="resources/raven up.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Raven pentest.png" alt="Zenitsu" align="center" width="390">|
+|<img src="resources/raven up.png" alt="Raven" align="center" width="390">|<img src="resources/Raven pentest.png" alt="Raven" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Raven</b></summary>
@@ -64,11 +64,11 @@ This environment comes with 8 different themes where each theme has its own name
 
 ## Simon
 
-|<img src="resources/Simon.png" alt="Raven" align="center">|
+|<img src="resources/Simon.png" alt="Simon" align="center">|
 |---|
 ## Pentest
 
-|<img src="resources/Simon wi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Simon desk.png" alt="Zenitsu" align="center" width="390">|
+|<img src="resources/Simon wi.png" alt="Simon" align="center" width="390">|<img src="resources/Simon desk.png" alt="Simon" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Simon</b></summary>
@@ -76,11 +76,11 @@ This environment comes with 8 different themes where each theme has its own name
 
 ## Camila
 
-|<img src="resources/Camila.png" alt="Raven" align="center">|
+|<img src="resources/Camila.png" alt="Camila" align="center">|
 |---|
 ## Pentest
 
-|<img src="resources/Camila fa.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Camila ght.png" alt="Zenitsu" align="center" width="390">|
+|<img src="resources/Camila fa.png" alt="Camila" align="center" width="390">|<img src="resources/Camila ght.png" alt="Camila" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Camila</b></summary>
@@ -88,11 +88,11 @@ This environment comes with 8 different themes where each theme has its own name
 
 ## Ryan
 
-|<img src="resources/Ryan.png" alt="Raven" align="center">|
+|<img src="resources/Ryan.png" alt="Ryan" align="center">|
 |---|
 ## Pentest
 
-|<img src="resources/Ryan fi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Ryan po.png" alt="Zenitsu" align="center" width="390">|
+|<img src="resources/Ryan fi.png" alt="Ryan" align="center" width="390">|<img src="resources/Ryan po.png" alt="Ryan" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Ryan</b></summary>
@@ -100,11 +100,11 @@ This environment comes with 8 different themes where each theme has its own name
 
 ## Esmeralda
 
-|<img src="resources/Esmeralda.png" alt="Raven" align="center">|
+|<img src="resources/Esmeralada.png" alt="Esmeralda" align="center">|
 |---|
 ## Pentest
 
-|<img src="resources/Esmeralda n.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Esmeralda z.png" alt="Zenitsu" align="center" width="390">|
+|<img src="resources/Esmeralda n.png" alt="Esmeralda" align="center" width="390">|<img src="resources/Esmeralda z.png" alt="Esmeralda" align="center" width="390">|
 |---|---|
 <details>
 <summary><b>Extra wallpapers Esmeralda</b></summary>
