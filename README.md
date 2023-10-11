@@ -34,7 +34,7 @@ This environment comes with 8 different themes where each theme has its own name
 3. [**Simon**](https://github.com/AlvinPix/bspwm/tree/main#simon)
 4. [**Camila**](https://github.com/AlvinPix/bspwm/tree/main#camila)
 5. [**Ryan**](https://github.com/AlvinPix/bspwm/tree/main#ryan)
-6. **Esmeralda**
+6. [**Esmeralda**](https://github.com/AlvinPix/bspwm/tree/main#esmeralda)
 7. **Xavier**
 8. **Nami**
 
