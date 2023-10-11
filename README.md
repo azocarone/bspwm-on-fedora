@@ -123,3 +123,15 @@ This environment comes with 8 different themes where each theme has its own name
 <details>
 <summary><b>Extra wallpapers Xavier</b></summary>
 </details>
+
+## Nami
+
+|<img src="resources/Nami.png" alt="Nami" align="center">|
+|---|
+## Pentest
+
+|<img src="resources/Nami bs.png" alt="Nami" align="center" width="390">|<img src="resources/Nami m.png" alt="Nami" align="center" width="390">|
+|---|---|
+<details>
+<summary><b>Extra wallpapers Nami</b></summary>
+</details>
