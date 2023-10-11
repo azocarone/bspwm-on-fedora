@@ -48,3 +48,4 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Zenitsu</b></summary>
+
