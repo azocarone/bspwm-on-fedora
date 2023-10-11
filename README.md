@@ -27,8 +27,7 @@ This configuration uses the following software
 
 ## Overview of the environment
 
-This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range
-The topics are as follows
+This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
 
 1. **Zenitsu**
 2. **Raven**
