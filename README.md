@@ -95,5 +95,5 @@ This environment comes with 8 different themes where each theme has its own name
 |<img src="resources/Ryan fi.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Ryan po.png" alt="Zenitsu" align="center" width="390">|
 |---|---|
 <details>
-<summary><b>Extra wallpapers Camila</b></summary>
+<summary><b>Extra wallpapers Ryan</b></summary>
 </details>
