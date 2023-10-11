@@ -51,3 +51,13 @@ This environment comes with 8 different themes where each theme has its own name
 </details>
 
 ## Raven
+
+|<img src="resources/Raven.png" alt="Raven" align="center">|
+|---|
+## Pentest
+
+|<img src="resources/raven up.png" alt="Zenitsu" align="center" width="390">|<img src="resources/Raven pentest.png" alt="Zenitsu" align="center" width="390">|
+|---|---|
+<details>
+<summary><b>Extra wallpapers Zenitsu</b></summary>
+</details>
