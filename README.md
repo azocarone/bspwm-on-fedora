@@ -80,6 +80,10 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Simon</b></summary>
+
+|<img src=".themes/Simon/wallpapers/extra_wal-3.png" alt="Simon" align="center" width="150px">|<img src=".themes/Simon/wallpapers/extra_wal-2.png" alt="Simon" align="center" width="150px">|<img src=".themes/Simon/wallpapers/extra_wal-1.png" alt="Simon" align="center" width="150px">|
+|:-:|:-:|:-:|
+
 </details>
 
 ## Camila
