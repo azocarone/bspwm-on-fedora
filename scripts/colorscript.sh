@@ -2,7 +2,8 @@
 
 # Simple CLI for shell-color-scripts
 
-DIR_COLORSCRIPTS="/home/alvinpix/Escritorio/PX-games/Github/shell-color-scripts/colorscripts"
+USERNAME=$(whoami)
+DIR_COLORSCRIPTS="/home/${USERNAME}/scripts/shell-color-scripts/colorscripts"
 fmt_help="  %-20s\t%-54s\n"
 list_colorscripts="$(/usr/bin/ls "${DIR_COLORSCRIPTS}" | cut -d ' ' -f 1 | nl)"
 length_colorscripts="$(/usr/bin/ls "${DIR_COLORSCRIPTS}" | wc -l)"
