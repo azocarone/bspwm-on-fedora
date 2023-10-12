@@ -44,5 +44,4 @@ bspc rule -a 'Synaptic' state=floating follow=on
 
 picom &
 ${HOME}/.config/polybar/launch.sh --cuts &
-/home/alvinpix/Escritorio/PX-games/Scripts/zenitsu_wal.sh &
-
+${HOME}/.themes/Zenitsu/scripts/zenitsu_wal.sh &
