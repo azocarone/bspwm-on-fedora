@@ -64,6 +64,10 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Raven</b></summary>
+
+|<img src=".themes/Raven/wallpapers/extra_wal-3.png" alt="Raven" align="center" width="150px">|<img src=".themes/Raven/wallpapers/extra_wal-2.png" alt="Raven" align="center" width="150px">|<img src=".themes/Raven/wallpapers/extra_wal-1.png" alt="Raven" align="center" width="150px">|
+|:-:|:-:|:-:|
+
 </details>
 
 ## Simon
