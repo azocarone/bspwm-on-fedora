@@ -44,5 +44,4 @@ bspc rule -a 'Synaptic' state=floating follow=on
 
 picom &
 ${HOME}/.config/polybar/launch.sh --cuts &
-/home/alvinpix/Escritorio/PX-games/Scripts/raven_wal.sh &
-
+${HOME}/scripts/wall-scripts/raven_wal.sh &
