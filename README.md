@@ -112,6 +112,10 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Ryan</b></summary>
+
+|<img src=".themes/Ryan/wallpapers/extra_wal-1.png" alt="Ryan" align="center" width="150px">|<img src=".themes/Ryan/wallpapers/extra_wal-2.jpg" alt="Ryan" align="center" width="150px">|<img src=".themes/Ryan/wallpapers/extra_wal-3.png" alt="Ryan" align="center" width="150px">|<img src=".themes/Ryan/wallpapers/extra_wal-4.png" alt="Ryan" align="center" width="150px">|<img src=".themes/Ryan/wallpapers/extra_wal-5.png" alt="Ryan" align="center" width="150px">|
+|:-:|:-:|:-:|:-:|:-:|
+
 </details>
 
 ## Esmeralda
