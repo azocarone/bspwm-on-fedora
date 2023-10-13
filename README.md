@@ -96,6 +96,10 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Camila</b></summary>
+
+|<img src=".themes/Camila/wallpapers/extra_wal-3.jpg" alt="Camila" align="center" width="150px">|<img src=".themes/Camila/wallpapers/extra_wal-2.png" alt="Camila" align="center" width="150px">|<img src=".themes/Camila/wallpapers/extra_wal-1.png" alt="Camila" align="center" width="150px">|
+|:-:|:-:|:-:|
+
 </details>
 
 ## Ryan
