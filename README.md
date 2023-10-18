@@ -126,6 +126,10 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Esmeralda</b></summary>
+
+|<img src=".themes/Esmeralda/wallpapers/extra_wal-3.png" alt="Esmeralda" align="center" width="150px">|<img src=".themes/Esmeralda/wallpapers/extra_wal-2.png" alt="Esmeralda" align="center" width="150px">|<img src=".themes/Esmeralda/wallpapers/extra_wal-1.png" alt="Esmeralda" align="center" width="150px">|
+|:-:|:-:|:-:|
+
 </details>
 
 ## Xavier
