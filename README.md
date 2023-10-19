@@ -160,4 +160,8 @@ This environment comes with 8 different themes where each theme has its own name
 |---|---|
 <details>
 <summary><b>Extra wallpapers Nami</b></summary>
+
+|<img src=".themes/Nami/wallpapers/extra_wal-1.png" alt="Nami" align="center" width="150px">|<img src=".themes/Nami/wallpapers/extra_wal-2.png" alt="Nami" align="center" width="150px">|
+|:-:|:-:|
+
 </details>
