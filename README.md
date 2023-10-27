@@ -169,3 +169,7 @@ This environment comes with 8 different themes where each theme has its own name
 ## Keyboard shortcuts
 
 All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
+
+## Credits
+
+- This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
