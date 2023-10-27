@@ -173,3 +173,4 @@ All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/m
 ## Credits
 
 - This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
+- Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts)
