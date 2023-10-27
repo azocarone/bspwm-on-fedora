@@ -168,7 +168,7 @@ This environment comes with 8 different themes where each theme has its own name
 
 ## Keyboard shortcuts
 
-All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
+- All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
 
 ## Credits
 
