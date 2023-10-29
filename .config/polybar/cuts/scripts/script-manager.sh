@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 #SDIR="$HOME/.config/polybar/cuts/scripts"
-#GHOSTDIR="/home/alvinpix/Escritorio/PX-games/Github/Ghost-script"
-#FALCONDIR="/home/alvinpix/Escritorio/PX-games/Github/Falcon"
+GHOSTDIR="${HOME}/scripts/Ghost-script"
+FALCONDIR="${HOME}/scripts/Falcon"
 #RESI="/home/alvinpix/Escritorio/PX-games/Scripts"
 USERDIR="${HOME}/scripts"
 
