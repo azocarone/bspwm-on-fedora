@@ -173,7 +173,7 @@ Another that allows you to change the environment themes and finally add scripts
 
 ## Keyboard shortcuts
 
-- All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
+All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
 
 ## Credits
 
