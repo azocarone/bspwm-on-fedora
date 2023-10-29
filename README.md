@@ -179,3 +179,4 @@ Another that allows you to change the environment themes and finally add scripts
 
 - This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
 - Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts)
+- Thanks to [**wallhaven**](https://wallhaven.cc/) for their incredible wallpapers, credits to their respective creators
