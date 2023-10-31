@@ -183,6 +183,25 @@ Another that allows you to change the environment themes and finally add scripts
 
 All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
 
+## Environment installation
+
+To install this desktop environment is very easy, first clone the repository
+
+```bash
+$ git clone https://github.com/AlvinPix/bspwm.git
+```
+There will be the cloned repository folder
+
+```bash
+$ cd bspwm
+```
+Finally, chmod permissions to the file called kali.sh and then run it
+
+```bash
+$ chmod +x kali.sh ; ./kali.sh
+```
+Wait for the installation script to finish, once finished close section and select the new bspwm script
+
 ## Credits
 
 - This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
