@@ -171,6 +171,14 @@ This environment comes with 8 different themes where each theme has its own name
 For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
 Another that allows you to change the environment themes and finally add scripts that already have a repository in my github
 
+- 💀 [**Ghost-script**](https://github.com/AlvinPix/Ghost-script)
+- 🦅 [**Falcon**](https://github.com/AlvinPix/Falcon)
+- 🎨 [**Theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
+- 📡 [**Wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
+- 🎧 [**Volume**](https://github.com/AlvinPix/bspwm/blob/main/scripts/volume.sh)
+- 🖥️ [**Rezise**](https://github.com/AlvinPix/bspwm/blob/main/scripts/rezise.sh)
+- 📦 [**Updates**](https://github.com/AlvinPix/bspwm/blob/main/scripts/updates.sh)
+
 ## Keyboard shortcuts
 
 All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
