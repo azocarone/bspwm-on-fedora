@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SDIR="$HOME/.config/polybar/cuts/scripts"
+SDIR="$HOME/.config/polybar/cuts/scripts"
 GHOSTDIR="${HOME}/scripts/Ghost-script"
 FALCONDIR="${HOME}/scripts/Falcon"
 #RESI="/home/alvinpix/Escritorio/PX-games/Scripts"
