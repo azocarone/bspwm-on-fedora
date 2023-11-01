@@ -171,13 +171,13 @@ This environment comes with 8 different themes where each theme has its own name
 For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
 Another that allows you to change the environment themes and finally add scripts that already have a repository in my github
 
-- 💀 [**Ghost-script**](https://github.com/AlvinPix/Ghost-script)
-- 🦅 [**Falcon**](https://github.com/AlvinPix/Falcon)
-- 🎨 [**Theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
-- 📡 [**Wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
-- 🎧 [**Volume**](https://github.com/AlvinPix/bspwm/blob/main/scripts/volume.sh)
-- 🖥️ [**Rezise**](https://github.com/AlvinPix/bspwm/blob/main/scripts/rezise.sh)
-- 📦 [**Updates**](https://github.com/AlvinPix/bspwm/blob/main/scripts/updates.sh)
+- 💀 Is a suite of multifunction bash scripts with various utilities [**Ghost-script**](https://github.com/AlvinPix/Ghost-script)
+- 🦅 Is a bash tool, with its intuitive interface and advanced feature set. Falcon allows you to evaluate the security of your own WiFi networks and search for vulnerabilities in web pages [**Falcon**](https://github.com/AlvinPix/Falcon)
+- 🎨 Switch themes and modes [**Theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
+- 📡 Connect to wifi using nmcli utility [**Wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
+- 🎧 Simple script that lowers or increases the volume of bspwm, right click increases the volume left click decreases the volume [**Volume**](https://github.com/AlvinPix/bspwm/blob/main/scripts/volume.sh)
+- 🖥️ Resize the kitty window to the indicated position [**Rezise**](https://github.com/AlvinPix/bspwm/blob/main/scripts/rezise.sh)
+- 📦 Update the system in an easy and simple way [**Updates**](https://github.com/AlvinPix/bspwm/blob/main/scripts/updates.sh)
 
 ## Keyboard shortcuts
 
