@@ -196,7 +196,7 @@ cd bspwm
 ```
 Finally, chmod permissions to the file called kali.sh and then run it
 ```bash
-chmod +x kali.sh root.sh ; ./kali.sh ; ./root.sh
+chmod +x kali.sh root.sh ; ./kali.sh ; sudo ./root.sh
 ```
 Wait for the installation script to finish, once finished close section and select the new bspwm desktop
 
