@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Author: Enríquez González https://github.com/AlvinPix
+# instagram: @alvinpx_271
+# facebook: @alvin.gonzalez.13139
+
 # COLOR USE THE SCRIPT
 Black='\033[1;30m'
 Red='\033[1;31m'
