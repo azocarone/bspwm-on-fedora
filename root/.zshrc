@@ -295,15 +295,15 @@ function rmk(){
 }
 
 # Settarget
-function settarget(){
-        if [ $# -eq 1 ]; then
-                echo $1 > ~/.config/polybar/cuts/scripts/target
-        elif [ $# -gt 2 ]; then
-                echo "settarget [IP] [NAME] | settarget [IP]"
-        else
-                echo $1 $2 > ~/.config/polybar/cuts/scripts/target
-        fi
-}
+#function settarget(){
+#        if [ $# -eq 1 ]; then
+#                echo $1 > ~/.config/polybar/cuts/scripts/target
+#        elif [ $# -gt 2 ]; then
+#                echo "settarget [IP] [NAME] | settarget [IP]"
+#        else
+#                echo $1 $2 > ~/.config/polybar/cuts/scripts/target
+#        fi
+#}
 
 function fzf-lovely(){
 
@@ -353,8 +353,8 @@ alias pipes="cd /home/${user}/scripts/pipes.sh && ./pipes.sh -t 9"
 alias clsram="sudo sync && sudo sysctl -w vm.drop_caches=3"
 #alias metasrule="cat /home/alvinpix/Escritorio/PX-games/Services/metasrule"
 alias cachefont="fc-cache -fv"
-alias colorscript="bash /home/${user}/scripts/shell-color-scripts/colorscript.sh -r"
-bash /home/${user}/scripts/shell-color-scripts/colorscript.sh -r
+alias colorscript="bash /${user}/scripts/shell-color-scripts/colorscript.sh -r"
+bash /${user}/scripts/shell-color-scripts/colorscript.sh -r
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
