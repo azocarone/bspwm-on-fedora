@@ -4,6 +4,10 @@
 # Usage: pulsevol.sh [up|down|mute]
 # pulseaudio-utils
 
+# Author: Enríquez González https://github.com/AlvinPix
+# instagram: @alvinpx_271
+# facebook: @alvin.gonzalez.13139
+
 EXPECTED_ARGS=1
 E_BADARGS=65
 
