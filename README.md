@@ -194,7 +194,7 @@ There will be the cloned repository folder
 ```bash
 cd bspwm
 ```
-Finally, chmod permissions to the file called kali.sh and root.sh and then run it
+Finally, chmod permissions to the file called **kali.sh** and **root.sh** and then run it
 ```bash
 chmod +x kali.sh root.sh ; ./kali.sh ; sudo ./root.sh
 ```
