@@ -205,3 +205,7 @@ Wait for the installation scripts to finish, once finished close section and sel
 - This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
 - Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts)
 - Thanks to [**wallhaven**](https://wallhaven.cc/) for their incredible wallpapers, credits to their respective creators
+
+## Support
+
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="alvinpix" data-color="#000000" data-emoji="☕"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
