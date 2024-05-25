@@ -408,9 +408,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}i${White}] Step 13 clone ghostscript and falcón repositories"
 		sleep 2
 		echo ""
-		cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Ghost-script.git
+		#cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Ghost-script.git
 		echo ""
-		cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Falcon.git
+		#cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Falcon.git
 		echo ""
 fi
 }
