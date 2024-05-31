@@ -20,10 +20,10 @@ MENU="$(rofi -no-config -no-lazy-grab -sep "|" -dmenu -i -p '' \
 #;;
 
 *Updates)
-kitty -o ~/.config/kitty/kitty.conf --hold -- bash -c "cd $USERDIR && ./rezise.sh && cd $USERDIR && sudo ./updates.sh"
+kitty -o ~/.config/kitty/kitty.conf -- bash -c "cd $USERDIR ; ./rezise.sh ; cd $USERDIR ; sudo ./updates.sh"
 ;;
 
 *Wifi)
-kitty -o ~/.config/kitty/kitty.conf --hold -- bash -c "cd $USERDIR && ./rezise.sh && cd $USERDIR && ./wifi.sh"
+kitty -o ~/.config/kitty/kitty.conf -- bash -c "cd $USERDIR ; ./rezise.sh ; cd $USERDIR ; ./wifi.sh"
 ;;
         esac
