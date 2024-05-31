@@ -171,8 +171,6 @@ This environment comes with 8 different themes where each theme has its own name
 For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
 Another that allows you to change the environment themes and finally add scripts that already have a repository in my github
 
-- 💀 Is a suite of multifunction bash scripts with various utilities [**ghost-script**](https://github.com/AlvinPix/Ghost-script)
-- 🦅 Is a bash tool, with its intuitive interface and advanced feature set. Falcon allows you to evaluate the security of your own WiFi networks and search for vulnerabilities in web pages [**falcon**](https://github.com/AlvinPix/Falcon)
 - 🎨 Switch themes and modes [**theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
 - 📡 Connect to wifi using nmcli utility [**wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
 - 🎧 Simple script that lowers or increases the volume of bspwm, right click increases the volume left click decreases the volume [**volume**](https://github.com/AlvinPix/bspwm/blob/main/scripts/volume.sh)
