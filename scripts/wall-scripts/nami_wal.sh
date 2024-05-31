@@ -4,7 +4,7 @@
 USERNAME=$(whoami)
 USERDIR="/home/${USERNAME}"
 
-# WALLPAPERS ZENITSU
+# WALLPAPERS NAMI
 
 wallpapers_dir="/home/${USERNAME}/.themes/Nami/wallpapers"
 wallpapers=($(find "$wallpapers_dir" -type f -name "*.png" -o -name "*.jpg" -o -name "*.jpeg"))
