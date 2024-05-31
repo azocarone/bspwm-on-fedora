@@ -145,8 +145,8 @@ This environment comes with 8 different themes where each theme has its own name
 <details>
 <summary><b>Extra wallpapers Xavier</b></summary>
 
-|<img src=".themes/Xavier/wallpapers/extra_wal-1.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-2.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-3.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-4.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-5.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-6.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-7.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-8.png" alt="Xavier" align="center" width="150px">|
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|<img src=".themes/Xavier/wallpapers/extra_wal-1.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-2.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-3.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-4.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-5.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-6.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-7.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-8.png" alt="Xavier" align="center" width="150px">|<img src=".themes/Xavier/wallpapers/extra_wal-9.png" alt="Xavier" align="center" width="150px">|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-|
 
 </details>
 
