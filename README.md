@@ -173,7 +173,6 @@ Another that allows you to change the environment themes and finally add scripts
 
 - 🎨 Switch themes and modes [**theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
 - 📡 Connect to wifi using nmcli utility [**wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
-- 🎧 Simple script that lowers or increases the volume of bspwm, right click increases the volume left click decreases the volume [**volume**](https://github.com/AlvinPix/bspwm/blob/main/scripts/volume.sh)
 - 🖥️ Resize the kitty window to the indicated position [**rezise**](https://github.com/AlvinPix/bspwm/blob/main/scripts/rezise.sh)
 - 📦 Update the system in an easy and simple way [**updates**](https://github.com/AlvinPix/bspwm/blob/main/scripts/updates.sh)
 
