@@ -182,15 +182,11 @@ All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/m
 
 ## Environment installation
 
-To install this desktop environment is very easy, first clone the repository
+To install this desktop environment is very easy, first clone the repository, there will be the cloned repository folder
 ```bash
-git clone https://github.com/AlvinPix/bspwm.git
+git clone https://github.com/AlvinPix/bspwm.git ; cd bspwm
 ```
-There will be the cloned repository folder
 
-```bash
-cd bspwm
-```
 Finally, chmod permissions to the files called **kali.sh** and **root.sh** and then run it
 ```bash
 chmod +x kali.sh root.sh ; ./kali.sh ; sudo ./root.sh
