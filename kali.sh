@@ -369,7 +369,7 @@ if [ $quest = Y ]; then
 		chmod +x ${LOCALPATH}/scripts/colorscript.sh
 		chmod +x ${LOCALPATH}/scripts/rezise.sh
 		chmod +x ${LOCALPATH}/scripts/updates.sh
-		chmod +x ${LOCALPATH}/scripts/volume.sh
+		#chmod +x ${LOCALPATH}/scripts/volume.sh
 		chmod +x ${LOCALPATH}/scripts/wifi.sh
 		chmod +x ${LOCALPATH}/scripts/wall-scripts/camila_wal.sh
 		chmod +x ${LOCALPATH}/scripts/wall-scripts/esmeralda_wal.sh
