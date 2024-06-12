@@ -20,7 +20,7 @@ xsetroot -cursor_name left_ptr &
 bspc config border_width         1
 bspc config focused_border_color \#f5e687
 bspc config normal_border_color \#5e674a
-bspc config window_gap          8
+bspc config window_gap          5
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
