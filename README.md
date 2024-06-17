@@ -4,7 +4,7 @@
 
 ## Software
 
-This configuration uses the following software
+This configuration uses the following software.
 
 - **WM:** [bspwm](https://github.com/baskerville/bspwm.git)
 - **Hotkey:** [sxhkd](https://github.com/baskerville/sxhkd)
@@ -169,7 +169,7 @@ This environment comes with 8 different themes where each theme has its own name
 ## Custom scripts
 
 For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
-Another that allows you to change the environment themes
+Another that allows you to change the environment themes.
 
 - 🎨 Switch themes and modes [**theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
 - 📡 Connect to wifi using nmcli utility [**wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
@@ -178,26 +178,26 @@ Another that allows you to change the environment themes
 
 ## Keyboard shortcuts
 
-All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file
+All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/main/.config/sxhkd/sxhkdrc) file.
 
 ## Environment installation
 
-To install this desktop environment is very easy, first clone the repository, there will be the cloned repository folder
+To install this desktop environment is very easy, first clone the repository, there will be the cloned repository folder.
 ```bash
 git clone https://github.com/AlvinPix/bspwm.git ; cd bspwm
 ```
 
-Finally, chmod permissions to the files called **kali.sh** and **root.sh** and then run it
+Finally, chmod permissions to the files called **kali.sh** and **root.sh** and then run it.
 ```bash
 chmod +x kali.sh root.sh ; ./kali.sh ; sudo ./root.sh
 ```
-Wait for the installation scripts to finish, once finished close section and select the new bspwm desktop
+Wait for the installation scripts to finish, once finished close section and select the new bspwm desktop.
 
 ## Credits
 
-- This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment
-- Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts)
-- Thanks to [**wallhaven**](https://wallhaven.cc/) for their incredible wallpapers, credits to their respective creators
+- This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment.
+- Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts).
+- Thanks to [**wallhaven**](https://wallhaven.cc/) for their incredible wallpapers, credits to their respective creators.
 
 ## Support
 
