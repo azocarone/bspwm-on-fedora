@@ -1,4 +1,4 @@
-<img src="resources/bspwm.png" alt="Bspwm intro" align="center" width="390">
+![bspwm-environment](https://github.com/AlvinPix/bspwm/blob/main/resources/bspwm.png?raw=true)
 
 ## BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/)
 
