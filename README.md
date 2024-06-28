@@ -171,8 +171,8 @@
 
 ## Custom scripts
 
-For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
-Another that allows you to change the environment themes.
+> For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
+> Another that allows you to change the environment themes.
 
 - 🎨 Switch themes and modes [**theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
 - 📡 Connect to wifi using nmcli utility [**wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
