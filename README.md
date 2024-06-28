@@ -1,4 +1,5 @@
-![bspwm-environment](https://github.com/AlvinPix/bspwm/blob/main/resources/bspwm.png?raw=true)
+|![bspwm-environment](https://github.com/AlvinPix/bspwm/blob/main/resources/bspwm.png?raw=true)|
+|---|
 
 ## BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/)
 
