@@ -7,7 +7,7 @@
 
 ## Software
 
-This configuration uses the following software.
+> This configuration uses the following software.
 
 - **WM:** [bspwm](https://github.com/baskerville/bspwm.git)
 - **Hotkey:** [sxhkd](https://github.com/baskerville/sxhkd)
@@ -28,7 +28,7 @@ This configuration uses the following software.
 
 ## Overview of the environment
 
-This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
+> This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
 
 1. [**Zenitsu**](https://github.com/AlvinPix/bspwm/tree/main#zenitsu)
 2. [**Raven**](https://github.com/AlvinPix/bspwm/tree/main#raven)
