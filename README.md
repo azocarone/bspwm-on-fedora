@@ -7,7 +7,7 @@
 
 ## Software
 
-> This configuration uses the following software.
+This configuration uses the following software.
 
 - **WM:** [bspwm](https://github.com/baskerville/bspwm.git)
 - **Hotkey:** [sxhkd](https://github.com/baskerville/sxhkd)
@@ -28,7 +28,7 @@
 
 ## Overview of the environment
 
-> This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
+This environment comes with 8 different themes where each theme has its own names and wallpapers, they have their own color range the topics are as follows.
 
 1. [**Zenitsu**](https://github.com/AlvinPix/bspwm/tree/main#zenitsu)
 2. [**Raven**](https://github.com/AlvinPix/bspwm/tree/main#raven)
@@ -171,8 +171,8 @@
 
 ## Custom scripts
 
-> For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
-> Another that allows you to change the environment themes.
+For the desktop environment create several custom scripts, one that updates the system, and another to connect to the wifi network using the linux nmcli utility
+Another that allows you to change the environment themes.
 
 - 🎨 Switch themes and modes [**theaming**](https://github.com/AlvinPix/bspwm/blob/main/scripts/Theaming.sh)
 - 📡 Connect to wifi using nmcli utility [**wifi**](https://github.com/AlvinPix/bspwm/blob/main/scripts/wifi.sh)
