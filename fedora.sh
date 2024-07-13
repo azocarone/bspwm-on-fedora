@@ -41,7 +41,39 @@ echo ""
 echo -e "${White} [${Blue}i${White}] Installation will begin soon."
 echo ""
 sleep 4
-echo -e "${White} [${Blue}i${White}] Hello ${Red}${USERNAME}${White}, This is the bspwm installation script for kali linux"
+echo -e "${White} [${Blue}i${White}] Hello ${Red}${USERNAME}${White}, This is the scripts to install and configure a professional bspwm environment on Fedora Linux Workstation."
+}
+
+# BUILDING I3LOCK-COLOR
+build_i3lock-color () {
+sudo dnf install -y autoconf automake cairo-devel fontconfig gcc libev-devel libjpeg-turbo-devel libXinerama libxkbcommon-devel libxkbcommon-x11-devel libXrandr pam-devel pkgconf xcb-util-image-devel xcb-util-xrm-devel
+cd ${LOCALPATH}
+git clone https://github.com/Raymo111/i3lock-color.git
+cd i3lock-color
+./build.sh
+./install-i3lock-color.sh
+cd ${LOCALPATH}
+sudo rm -R i3lock-color
+}
+
+# BUILDING BETTERLOCKSCREEN
+build_betterlockscreen () {
+build_i3lock-color
+sudo dnf install ImageMagick bc xdpyinfo xrandr xrdb xset dunst feh
+wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+}
+
+# BUILDING TTY-CLOCK
+build_tty-clock () {
+sudo dnf install ncurses ncurses-devel gcc -y
+cd ${LOCALPATH}
+git clone https://github.com/xorg62/tty-clock.git
+cd tty-clock
+make
+chmod +x tty-clock
+sudo mv tty-clock /usr/local/bin/tty-clock
+cd ${LOCALPATH}
+sudo rm -R tty-clock
 }
 
 # INSTALLATION OF MISSING DEPENDENCIES
@@ -50,13 +82,24 @@ echo ""
 echo -e "${White} [${Blue}i${White}] Step 9 installing missing dependencies"
 sleep 2
 echo ""
-sudo apt install rofi fonts-firacode fonts-cantarell lxappearance nitrogen lsd betterlockscreen flameshot git net-tools xclip xdotool -y
+#sudo dnf install rofi fonts-firacode fonts-cantarell lxappearance nitrogen lsd betterlockscreen flameshot git net-tools xclip xdotool -y
+#
+# Replace: fonts-firacode -> fira-code-fonts, fonts-cantarell -> abattis-cantarell-fonts
+# Add: zsh
+#
+build_betterlockscreen
+#
+sudo dnf install rofi fira-code-fonts abattis-cantarell-fonts lxappearance nitrogen lsd zsh flameshot git net-tools xclip xdotool -y
 echo ""
-sudo apt install scrub bat tty-clock openvpn feh pulseaudio-utils git lolcat -y
+#sudo dnf install scrub bat tty-clock openvpn feh pulseaudio-utils git lolcat -y
+#
+build_tty-clock
+#
+sudo dnf install scrub bat openvpn feh pulseaudio-utils git lolcat -y
 echo ""
 }
 
-# INSTALL BSPWM KALI LINUX SETUP
+# INSTALL BSPWM FEDORA LINUX WORKSTATION LINUX SETUP
 setup () {
 clear
 echo ""
@@ -81,9 +124,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] BSPWM is not installed, installing bspwm"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install bspwm -y
+		sudo dnf install bspwm -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] BSPWM is installed, installing configuration"
 		sleep 2
@@ -105,9 +148,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] SXHKD is not installed, installing sxhkd"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install sxhkd -y
+		sudo dnf install sxhkd -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] SXHKD is installed, installing configuration"
 		sleep 2
@@ -145,9 +188,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] KITTY is not installed, installing kitty"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install kitty -y
+		sudo dnf install kitty -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] KITTY is installed, installing configuration"
 		sleep 2
@@ -170,9 +213,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] PICOM is not installed, installing picom compositor"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install picom -y
+		sudo dnf install picom -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] PICOM is installed, installing configuration"
 		sleep 2
@@ -195,9 +238,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] NEOFETCH is not installed, installing neofetch"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install neofetch -y
+		sudo dnf install neofetch -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] NEOFETCH is installed, installing configuration"
 		sleep 2
@@ -220,9 +263,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] RANGER is not installed, installing ranger"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install ranger -y
+		sudo dnf install ranger -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] RANGER is installed, installing configuration"
                 sleep 2
@@ -245,9 +288,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] CAVA is not installed, installing cava"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install cava -y
+		sudo dnf install cava -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] CAVA is installed, installing configuration"
 		sleep 2
@@ -283,9 +326,9 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Red}-${White}] POLYBAR is not installed, installing polybar"
 		sleep 2
 		echo ""
-		sudo apt update
+		sudo dnf update
 		echo ""
-		sudo apt install polybar -y
+		sudo dnf install polybar -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] POLYBAR is installed, installing configuration"
 		sleep 2
@@ -311,14 +354,14 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}
 		cp -r .themes ${LOCALPATH}
-		chmod +x ${LOCALPATH}/.themes/Camila/bspwmrc		#8
-		chmod +x ${LOCALPATH}/.themes/Esmeralda/bspwmrc		#7
+		chmod +x ${LOCALPATH}/.themes/Camila/bspwmrc	#8
+		chmod +x ${LOCALPATH}/.themes/Esmeralda/bspwmrc	#7
 		chmod +x ${LOCALPATH}/.themes/Nami/bspwmrc		#6
 		chmod +x ${LOCALPATH}/.themes/Raven/bspwmrc		#5
 		chmod +x ${LOCALPATH}/.themes/Ryan/bspwmrc		#4
 		chmod +x ${LOCALPATH}/.themes/Simon/bspwmrc		#3
-		chmod +x ${LOCALPATH}/.themes/Xavier/bspwmrc		#2
-		chmod +x ${LOCALPATH}/.themes/Zenitsu/bspwmrc		#1
+		chmod +x ${LOCALPATH}/.themes/Xavier/bspwmrc	#2
+		chmod +x ${LOCALPATH}/.themes/Zenitsu/bspwmrc	#1
 		echo ""
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Red}Camila"
 		sleep 2
@@ -408,15 +451,19 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}i${White}] Step 13 clone ghostscript and falcón repositories"
 		sleep 2
 		echo ""
+		#
+		# Not deployed
+		#
 		#cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Ghost-script.git
 		echo ""
+		#
+		# Not deployed
+		#
 		#cd ${LOCALPATH}/scripts ; git clone https://github.com/AlvinPix/Falcon.git
 		echo ""
 fi
 }
 
-
 # CALLS THE SCRIPT
 reset
 setup
-
