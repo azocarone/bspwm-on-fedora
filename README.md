@@ -1,7 +1,7 @@
 |![bspwm-environment](https://github.com/AlvinPix/bspwm/blob/main/resources/bspwm.png?raw=true)|
 |---|
 
-## BSPWM | Professional bspwm desktop environment for [kali linux](https://www.kali.org/)
+## bspwm-on-fedora | Scripts to install and configure a professional bspwm environment on [Fedora Linux](https://fedoraproject.org/) Workstation.
 
 8 different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**](https://github.com/polybar/polybar.git), With a **Theme selector** and to **Mode Selector** change on the fly.
 
@@ -187,12 +187,12 @@ All keyboard shortcuts in [**sxhkdrc**](https://github.com/AlvinPix/bspwm/blob/m
 
 To install this desktop environment is very easy, first clone the repository, there will be the cloned repository folder.
 ```bash
-git clone https://github.com/AlvinPix/bspwm.git ; cd bspwm
+git clone https://github.com/azocarone/bspwm-on-fedora.git ; cd bspwm-on-fedora
 ```
 
-Finally, chmod permissions to the files called **kali.sh** and **root.sh** and then run it.
+Finally, chmod permissions to the files called **fedora.sh** and **root.sh** and then run it.
 ```bash
-chmod +x kali.sh root.sh ; ./kali.sh ; sudo ./root.sh
+chmod +x fedora.sh root.sh ; ./fedora.sh ; sudo ./root.sh
 ```
 Wait for the installation scripts to finish, once finished close section and select the new bspwm desktop.
 
