@@ -1,7 +1,7 @@
 #!/bin/bash
 
 temporal() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh.${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
     sudo rm -rf "${LOCALPATH}/.zsh"
     cp -r .zsh "${LOCALPATH}"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
@@ -15,14 +15,14 @@ temporal() {
 }
 
 installing_bspwm_scripts() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing bspwm cripts${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing bspwm cripts."
     cp -r scripts "${LOCALPATH}"
     chmod +x "${LOCALPATH}/scripts/"*.sh
     chmod +x "${LOCALPATH}/scripts/wall-scripts/"*.sh
 }
 
 installing_bspwm_themes() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing bspwm themes${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing bspwm themes."
     cp -r .themes "${LOCALPATH}"
     for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
         chmod +x "${LOCALPATH}/.themes/${theme}/bspwmrc"
@@ -63,7 +63,7 @@ build_betterlockscreen() {
 }
 
 install_missing_dependencies() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing missing dependencies${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing missing dependencies."
     build_betterlockscreen
     install_packages rofi fira-code-fonts abattis-cantarell-fonts lxappearance nitrogen lsd zsh flameshot git net-tools xclip xdotool scrub bat openvpn feh pulseaudio-utils lolcat
     build_tty_clock
@@ -78,7 +78,7 @@ configure_package() {
 }
 
 configuring_packages() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Configuring packages${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Configuring packages."
     configure_package bspwm bspwmrc
     configure_package sxhkd sxhkdrc
     for package in kitty picom neofetch ranger cava polybar; do
@@ -87,11 +87,11 @@ configuring_packages() {
 }
 
 installing_fonts() {
-    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing fonts${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Installing fonts."
     sudo rm -rf "${LOCALPATH}/.fonts"
     cp -r ".fonts" "${LOCALPATH}"
     sudo cp -r ".fonts" "/usr/share/fonts"
-    echo -e "${NEWLINE}${WHITE} [${BLUE}+${WHITE}] Installed fonts${NEWLINE}"
+    echo -e "${NEWLINE}${WHITE} [${BLUE}+${WHITE}] Installed fonts."
 }
 
 check_and_install() {
@@ -122,8 +122,8 @@ banner() {
     echo -e "${WHITE} |${CYAN} ╚═════╝ ╚══════╝╚═╝      ╚══╝╚══╝ ╚═╝     ╚═╝${WHITE} |"
     echo -e "${WHITE} ┖───────────────────────────────────────────────┙${NEWLINE}"
     echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm-on-fedora | Scripts to install and configure a professional"
-    echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm environment on Fedora Linux Workstation.${NEWLINE}"
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Hello ${RED}${USERNAME}${WHITE}, installation will begin soon.${NEWLINE}"
+    echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm environment on Fedora Linux Workstation."
+    echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Hello ${RED}${USERNAME}${WHITE}, installation will begin soon."
 }
 
 colors() {
@@ -137,21 +137,21 @@ colors() {
 main() {
     colors
     banner
-    echo -ne "${WHITE} [${BLUE}!${WHITE}] Do you want to continue with the installation? Y | N ▶ ${RED} "
+    echo -ne "${NEWLINE}${WHITE} [${BLUE}!${WHITE}] Do you want to continue with the installation? ([Y]/N) ▶ ${RED} "
     read -r quest
     if [[ $quest = Y ]]; then
         echo -e "${NEWLINE}${WHITE} [${BLUE}i${WHITE}] Starting installation process.${NEWLINE}"
         local essential_packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
         check_and_install "${essential_packages[@]}"
-        installing_fonts
-        configuring_packages
-        install_missing_dependencies
-        installing_bspwm_themes
-        installing_bspwm_scripts
-        temporal
-        echo -e "${NEWLINE}${WHITE} [${GREEN}+${WHITE}] Installation completed, please reboot to apply the configuration.${NEWLINE}"
+        #installing_fonts
+        #configuring_packages
+        #install_missing_dependencies
+        #installing_bspwm_themes
+        #installing_bspwm_scripts
+        #temporal
+        echo -e "${NEWLINE}${WHITE} [${GREEN}+${WHITE}] Installation completed, please reboot to apply the configuration."
     else
-        echo -e "${NEWLINE}${WHITE} [${RED}!${WHITE}] Installation aborted.${NEWLINE}"
+        echo -e "${NEWLINE}${WHITE} [${RED}!${WHITE}] Installation aborted."
     fi
 }
 
