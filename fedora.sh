@@ -1,6 +1,6 @@
 #!/bin/bash
 
-colors() {
+define_colors() {
     WHITE='\033[1;37m'
     RED='\033[1;31m'
     GREEN='\033[1;32m'
@@ -8,7 +8,7 @@ colors() {
     BLUE='\033[1;34m'
 }
 
-banner() {
+display_banner() {
     echo -e "\n${WHITE} ╔───────────────────────────────────────────────╗"
     echo -e "${WHITE} |${CYAN} ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗${WHITE} |"
     echo -e "${WHITE} |${CYAN} ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║${WHITE} |"
@@ -23,6 +23,7 @@ banner() {
 }
 
 check_missing_rpm_packages() {
+    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Checking missing rpm packages.\n"
     
     # Receive positional arguments in a local array.
     local packages=("${@}")
@@ -39,7 +40,9 @@ check_missing_rpm_packages() {
     echo "${missing[@]}"
 }
 
-install_rpm_packages_rpm() {
+install_rpm_packages() {
+    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing rpm packages.\n"
+
     local missing_packages="$@"
     
     # [[ -n "$missing_packages" ]] Check to see if the variable isn't empty.
@@ -94,11 +97,48 @@ deploy_git_package() {
     fi
 }
 
+copy_packages_configurations() {
+    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying packages configurations.\n"
+    
+    packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
+    
+    for package in "${packages[@]}"; do
+        copy_package_settings "$package"
+    done
+}
+
+copy_package_settings() {
+    local package=$1
+    sudo rm -rf "${LOCALPATH}/.config/$package"
+    cp -r "${RUTE}/.config/$package" "${LOCALPATH}/.config/$package"
+    if $package == "bspwm" || $package == "sxhkd"; then
+        chmod +x "${LOCALPATH}/.config/$package/${package}rc"
+    fi
+}
+
+copy_bspwm_scripts() {
+    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying bspwm scripts.\n"
+
+    cp -r scripts "${LOCALPATH}"
+    chmod +x "${LOCALPATH}/scripts/"*.sh
+    chmod +x "${LOCALPATH}/scripts/wall-scripts/"*.sh
+}
+
+copy_bspwm_themes() {
+    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying bspwm themes.\n"
+
+    cp -r .themes "${LOCALPATH}"
+    for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
+        chmod +x "${LOCALPATH}/.themes/${theme}/bspwmrc"
+        chmod +x "${LOCALPATH}/.themes/${theme}/scripts/"*.sh
+    done
+}
+
 copy_fonts() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying fonts."
+
     cp -r ".fonts" "${LOCALPATH}"
     sudo mkdir -p /usr/local/share/fonts && sudo cp -r ~/.fonts/* /usr/local/share/fonts
-    echo -e "\n${WHITE} [${BLUE}+${WHITE}] Copied fonts."
 }
 
 # -------------
@@ -117,45 +157,12 @@ temporal() {
     cp -r .scripts "${LOCALPATH}"
 }
 
-installing_bspwm_scripts() {
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing bspwm cripts."
-    cp -r scripts "${LOCALPATH}"
-    chmod +x "${LOCALPATH}/scripts/"*.sh
-    chmod +x "${LOCALPATH}/scripts/wall-scripts/"*.sh
-}
-
-installing_bspwm_themes() {
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing bspwm themes."
-    cp -r .themes "${LOCALPATH}"
-    for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
-        chmod +x "${LOCALPATH}/.themes/${theme}/bspwmrc"
-        chmod +x "${LOCALPATH}/.themes/${theme}/scripts/"*.sh
-    done
-}
-
-configure_package() {
-    local package=$1
-    local config_path=$2
-    sudo rm -rf "${LOCALPATH}/.config/$package"
-    cp -r "${RUTE}/.config/$package" "${LOCALPATH}/.config/$package"
-    chmod +x "${LOCALPATH}/.config/$package/${config_path}"
-}
-
-configuring_packages() {
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Configuring packages."
-    configure_package bspwm bspwmrc
-    configure_package sxhkd sxhkdrc
-    for package in kitty picom neofetch ranger cava polybar; do
-        configure_package "$package" ""
-    done
-}
-
 # -------------
 
 main() {
     clear
-    colors
-    banner
+    define_colors
+    display_banner
     echo -ne "\n${WHITE} [${BLUE}!${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
     tput setaf 1
     read -r quest
@@ -170,12 +177,12 @@ main() {
         # It passes the array as positional arguments and captures the output of the function in the variable.
         local missing_packages=$(check_missing_rpm_packages "${essential_packages[@]}")
       
-        install_rpm_packages_rpm $missing_packages
+        install_rpm_packages $missing_packages
         install_packages_from_git
+        copy_packages_configurations
+        copy_bspwm_scripts
+        copy_bspwm_themes
         copy_fonts
-        #configuring_packages
-        #installing_bspwm_themes
-        #installing_bspwm_scripts
         #temporal
 
         echo -e "\n${WHITE} [${GREEN}+${WHITE}] Installation completed, please reboot to apply the configuration."
@@ -184,7 +191,7 @@ main() {
     fi
 }
 
-LOCALPATH="/home/${USERNAME}"
-RUTE=$(pwd
+LOCALPATH="/home/${USERNAME}"   # /home/azocarone
+RUTE=$(pwd                      # /home/azocarone/Dev/bspwm-on-fedora
 
 main

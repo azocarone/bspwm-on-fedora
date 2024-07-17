@@ -1,3 +1,11 @@
+bspwm
+sxhkd
+kitty
+picom
+neofetch
+ranger
+cava
+polybar
 autoconf
 automake
 cairo-devel
@@ -36,11 +44,3 @@ git
 net-tools
 xclip
 xdotool
-bspwm
-sxhkd
-kitty
-picom
-neofetch
-ranger
-cava
-polybar
