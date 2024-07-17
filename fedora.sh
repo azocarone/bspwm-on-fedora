@@ -172,7 +172,7 @@ main() {
         echo -e "\n${WHITE} [${BLUE}i${WHITE}] Starting installation process:\n" 
         
         sudo dnf upgrade -y --refresh
-        mapfile -t essential_packages < 'packages.txt'
+        mapfile -t essential_packages < 'rpm_packages.txt'
 
         # It passes the array as positional arguments and captures the output of the function in the variable.
         local missing_packages=$(check_missing_rpm_packages "${essential_packages[@]}")
