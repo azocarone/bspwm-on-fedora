@@ -22,52 +22,36 @@ display_banner() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Hello ${RED}$(whoami)${WHITE}, installation will begin soon."
 }
 
-check_missing_rpm_packages() {
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Checking missing rpm packages.\n"
-    
-    # Receive positional arguments in a local array.
-    local packages=("${@}")
-    
-    local missing=()
-    
-    # "${packages[@]}" Expands the array as a list of items separated by space.
-    for package in "${packages[@]}"; do
-        if ! command -v "$package" >/dev/null; then
-            missing+=("$package")
-        fi
-    done
-    
-    echo "${missing[@]}"
-}
-
 install_rpm_packages() {
+    local yaml_file="$1"
+    
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing rpm packages.\n"
 
-    local missing_packages="$@"
-    
-    # [[ -n "$missing_packages" ]] Check to see if the variable isn't empty.
-    if [[ -n $missing_packages ]]; then
-        sudo dnf install -y $missing_packages
-    fi
+    sudo dnf upgrade -y --refresh
+
+    awk '
+        /^[^:]+:$/ { in_list=1; next }
+        /^\s*$/ { in_list=0 }
+        /^\s*-\s+/ && in_list { print $2 }
+    ' "$yaml_file" | xargs sudo dnf install -y
 }
 
 install_packages_from_git() {
+    local yaml_file="$1"
+
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing packages from git.\n"
-
-    git_packages=(
-        "https://github.com/Raymo111/i3lock-color.git ./build.sh && ./install-i3lock-color.sh"
-        "https://github.com/betterlockscreen/betterlockscreen.git sudo ./install.sh system"
-        "https://github.com/xorg62/tty-clock.git make && chmod +x tty-clock"
-    )
-
-    for git_package in "${git_packages[@]}"; do
-        
-        # Extract the repository URL.
-        repo_url="${git_package%% *}"
-        
-        # Extract the build command.
-        build_command="${git_package#"$repo_url "}"
-        
+    
+    awk '
+        /^\s*repo_url:/ {
+            repo_url = substr($0, index($0, $2))
+            gsub(/"/, "", repo_url)
+        }
+        /^\s*build_command:/ {
+            build_command = substr($0, index($0, $2))
+            gsub(/"/, "", build_command)
+            print repo_url, build_command
+        }
+    ' "$yaml_file" | while read -r repo_url build_command; do
         deploy_git_package "$repo_url" "$build_command"
     done
 }
@@ -84,8 +68,8 @@ deploy_git_package() {
         if ! eval "$build_command"; then
             echo "Error when building $package_name" exit 1 
         else
-            installation_files=$(find -name "install*")
-            if [ -z $installation_files ]; then
+            local installation_files=$(find -name "install*")
+            if [ -z $installation_files ]; then # Aqui hay un detalle: ./fedora.sh: línea 72: [: ./install-i3lock-color.sh: se esperaba un operador binario
                 sudo mv "${package_name}" /usr/local/bin/
             fi
             
@@ -100,7 +84,7 @@ deploy_git_package() {
 copy_packages_configurations() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying packages configurations.\n"
     
-    packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
+    local packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
     
     for package in "${packages[@]}"; do
         copy_package_settings "$package"
@@ -108,11 +92,36 @@ copy_packages_configurations() {
 }
 
 copy_package_settings() {
-    local package=$1
+    local package="$1"
+    
     sudo rm -rf "${LOCALPATH}/.config/$package"
+    
     cp -r "${RUTE}/.config/$package" "${LOCALPATH}/.config/$package"
-    if $package == "bspwm" || $package == "sxhkd"; then
-        chmod +x "${LOCALPATH}/.config/$package/${package}rc"
+    
+    if $package == "bspwm" || $package == "sxhkd" || $package == "polybar"; then
+        local base_folder="${LOCALPATH}/.config/$package"
+        grant_permission_execute "$base_folder"
+    fi
+}
+
+grant_permission_execute(){
+    local base_folder="$1"
+    
+    for patch_file in "$base_folder"/**/*.*; do
+        if is_bash_script "$patch_file"; then
+            chmod +x "$patch_file"
+        fi
+    done
+}
+
+is_bash_script() {
+    local patch_file="$1"
+    local shebang=$(head -n 1 "$patch_file")
+    
+    if [[ $shebang == "#!"* ]]; then
+        return 0
+    else
+        return 1
     fi
 }
 
@@ -145,8 +154,10 @@ copy_fonts() {
 
 temporal() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
+    
     sudo rm -rf "${LOCALPATH}/.zsh"
     cp -r .zsh "${LOCALPATH}"
+    
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
     echo 'source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -163,7 +174,9 @@ main() {
     clear
     define_colors
     display_banner
+    
     echo -ne "\n${WHITE} [${BLUE}!${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
+    
     tput setaf 1
     read -r quest
     tput setaf 0
@@ -171,18 +184,12 @@ main() {
     if [[ $quest = y ]]; then
         echo -e "\n${WHITE} [${BLUE}i${WHITE}] Starting installation process:\n" 
         
-        sudo dnf upgrade -y --refresh
-        mapfile -t essential_packages < 'rpm_packages.txt'
-
-        # It passes the array as positional arguments and captures the output of the function in the variable.
-        local missing_packages=$(check_missing_rpm_packages "${essential_packages[@]}")
-      
-        install_rpm_packages $missing_packages
-        install_packages_from_git
-        copy_packages_configurations
-        copy_bspwm_scripts
-        copy_bspwm_themes
-        copy_fonts
+        install_rpm_packages "rpm_packages.yaml"
+        install_packages_from_git "from_git.yaml"
+        #copy_packages_configurations
+        #copy_bspwm_scripts
+        #copy_bspwm_themes
+        #copy_fonts
         #temporal
 
         echo -e "\n${WHITE} [${GREEN}+${WHITE}] Installation completed, please reboot to apply the configuration."
@@ -192,6 +199,6 @@ main() {
 }
 
 LOCALPATH="/home/${USERNAME}"   # /home/azocarone
-RUTE=$(pwd                      # /home/azocarone/Dev/bspwm-on-fedora
+RUTE=$(pwd)                     # /home/azocarone/Dev/bspwm-on-fedora
 
 main

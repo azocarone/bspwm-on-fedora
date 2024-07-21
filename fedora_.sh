@@ -132,7 +132,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/bspwm
-                cp -r bspwm ${LOCALPATH}/.config/bspwm
+        cp -r bspwm ${LOCALPATH}/.config/bspwm
 		chmod +x ${LOCALPATH}/.config/bspwm/bspwmrc
 	fi
 	if which sxhkd >/dev/null; then
@@ -156,8 +156,8 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/sxhkd
-                cp -r sxhkd ${LOCALPATH}/.config/sxhkd
-                chmod +x ${LOCALPATH}/.config/sxhkd/sxhkdrc
+        cp -r sxhkd ${LOCALPATH}/.config/sxhkd
+        chmod +x ${LOCALPATH}/.config/sxhkd/sxhkdrc
 	fi
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 2 installing fonts"
@@ -182,7 +182,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/kitty
-                cp -r kitty ${LOCALPATH}/.config/kitty
+        cp -r kitty ${LOCALPATH}/.config/kitty
 	else
 		echo ""
 		echo -e "${White} [${Red}-${White}] KITTY is not installed, installing kitty"
@@ -196,7 +196,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/kitty
-                cp -r kitty ${LOCALPATH}/.config/kitty
+        cp -r kitty ${LOCALPATH}/.config/kitty
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 4 check if the picom compositor is installed"
 		sleep 2
@@ -207,7 +207,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/picom
-                cp -r picom ${LOCALPATH}/.config/picom
+        cp -r picom ${LOCALPATH}/.config/picom
 	else
 		echo ""
 		echo -e "${White} [${Red}-${White}] PICOM is not installed, installing picom compositor"
@@ -220,8 +220,8 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}+${White}] PICOM is installed, installing configuration"
 		sleep 2
 		cd ${RUTE}/.config
-                sudo rm -rf ${LOCALPATH}/.config/picom
-                cp -r picom ${LOCALPATH}/.config/picom
+        sudo rm -rf ${LOCALPATH}/.config/picom
+        cp -r picom ${LOCALPATH}/.config/picom
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 5 check if the neofetch is installed"
 		sleep 2
@@ -232,7 +232,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/neofetch
-                cp -r neofetch ${LOCALPATH}/.config/neofetch
+        cp -r neofetch ${LOCALPATH}/.config/neofetch
 	else
 		echo ""
 		echo -e "${White} [${Red}-${White}] NEOFETCH is not installed, installing neofetch"
@@ -246,10 +246,10 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/neofetch
-                cp -r neofetch ${LOCALPATH}/.config/neofetch
-                echo ""
-                echo -e "${White} [${Blue}i${White}] Step 6 check if the ranger is installed"
-                sleep 2
+        cp -r neofetch ${LOCALPATH}/.config/neofetch
+        echo ""
+        echo -e "${White} [${Blue}i${White}] Step 6 check if the ranger is installed"
+        sleep 2
 	fi
 	if which ranger >/dev/null; then
 		echo ""
@@ -257,7 +257,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/ranger
-                cp -r ranger ${LOCALPATH}/.config/ranger
+        cp -r ranger ${LOCALPATH}/.config/ranger
 	else
 		echo ""
 		echo -e "${White} [${Red}-${White}] RANGER is not installed, installing ranger"
@@ -268,13 +268,13 @@ if [ $quest = Y ]; then
 		sudo dnf install ranger -y
 		echo ""
 		echo -e "${White} [${Blue}+${White}] RANGER is installed, installing configuration"
-                sleep 2
-                cd ${RUTE}/.config
-                sudo rm -rf ${LOCALPATH}/.config/ranger
-                cp -r ranger ${LOCALPATH}/.config/ranger
+        sleep 2
+        cd ${RUTE}/.config
+        sudo rm -rf ${LOCALPATH}/.config/ranger
+        cp -r ranger ${LOCALPATH}/.config/ranger
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 7 check if the cava is installed"
-                sleep 2
+        sleep 2
 	fi
 	if which cava >/dev/null; then
 		echo ""
@@ -282,7 +282,7 @@ if [ $quest = Y ]; then
 		sleep 2
 		cd ${RUTE}/.config
 		sudo rm -rf ${LOCALPATH}/.config/cava
-                cp -r cava ${LOCALPATH}/.config/cava
+        cp -r cava ${LOCALPATH}/.config/cava
 	else
 		echo ""
 		echo -e "${White} [${Red}-${White}] CAVA is not installed, installing cava"
@@ -294,9 +294,9 @@ if [ $quest = Y ]; then
 		echo ""
 		echo -e "${White} [${Blue}+${White}] CAVA is installed, installing configuration"
 		sleep 2
-                cd ${RUTE}/.config
-                sudo rm -rf ${LOCALPATH}/.config/cava
-                cp -r cava ${LOCALPATH}/.config/cava
+        cd ${RUTE}/.config
+        sudo rm -rf ${LOCALPATH}/.config/cava
+        cp -r cava ${LOCALPATH}/.config/cava
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 8 check if the polybar is installed"
 		sleep 2
@@ -306,8 +306,8 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}+${White}] POLYBAR is installed, installing configuration"
 		sleep 2
 		cd ${RUTE}/.config
-                sudo rm -rf ${LOCALPATH}/.config/polybar
-                cp -r polybar ${LOCALPATH}/.config/polybar
+        sudo rm -rf ${LOCALPATH}/.config/polybar
+        cp -r polybar ${LOCALPATH}/.config/polybar
 		chmod +x ${LOCALPATH}/.config/polybar/cuts/launch.sh
 		chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/checkupdates
 		chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/color-switch.sh
@@ -333,21 +333,21 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}+${White}] POLYBAR is installed, installing configuration"
 		sleep 2
 		cd ${RUTE}/.config
-                sudo rm -rf ${LOCALPATH}/.config/polybar
-                cp -r polybar ${LOCALPATH}/.config/polybar
+        sudo rm -rf ${LOCALPATH}/.config/polybar
+        cp -r polybar ${LOCALPATH}/.config/polybar
 		chmod +x ${LOCALPATH}/.config/polybar/launch.sh
 		chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/checkupdates
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/color-switch.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/colors-dark.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/colors-light.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/launcher.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/powermenu.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/pywal.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/random.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/script-manager.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/style-switch.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/styles.sh
-                chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/updates.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/color-switch.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/colors-dark.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/colors-light.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/launcher.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/powermenu.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/pywal.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/random.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/script-manager.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/style-switch.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/styles.sh
+        chmod +x ${LOCALPATH}/.config/polybar/cuts/scripts/updates.sh
 	fi
 		missing_dependencies
 		echo -e "${White} [${Blue}i${White}] Step 10 installing bspwm themes"
@@ -371,38 +371,38 @@ if [ $quest = Y ]; then
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Cyan}Esmeralda"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Esmeralda/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Esmeralda/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Esmeralda/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Esmeralda/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Esmeralda/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Black}Nami"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Nami/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Nami/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Nami/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Nami/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Nami/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Purple}Raven"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Raven/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Raven/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Raven/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Raven/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Raven/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Green}Ryan"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Ryan/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Ryan/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Ryan/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Ryan/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Ryan/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Blue}Simon"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Simon/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Simon/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Simon/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Simon/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Simon/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme Xavier"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Xavier/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Xavier/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Xavier/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Xavier/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Xavier/scripts/vpn_status.sh
 		echo -e "${White} [${Blue}+${White}] Installing theme ${Yellow}Zenitsu"
 		sleep 2
 		chmod +x ${LOCALPATH}/.themes/Zenitsu/scripts/ethernet_status.sh
-                chmod +x ${LOCALPATH}/.themes/Zenitsu/scripts/machine_target.sh
-                chmod +x ${LOCALPATH}/.themes/Zenitsu/scripts/vpn_status.sh
+        chmod +x ${LOCALPATH}/.themes/Zenitsu/scripts/machine_target.sh
+        chmod +x ${LOCALPATH}/.themes/Zenitsu/scripts/vpn_status.sh
 		echo ""
 		echo -e "${White} [${Blue}i${White}] Step 11 installing bspwm scripts"
 		sleep 2

@@ -1,0 +1,65 @@
+name: rpm_packages.yaml
+comments: bspwm professional environment on Fedora Linux Workstation.
+
+packages:
+  - bspwm
+  - sxhkd
+  - kitty
+  - picom
+  - neofetch
+  - ranger
+  - cava
+  - polybar
+  
+common_dependencies:
+  - rofi
+  - fira-code-fonts
+  - abattis-cantarell-fonts
+  - lxappearance
+  - nitrogen
+  - lsd
+  - zsh
+  - flameshot
+  - git
+  - net-tools
+  - xclip
+  - xdotool
+  - scrub
+  - bat
+  - openvpn
+  - feh
+  - pulseaudio-utils
+  - lolcat
+
+# i3lock-color | install from git
+
+i3lock-color_dependencies:
+  - autoconf
+  - automake
+  - cairo-devel
+  - fontconfig
+  - gcc
+  - libev-devel
+  - libjpeg-turbo-devel
+  - libXinerama
+  - libxkbcommon-devel
+  - libxkbcommon-x11-devel
+  - libXrandr
+  - pam-devel
+  - pkgconf
+  - xcb-util-image-devel
+  - xcb-util-xrm-devel
+  - ncurses
+  - ncurses-devel
+
+# betterlockscreen | install from git
+
+betterlockscreen_dependencies:
+  - ImageMagick
+  - bc
+  - xdpyinfo
+  - xrandr
+  - xrdb
+  - xset
+  - dunst
+  - feh

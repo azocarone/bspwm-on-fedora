@@ -1,0 +1,13 @@
+name: from_git.yaml
+comments: bspwm professional environment on Fedora Linux Workstation.
+
+git_packages:
+  i3lock-color:
+    repo_url: "https://github.com/Raymo111/i3lock-color.git"
+    build_command: "./build.sh && ./install-i3lock-color.sh"
+  betterlockscreen:
+    repo_url: "https://github.com/betterlockscreen/betterlockscreen.git"
+    build_command: "sudo ./install.sh system"
+  tty-clock:
+    repo_url: "https://github.com/xorg62/tty-clock.git"
+    build_command: "make && chmod +x tty-clock"
