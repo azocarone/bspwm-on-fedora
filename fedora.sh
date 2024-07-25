@@ -67,39 +67,28 @@ deploy_git_packages_from_list(){
     
     while read -r repo_url build_command; do
         local package_name=$(basename "$repo_url" .git)
-        clone_repository "$repo_url" "$package_name"
-        change_to_package_dir "$package_name"
-        execute_build_command "$build_command" "$package_name"
-        copy_executable_to_install_dir "$package_name" "$install_dir"
+        if clone_and_build "$repo_url" "$package_name" "$build_command"; then
+            copy_executable_to_install_dir "$package_name" "$install_dir"
+        fi
         cleanup_package_dir "$package_name"
     done <<< "$list_git_packages"
 }
 
-clone_repository(){
+clone_and_build(){
     local repo_url="$1"
     local package_name="$2"
-    
+    local build_command="$3"
+    local temp_script=$(mktemp)
+
     if ! git clone --depth=1 "$repo_url" "$package_name"; then
         echo "Error cloning repository: $repo_url"
         return 1
     fi
-}
 
-change_to_package_dir(){
-    local package_name="$1" 
-
-    cd "$package_name" \
-        || { echo "Error changing to directory: $package_name"; return 1; }
-}
-
-execute_build_command(){
-    local build_command="$1"
-    local package_name="$2"
-    local temp_script=$(mktemp)
+    cd "$package_name" || { echo "Error changing to directory: $package_name"; return 1; }
 
     echo "#!/bin/bash" > "$temp_script"
     echo "$build_command" >> "$temp_script"
-    
     chmod +x "$temp_script"
 
     if ! ( "$temp_script" ); then
@@ -110,6 +99,7 @@ execute_build_command(){
     fi
 
     rm "$temp_script"
+    return 0
 }
 
 copy_executable_to_install_dir(){
@@ -117,7 +107,6 @@ copy_executable_to_install_dir(){
     local install_dir="$2"
     local installer=$(find_installer .)
 
-    # [...] se define como patron glob (globular)
     if [ -z "$installer" ] && [ -f "$package_name" ]; then
         sudo cp "$package_name" "$install_dir"
     fi
@@ -235,6 +224,8 @@ temporal() {
 # ----------
 
 main() {
+    HOME_DIR="/home/${USERNAME}"
+    CURRENT_DIR=$(pwd)
     local install_dir="/usr/local/bin/"
 
     clear
@@ -244,16 +235,16 @@ main() {
     echo -ne "${WHITE} [${BLUE}?${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
     
     tput setaf 1
-    read -r quest
+    read -r reply
     tput setaf 0
 
-    if [[ $quest = y ]]; then
-        #local list_rpm_packages=$(get_list_rpm_packages "rpm_packages.yaml")
+    if [[ $reply == 'y' ]]; then
+        local list_rpm_packages=$(get_list_rpm_packages "rpm_packages.yaml")
         local list_git_packages=$(get_list_git_packages "git_packages.yaml")
 
         echo -e "${WHITE} [${BLUE}i${WHITE}] Starting the installation process.\n" 
 
-        #install_rpm_packages_from_list "$list_rpm_packages"
+        install_rpm_packages_from_list "$list_rpm_packages"
         deploy_git_packages_from_list "$list_git_packages" "$install_dir"
 
         #copy_packages_configurations
@@ -267,8 +258,5 @@ main() {
         echo -e "\n${WHITE} [${RED}!${WHITE}] Installation aborted."
     fi
 }
-
-HOME_DIR="/home/${USERNAME}"
-CURRENT_DIR=$(pwd)
 
 main
