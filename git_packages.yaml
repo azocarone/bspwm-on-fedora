@@ -1,4 +1,4 @@
-name: from_git.yaml
+name: git_packages.yaml
 comments: bspwm professional environment on Fedora Linux Workstation.
 
 git_packages:

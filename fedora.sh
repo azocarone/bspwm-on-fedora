@@ -9,7 +9,7 @@ define_colors() {
 }
 
 display_banner() {
-    echo -e "\n${WHITE} ╔───────────────────────────────────────────────╗"
+    echo -e "${WHITE} ╔───────────────────────────────────────────────╗"
     echo -e "${WHITE} |${CYAN} ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗${WHITE} |"
     echo -e "${WHITE} |${CYAN} ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║${WHITE} |"
     echo -e "${WHITE} |${CYAN} ██████╔╝███████╗██████╔╝██║ █╗ ██║██╔████╔██║${WHITE} |"
@@ -18,68 +18,125 @@ display_banner() {
     echo -e "${WHITE} |${CYAN} ╚═════╝ ╚══════╝╚═╝      ╚══╝╚══╝ ╚═╝     ╚═╝${WHITE} |"
     echo -e "${WHITE} ┖───────────────────────────────────────────────┙\n"
     echo -e "${WHITE} [${BLUE}i${WHITE}] Scripts to install and configure a professional"
-    echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm environment on Fedora Linux Workstation."
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Hello ${RED}$(whoami)${WHITE}, installation will begin soon."
+    echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm environment on Fedora Linux Workstation.\n"
+    echo -e "${WHITE} [${BLUE}i${WHITE}] Hello ${RED}$(whoami)${WHITE}, installation will begin soon.\n"
 }
 
-install_rpm_packages() {
+get_list_rpm_packages() {
     local yaml_file="$1"
-    
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing rpm packages.\n"
-
-    sudo dnf upgrade -y --refresh
-
-    awk '
+    local list_rpm_packages=$(awk '
         /^[^:]+:$/ { in_list=1; next }
         /^\s*$/ { in_list=0 }
         /^\s*-\s+/ && in_list { print $2 }
-    ' "$yaml_file" | xargs sudo dnf install -y
+    ' "$yaml_file")
+    
+    echo "$list_rpm_packages"
 }
 
-install_packages_from_git() {
+get_list_git_packages(){
     local yaml_file="$1"
-
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing packages from git.\n"
-    
-    awk '
+    local list_git_packages=$(awk '
         /^\s*repo_url:/ {
-            repo_url = substr($0, index($0, $2))
+            repo_url=gensub(/.*repo_url: /, "", 1)
             gsub(/"/, "", repo_url)
         }
         /^\s*build_command:/ {
-            build_command = substr($0, index($0, $2))
+            build_command=gensub(/.*build_command: /, "", 1)
             gsub(/"/, "", build_command)
             print repo_url, build_command
         }
-    ' "$yaml_file" | while read -r repo_url build_command; do
-        deploy_git_package "$repo_url" "$build_command"
-    done
+    ' "$yaml_file")
+    
+    echo "$list_git_packages"
 }
 
-deploy_git_package() {
-    local repo_url="$1"
-    local build_command="$2"
+install_rpm_packages_from_list(){
+    local list_rpm_packages="$1"
+
+    echo -e "${WHITE} [${BLUE}i${WHITE}] Installing rpm packages:\n"
     
-    if ! git clone --depth=1 "$repo_url"; then
-        echo "Error when cloning $repo_url" exit 1
-    else
+    sudo dnf upgrade -y --refresh \
+        | sudo dnf install -y ${list_rpm_packages}
+}
+
+deploy_git_packages_from_list(){
+    local list_git_packages="$1"
+    local install_dir="$2"
+
+    echo -e "${WHITE} [${BLUE}i${WHITE}] Installing packages from git.\n"
+    
+    while read -r repo_url build_command; do
         local package_name=$(basename "$repo_url" .git)
-        cd "$package_name"
-        if ! eval "$build_command"; then
-            echo "Error when building $package_name" exit 1 
-        else
-            local installation_files=$(find -name "install*")
-            if [ -z $installation_files ]; then # Aqui hay un detalle: ./fedora.sh: línea 72: [: ./install-i3lock-color.sh: se esperaba un operador binario
-                sudo mv "${package_name}" /usr/local/bin/
-            fi
-            
-            #Back to LOCALPATH
-            cd -
-            
-            sudo rm -rf "${package_name}"
-        fi
+        clone_repository "$repo_url" "$package_name"
+        change_to_package_dir "$package_name"
+        execute_build_command "$build_command" "$package_name"
+        copy_executable_to_install_dir "$package_name" "$install_dir"
+        cleanup_package_dir "$package_name"
+    done <<< "$list_git_packages"
+}
+
+clone_repository(){
+    local repo_url="$1"
+    local package_name="$2"
+    
+    if ! git clone --depth=1 "$repo_url" "$package_name"; then
+        echo "Error cloning repository: $repo_url"
+        return 1
     fi
 }
+
+change_to_package_dir(){
+    local package_name="$1" 
+
+    cd "$package_name" \
+        || { echo "Error changing to directory: $package_name"; return 1; }
+}
+
+execute_build_command(){
+    local build_command="$1"
+    local package_name="$2"
+    local temp_script=$(mktemp)
+
+    echo "#!/bin/bash" > "$temp_script"
+    echo "$build_command" >> "$temp_script"
+    
+    chmod +x "$temp_script"
+
+    if ! ( "$temp_script" ); then
+        echo "Error building package: $package_name"
+        cd ..
+        rm -rf "$package_name"
+        return 1
+    fi
+
+    rm "$temp_script"
+}
+
+copy_executable_to_install_dir(){
+    local package_name="$1"
+    local install_dir="$2"
+    local installer=$(find_installer .)
+
+    # [...] se define como patron glob (globular)
+    if [ -z "$installer" ] && [ -f "$package_name" ]; then
+        sudo cp "$package_name" "$install_dir"
+    fi
+}
+
+find_installer(){
+    local dir="$1"
+
+    find "$dir" -type f -name 'install*' -print -quit
+}
+
+cleanup_package_dir(){
+    local package_name="$1"
+
+    cd ..
+    rm -rf "$package_name"
+}
+
+# ---------------------------------
 
 copy_packages_configurations() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying packages configurations.\n"
@@ -94,13 +151,14 @@ copy_packages_configurations() {
 copy_package_settings() {
     local package="$1"
     
-    sudo rm -rf "${LOCALPATH}/.config/$package"
+    sudo rm -rf "${HOME_DIR}/.config/$package"
     
-    cp -r "${RUTE}/.config/$package" "${LOCALPATH}/.config/$package"
+    cp -r "${CURRENT_DIR}/.config/$package" "${HOME_DIR}/.config/$package"
     
     if $package == "bspwm" || $package == "sxhkd" || $package == "polybar"; then
-        local base_folder="${LOCALPATH}/.config/$package"
-        grant_permission_execute "$base_folder"
+        local base_folder="${HOME_DIR}/.config/$package"
+        
+        grant_permission_exe "$base_folder"
     fi
 }
 
@@ -128,25 +186,28 @@ is_bash_script() {
 copy_bspwm_scripts() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying bspwm scripts.\n"
 
-    cp -r scripts "${LOCALPATH}"
-    chmod +x "${LOCALPATH}/scripts/"*.sh
-    chmod +x "${LOCALPATH}/scripts/wall-scripts/"*.sh
+    cp -r scripts "${HOME_DIR}"
+    
+    chmod +x "${HOME_DIR}/scripts/"*.sh
+    chmod +x "${HOME_DIR}/scripts/wall-scripts/"*.sh
 }
 
 copy_bspwm_themes() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying bspwm themes.\n"
 
-    cp -r .themes "${LOCALPATH}"
+    cp -r .themes "${HOME_DIR}"
+    
     for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
-        chmod +x "${LOCALPATH}/.themes/${theme}/bspwmrc"
-        chmod +x "${LOCALPATH}/.themes/${theme}/scripts/"*.sh
+        chmod +x "${HOME_DIR}/.themes/${theme}/bspwmrc"
+        chmod +x "${HOME_DIR}/.themes/${theme}/scripts/"*.sh
     done
-}
+}    
 
 copy_fonts() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Copying fonts."
 
-    cp -r ".fonts" "${LOCALPATH}"
+    cp -r ".fonts" "${HOME_DIR}"
+    
     sudo mkdir -p /usr/local/share/fonts && sudo cp -r ~/.fonts/* /usr/local/share/fonts
 }
 
@@ -155,37 +216,46 @@ copy_fonts() {
 temporal() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
     
-    sudo rm -rf "${LOCALPATH}/.zsh"
-    cp -r .zsh "${LOCALPATH}"
+    sudo rm -rf "${HOME_DIR}/.zsh"
+    
+    cp -r .zsh "${HOME_DIR}"
     
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
+    
     echo 'source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+    
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
-    cp -r .oh-my-zsh "${LOCALPATH}"
-    cp .zshrc "${LOCALPATH}"
-    cp .p10k.zsh "${LOCALPATH}"
-    cp -r .scripts "${LOCALPATH}"
+    cp -r .oh-my-zsh "${HOME_DIR}"
+    cp .zshrc "${HOME_DIR}"
+    cp .p10k.zsh "${HOME_DIR}"
+    cp -r .scripts "${HOME_DIR}"
 }
 
-# -------------
+# ----------
 
 main() {
+    local install_dir="/usr/local/bin/"
+
     clear
     define_colors
     display_banner
     
-    echo -ne "\n${WHITE} [${BLUE}!${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
+    echo -ne "${WHITE} [${BLUE}?${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
     
     tput setaf 1
     read -r quest
     tput setaf 0
 
     if [[ $quest = y ]]; then
-        echo -e "\n${WHITE} [${BLUE}i${WHITE}] Starting installation process:\n" 
-        
-        install_rpm_packages "rpm_packages.yaml"
-        install_packages_from_git "from_git.yaml"
+        #local list_rpm_packages=$(get_list_rpm_packages "rpm_packages.yaml")
+        local list_git_packages=$(get_list_git_packages "git_packages.yaml")
+
+        echo -e "${WHITE} [${BLUE}i${WHITE}] Starting the installation process.\n" 
+
+        #install_rpm_packages_from_list "$list_rpm_packages"
+        deploy_git_packages_from_list "$list_git_packages" "$install_dir"
+
         #copy_packages_configurations
         #copy_bspwm_scripts
         #copy_bspwm_themes
@@ -198,7 +268,7 @@ main() {
     fi
 }
 
-LOCALPATH="/home/${USERNAME}"   # /home/azocarone
-RUTE=$(pwd)                     # /home/azocarone/Dev/bspwm-on-fedora
+HOME_DIR="/home/${USERNAME}"
+CURRENT_DIR=$(pwd)
 
 main
