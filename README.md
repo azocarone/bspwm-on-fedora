@@ -1,4 +1,4 @@
-|![bspwm-environment](https://github.com/AlvinPix/bspwm/blob/main/resources/bspwm.png?raw=true)|
+|![bspwm-environment](https://github.com/azocarone/bspwm-on-fedora/blob/main/resources/bspwm.png?raw=true)|
 |---|
 
 ## bspwm-on-fedora | Scripts to install and configure a professional bspwm environment on [Fedora Linux](https://fedoraproject.org/) Workstation.
@@ -201,7 +201,3 @@ Wait for the installation scripts to finish, once finished close section and sel
 - This environment has been inspired by the functionalities of [**S4vitar's**](https://github.com/s4vitar) environment.
 - Thanks to [**adi1090x**](https://github.com/adi1090x) for his contribution to creating polybar [cuts](https://github.com/adi1090x/polybar-themes#cuts).
 - Thanks to [**wallhaven**](https://wallhaven.cc/) for their incredible wallpapers, credits to their respective creators.
-
-## Support
-
-<a href="https://www.buymeacoffee.com/alvinpix" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
