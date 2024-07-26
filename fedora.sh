@@ -9,16 +9,16 @@ define_colors() {
 }
 
 display_banner() {
-    echo -e "${WHITE} ╔───────────────────────────────────────────────╗"
-    echo -e "${WHITE} |${CYAN} ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗${WHITE} |"
-    echo -e "${WHITE} |${CYAN} ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║${WHITE} |"
-    echo -e "${WHITE} |${CYAN} ██████╔╝███████╗██████╔╝██║ █╗ ██║██╔████╔██║${WHITE} |"
-    echo -e "${WHITE} |${CYAN} ██╔══██╗╚════██║██╔═══╝ ██║███╗██║██║╚██╔╝██║${WHITE} |"
-    echo -e "${WHITE} |${CYAN} ██████╔╝███████║██║     ╚███╔███╔╝██║ ╚═╝ ██║${WHITE} |"
-    echo -e "${WHITE} |${CYAN} ╚═════╝ ╚══════╝╚═╝      ╚══╝╚══╝ ╚═╝     ╚═╝${WHITE} |"
-    echo -e "${WHITE} ┖───────────────────────────────────────────────┙\n"
+    local banner_file="$1"
+
+    if [ -f "$banner_file" ]; then
+        echo -e "${CYAN}" ; cat "$1"
+    else
+        echo -e "${RED}Banner file not found: $banner_file\n"
+    fi
+      
     echo -e "${WHITE} [${BLUE}i${WHITE}] Scripts to install and configure a professional"
-    echo -e "${WHITE} [${BLUE}i${WHITE}] bspwm environment on Fedora Linux Workstation.\n"
+    echo -e "${WHITE} [${BLUE}i${WHITE}] BSPWM environment on Fedora Linux Workstation.\n"
     echo -e "${WHITE} [${BLUE}i${WHITE}] Hello ${RED}$(whoami)${WHITE}, installation will begin soon.\n"
 }
 
@@ -226,11 +226,12 @@ temporal() {
 main() {
     HOME_DIR="/home/${USERNAME}"
     CURRENT_DIR=$(pwd)
+    local banner_file="resources/banner.txt"
     local install_dir="/usr/local/bin/"
 
     clear
     define_colors
-    display_banner
+    display_banner "$banner_file"
     
     echo -ne "${WHITE} [${BLUE}?${WHITE}] Do you want to continue with the installation?: ([y]/n) ▶\t"
     
