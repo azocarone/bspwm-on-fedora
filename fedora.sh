@@ -31,15 +31,17 @@ get_git_packages(){
 display_banner() {
     local banner_file="$1"
 
+    clear
+
     if [ -f "$banner_file" ]; then
         echo -e "${colors[cyan]}" ; cat "$1"
     else
-        echo -e "${colors[red]}Banner file not found: $banner_file\n"
+        echo -e "${bullets[error]} Banner file not found: $banner_file\n"
     fi
 
     echo -e "${bullets[info]} Scripts to install and configure a professional"
     echo -e "${bullets[info]} BSPWM environment on Fedora Linux Workstation.\n"
-    echo -e "${bullets[info]} Hello ${colors[red]}$(whoami)${colors[white]}, installation will begin soon.\n"
+    echo -e "${bullets[info]} Hello ${colors[purple]}$(whoami)${colors[white]}, installation will begin soon.\n"
 }
 
 confirm_installation() {
@@ -69,7 +71,7 @@ deploy_git_packages(){
     local git_packages="$1"
     local install_dir="$2"
 
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Installing packages from git.\n"
+    echo -e "${bullets[info]} Installing packages from git:\n"
     
     while read -r repo_url build_command; do
         local package_name=$(basename "$repo_url" .git)
@@ -87,18 +89,18 @@ clone_and_build(){
     local temp_script=$(mktemp)
 
     if ! git clone --depth=1 "$repo_url" "$package_name"; then
-        echo "Error cloning repository: $repo_url"
+        echo "${bullets[error]} Error cloning repository: $repo_url"
         return 1
     fi
 
-    cd "$package_name" || { echo "Error changing to directory: $package_name"; return 1; }
+    cd "$package_name" || { echo "${bullets[error]} Error changing to directory: $package_name"; return 1; }
 
     echo "#!/bin/bash" > "$temp_script"
     echo "$build_command" >> "$temp_script"
     chmod +x "$temp_script"
 
     if ! ( "$temp_script" ); then
-        echo "Error building package: $package_name"
+        echo "${bullets[error]} Error building package: $package_name"
         cd ..
         rm -rf "$package_name"
         return 1
@@ -224,7 +226,6 @@ temporal() {
 main() {
     source config.sh
 
-    clear
     display_banner "${files[banner]}"
     
     if ! confirm_installation; then
@@ -234,9 +235,9 @@ main() {
 
     echo -e "${bullets[info]} Starting the installation process.\n" 
 
-    install_rpm_packages "${packages[rpm]}"
-    #deploy_git_packages "$GIT_PACKAGES" "$INSTALL_DIR"
- 
+    #install_rpm_packages "${packages[rpm]}"
+    deploy_git_packages "${packages[git]}" "${paths[install]}"
+
     #copy_all_package_configurations
     #copy_bspwm_scripts
     #copy_bspwm_themes

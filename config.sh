@@ -13,19 +13,22 @@ packages[git]=$(get_git_packages "${files[git_yaml]}")
 
 local -A colors
 
-colors[white]='\033[1;37m'
 colors[red]='\033[1;31m'
 colors[green]='\033[1;32m'
-colors[cyan]='\033[1;36m'
-colors[blue]='\033[1;34m'
 colors[yellow]='\033[33m'
+colors[blue]='\033[1;34m'
+colors[purple]='\033[1;35m'
+colors[cyan]='\033[1;36m'
+colors[white]='\033[1;37m'
+
 
 local -A bullets
 
 bullets[info]="\n${colors[white]} [${colors[blue]}i${colors[white]}]"
 bullets[question]="\n${colors[white]} [${colors[red]}?${colors[white]}]"
-bullets[surprise]="\n${colors[white]} [${colors[yellow]}¡${colors[white]}]"
+bullets[surprise]="\n${colors[white]} [${colors[yellow]}!${colors[white]}]"
 bullets[check]="\n${colors[white]} [${colors[green]}✓${colors[white]}]"
+bullets[error]="\n${colors[white]} [${colors[red]}✗${colors[white]}]"
 
 local -A paths
 
