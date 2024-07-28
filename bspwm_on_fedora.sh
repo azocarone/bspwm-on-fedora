@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source fuctions.sh
+source functions.sh
 
 main() {
     source config.sh
