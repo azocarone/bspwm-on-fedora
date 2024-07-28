@@ -1,33 +1,3 @@
-#!/bin/bash
-
-get_rpm_packages() {
-    local yaml_file="$1"
-    local rpm_packages=$(awk '
-        /^[^:]+:$/ { in_list=1; next }
-        /^\s*$/ { in_list=0 }
-        /^\s*-\s+/ && in_list { print $2 }
-    ' "$yaml_file")
-    
-    echo "$rpm_packages"
-}
-
-get_git_packages(){
-    local yaml_file="$1"
-    local git_packages=$(awk '
-        /^\s*repo_url:/ {
-            repo_url=gensub(/.*repo_url: /, "", 1)
-            gsub(/"/, "", repo_url)
-        }
-        /^\s*build_command:/ {
-            build_command=gensub(/.*build_command: /, "", 1)
-            gsub(/"/, "", build_command)
-            print repo_url, build_command
-        }
-    ' "$yaml_file")
-    
-    echo "$git_packages"
-}
-
 display_banner() {
     local banner_file="$1"
 
@@ -138,7 +108,7 @@ cleanup_package_dir(){
 copy_all_package_configurations() {
     local packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
 
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Copying packages configurations.\n"
+    echo -e "${bullets[info]} Copying packages configurations.\n"
     
     for package in "${packages[@]}"; do
         copy_and_configure_package "$package"
@@ -220,31 +190,3 @@ temporal() {
     cp .p10k.zsh "${HOME_DIR}"
     cp -r .scripts "${HOME_DIR}"
 }
-
-# ----------
-
-main() {
-    source config.sh
-
-    display_banner "${files[banner]}"
-    
-    if ! confirm_installation; then
-        echo -e "${bullets[surprise]} Installation aborted."
-        return
-    fi
-
-    echo -e "${bullets[info]} Starting the installation process.\n" 
-
-    #install_rpm_packages "${packages[rpm]}"
-    deploy_git_packages "${packages[git]}" "${paths[install]}"
-
-    #copy_all_package_configurations
-    #copy_bspwm_scripts
-    #copy_bspwm_themes
-    #copy_fonts
-    #temporal
-
-    echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."
-}
-
-main

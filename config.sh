@@ -1,18 +1,43 @@
 #!/bin/bash
 
-local -A files
+get_rpm_packages() {
+    local yaml_file="$1"
+    local rpm_packages=$(awk '
+        /^[^:]+:$/ { in_list=1; next }
+        /^\s*$/ { in_list=0 }
+        /^\s*-\s+/ && in_list { print $2 }
+    ' "$yaml_file")
+    
+    echo "$rpm_packages"
+}
 
+get_git_packages(){
+    local yaml_file="$1"
+    local git_packages=$(awk '
+        /^\s*repo_url:/ {
+            repo_url=gensub(/.*repo_url: /, "", 1)
+            gsub(/"/, "", repo_url)
+        }
+        /^\s*build_command:/ {
+            build_command=gensub(/.*build_command: /, "", 1)
+            gsub(/"/, "", build_command)
+            print repo_url, build_command
+        }
+    ' "$yaml_file")
+    
+    echo "$git_packages"
+}
+
+local -A files
 files[banner]="resources/banner.txt"
 files[rpm_yaml]="rpm_packages.yaml"
 files[git_yaml]="git_packages.yaml"
 
 local -A packages
-
 packages[rpm]=$(get_rpm_packages "${files[rpm_yaml]}")
 packages[git]=$(get_git_packages "${files[git_yaml]}")
 
 local -A colors
-
 colors[red]='\033[1;31m'
 colors[green]='\033[1;32m'
 colors[yellow]='\033[33m'
@@ -23,7 +48,6 @@ colors[white]='\033[1;37m'
 
 
 local -A bullets
-
 bullets[info]="\n${colors[white]} [${colors[blue]}i${colors[white]}]"
 bullets[question]="\n${colors[white]} [${colors[red]}?${colors[white]}]"
 bullets[surprise]="\n${colors[white]} [${colors[yellow]}!${colors[white]}]"
@@ -31,7 +55,6 @@ bullets[check]="\n${colors[white]} [${colors[green]}✓${colors[white]}]"
 bullets[error]="\n${colors[white]} [${colors[red]}✗${colors[white]}]"
 
 local -A paths
-
 paths[home]=$"/home/${USERNAME}"
 paths[current]=$(pwd)
 paths[install]="/usr/local/bin/"
