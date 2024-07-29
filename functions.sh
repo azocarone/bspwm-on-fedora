@@ -105,39 +105,36 @@ cleanup_package_dir(){
 
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-copy_all_package_configurations() {
+copy_and_configure_all_packages() {
     local -n permission=$1
     echo -e "${bullets[info]} Copying packages configurations.\n"
     
     for package in "${!permission[@]}"; do
-        echo $package, ${permission[$package]}
-        #copy_and_configure_package "$package"
+        copy_package_configuration "$package" "${permission[$package]}"
     done
 }
 
-copy_and_configure_package() {
+copy_package_configuration() {
     local package="$1"
-    local need_permissions=(bspwm sxhkd polybar)
-    
-    if [ -d "${paths[home]}/.config/$package" ]; then
-        rm -rf "${paths[home]}/.config/$package"
+    local need_permission="$2"
+    local paths_dest="${paths[home]}/.config/$package" 
+    local paths_source="${paths[current]}/.config/$package"
+
+    if [ -d "$paths_dest" ]; then
+        rm -rf "$paths_dest"
     fi
 
-    cp -r "${paths[current]}/.config/$package" "${paths[home]}/.config/$package"
+    cp -r "$paths_source" "$paths_dest"
     
-    if [[ "${need_permissions[@]}" =~ "$package" ]]; then
-        set_executable_permissions "${paths[home]}/.config/$package" # Base folder
+    if [ "${need_permission}" == 1 ]; then
+        set_permissions_for_executables "$paths_dest" # Base folder
     fi
 }
 
-set_executable_permissions() {
+set_permissions_for_executables() {
     local base_folder="$1"
     
-    find "$base_folder" -type f | while read -r patch_file; do
-        if head -n 1 "$patch_file" | grep -q '^#!'; then
-            chmod +x "$patch_file"
-        fi
-    done
+    find "$base_folder" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
 }
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
