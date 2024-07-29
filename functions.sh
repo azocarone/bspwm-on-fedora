@@ -107,7 +107,7 @@ cleanup_package_dir(){
 
 copy_and_configure_all_packages() {
     local -n permission=$1
-    echo -e "${bullets[info]} Copying packages configurations.\n"
+    echo -e "${bullets[info]} Copying and Configuring All Packages:\n"
     
     for package in "${!permission[@]}"; do
         copy_package_configuration "$package" "${permission[$package]}"

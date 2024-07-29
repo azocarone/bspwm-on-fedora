@@ -16,8 +16,7 @@ main() {
 
     #install_rpm_packages "${packages[rpm]}"
     #deploy_git_packages "${packages[git]}" "${paths[install]}"
-
-    copy_all_package_configurations packages_permission
+    #copy_and_configure_all_packages packages_permission
     
     #copy_bspwm_scripts
     #copy_bspwm_themes
