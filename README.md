@@ -1,7 +1,9 @@
 |![bspwm-environment](https://github.com/azocarone/bspwm-on-fedora/blob/main/resources/bspwm.png?raw=true)|
 |---|
 
-## bspwm-on-fedora | Scripts to install and configure a professional bspwm environment on [Fedora Linux](https://fedoraproject.org/) Workstation.
+# bspwm-on-fedora 
+
+Scripts to install and configure a professional bspwm environment on [Fedora Linux](https://fedoraproject.org/) Workstation.
 
 8 different themes for [**BSPWM**](https://github.com/baskerville/bspwm.git) and [**Polybar**](https://github.com/polybar/polybar.git), With a **Theme selector** and to **Mode Selector** change on the fly.
 
@@ -192,7 +194,7 @@ git clone https://github.com/azocarone/bspwm-on-fedora.git ; cd bspwm-on-fedora
 
 Finally, chmod permissions to the files called **fedora.sh** and **root.sh** and then run it.
 ```bash
-chmod +x fedora.sh root.sh ; ./fedora.sh ; sudo ./root.sh
+chmod +x bspwm-on-fedora.sh root.sh ; ./bspwm_on_fedora.sh ; sudo ./root.sh
 ```
 Wait for the installation scripts to finish, once finished close section and select the new bspwm desktop.
 
