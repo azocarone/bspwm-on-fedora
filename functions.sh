@@ -106,12 +106,12 @@ cleanup_package_dir(){
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 copy_all_package_configurations() {
-    local packages=(bspwm sxhkd kitty picom neofetch ranger cava polybar)
-
+    local -n permission=$1
     echo -e "${bullets[info]} Copying packages configurations.\n"
     
-    for package in "${packages[@]}"; do
-        copy_and_configure_package "$package"
+    for package in "${!permission[@]}"; do
+        echo $package, ${permission[$package]}
+        #copy_and_configure_package "$package"
     done
 }
 
@@ -119,14 +119,14 @@ copy_and_configure_package() {
     local package="$1"
     local need_permissions=(bspwm sxhkd polybar)
     
-    if [ -d "${HOME_DIR}/.config/$package" ]; then
-        rm -rf "${HOME_DIR}/.config/$package"
+    if [ -d "${paths[home]}/.config/$package" ]; then
+        rm -rf "${paths[home]}/.config/$package"
     fi
 
-    cp -r "${CURRENT_DIR}/.config/$package" "${HOME_DIR}/.config/$package"
+    cp -r "${paths[current]}/.config/$package" "${paths[home]}/.config/$package"
     
     if [[ "${need_permissions[@]}" =~ "$package" ]]; then
-        set_executable_permissions "${HOME_DIR}/.config/$package" # Base folder
+        set_executable_permissions "${paths[home]}/.config/$package" # Base folder
     fi
 }
 

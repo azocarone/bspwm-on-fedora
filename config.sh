@@ -28,33 +28,54 @@ get_git_packages(){
     echo "$git_packages"
 }
 
-local -A files
-files[banner]="resources/banner.txt"
-files[rpm_yaml]="rpm_packages.yaml"
-files[git_yaml]="git_packages.yaml"
+format_bullet() {
+    local color_symbol=$1
+    local symbol=$2
+    echo -e "\n${colors[white]} [${colors[$color_symbol]}$symbol${colors[white]}]"
+}
 
-local -A packages
-packages[rpm]=$(get_rpm_packages "${files[rpm_yaml]}")
-packages[git]=$(get_git_packages "${files[git_yaml]}")
+local -A files=(
+    [banner]="resources/banner.txt"
+    [rpm_yaml]="rpm_packages.yaml"
+    [git_yaml]="git_packages.yaml"
+)
 
-local -A colors
-colors[red]='\033[1;31m'
-colors[green]='\033[1;32m'
-colors[yellow]='\033[33m'
-colors[blue]='\033[1;34m'
-colors[purple]='\033[1;35m'
-colors[cyan]='\033[1;36m'
-colors[white]='\033[1;37m'
+local -A packages=(
+    [rpm]=$(get_rpm_packages "${files[rpm_yaml]}")
+    [git]=$(get_git_packages "${files[git_yaml]}")
+)
 
+local -A colors=(
+    [red]='\033[1;31m'
+    [green]='\033[1;32m'
+    [yellow]='\033[33m'
+    [blue]='\033[1;34m'
+    [purple]='\033[1;35m'
+    [cyan]='\033[1;36m'
+    [white]='\033[1;37m'
+)
 
-local -A bullets
-bullets[info]="\n${colors[white]} [${colors[blue]}i${colors[white]}]"
-bullets[question]="\n${colors[white]} [${colors[red]}?${colors[white]}]"
-bullets[surprise]="\n${colors[white]} [${colors[yellow]}!${colors[white]}]"
-bullets[check]="\n${colors[white]} [${colors[green]}✓${colors[white]}]"
-bullets[error]="\n${colors[white]} [${colors[red]}✗${colors[white]}]"
+local -A bullets=(
+    [info]=$(format_bullet "blue" "i")
+    [question]=$(format_bullet "red" "?")
+    [surprise]=$(format_bullet "yellow" "!")
+    [check]=$(format_bullet "green" "✓")
+    [error]=$(format_bullet "red" "✗")
+)
 
-local -A paths
-paths[home]=$"/home/${USERNAME}"
-paths[current]=$(pwd)
-paths[install]="/usr/local/bin/"
+local -A paths=(
+    [home]=$"/home/${USERNAME}"
+    [current]=$(pwd)
+    [install]="/usr/local/bin/"
+)
+
+local -A packages_permission=(
+    [bspwm]=1
+    [sxhkd]=1
+    [kitty]=0
+    [picom]=0
+    [neofetch]=0
+    [ranger]=0
+    [cava]=0
+    [polybar]=1
+)
