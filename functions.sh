@@ -165,12 +165,19 @@ copy_fonts() {
 
     if [[ -d "$paths_source" ]]; then
         local order_keys=("user" "system")
+        local cmd_prefix=""
+
         for key in "${order_keys[@]}"; do
             local destination="${paths[$key]}"
-            sudo mkdir -p "$destination"
-            sudo cp -r -v "$paths_source"/* "$destination"
-            echo -e "${bullets[success]} Fonts copied to $destination\n"
+
+            [[ $key == "system" ]] && local cmd_prefix="sudo "
+          
+            ${cmd_prefix}mkdir -p "$destination"
+            ${cmd_prefix}cp -r -v "$paths_source"/* "$destination"
+            
             paths_source="$destination"
+
+            echo -e "${bullets[success]} Fonts copied to $destination\n"
         done
     else
         echo -e "${bullets[error]} Source directory $paths_source does not exist.\n"
