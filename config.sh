@@ -58,7 +58,7 @@ local -A colors=(
 local -A bullets=(
     [info]=$(format_bullet "blue" "i")
     [question]=$(format_bullet "red" "?")
-    [surprise]=$(format_bullet "yellow" "!")
+    [success]=$(format_bullet "yellow" "!")
     [check]=$(format_bullet "green" "✓")
     [error]=$(format_bullet "red" "✗")
 )
@@ -78,4 +78,10 @@ local -A packages_permission=(
     [ranger]=0
     [cava]=0
     [polybar]=1
+)
+
+local -A paths_fonts=(
+    [source]=".fonts"
+    [user]="${paths[home]}/.fonts"
+    [system]="/usr/local/share/fonts"
 )

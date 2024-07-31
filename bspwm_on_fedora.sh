@@ -8,7 +8,7 @@ main() {
     display_banner "${files[banner]}"
     
     if ! confirm_installation; then
-        echo -e "${bullets[surprise]} Installation aborted."
+        echo -e "${bullets[success]} Installation aborted."
         return
     fi
 
@@ -20,7 +20,7 @@ main() {
     
     #copy_bspwm_scripts
     #copy_bspwm_themes
-    #copy_fonts
+    copy_fonts paths_fonts
     #temporal
 
     echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."

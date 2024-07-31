@@ -103,8 +103,6 @@ cleanup_package_dir(){
     rm -rf "$package_name"
 }
 
-# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
 copy_and_configure_all_packages() {
     local -n permission=$1
     echo -e "${bullets[info]} Copying and Configuring All Packages:\n"
@@ -137,37 +135,51 @@ set_permissions_for_executables() {
     find "$base_folder" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
 }
 
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 copy_bspwm_scripts() {
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Copying bspwm scripts.\n"
+    echo -e "${bullets[info]} Copying bspwm scripts:\n"
 
-    cp -r scripts "${HOME_DIR}"
+    cp -r scripts "${paths[home]}"
     
-    chmod +x "${HOME_DIR}/scripts/"*.sh
-    chmod +x "${HOME_DIR}/scripts/wall-scripts/"*.sh
+    chmod +x "${paths[home]}/scripts/"*.sh
+    chmod +x "${paths[home]}/scripts/wall-scripts/"*.sh
 }
 
 copy_bspwm_themes() {
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Copying bspwm themes.\n"
+    echo -e "${bullets[info]} Copying bspwm themes:\n"
 
-    cp -r .themes "${HOME_DIR}"
+    cp -r .themes "${paths[home]}"
     
     for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
-        chmod +x "${HOME_DIR}/.themes/${theme}/bspwmrc"
-        chmod +x "${HOME_DIR}/.themes/${theme}/scripts/"*.sh
+        chmod +x "${paths[home]}/.themes/${theme}/bspwmrc"
+        chmod +x "${paths[home]}/.themes/${theme}/scripts/"*.sh
     done
 }    
 
 copy_fonts() {
-    echo -e "${WHITE} [${BLUE}i${WHITE}] Copying fonts."
+    local -n paths=$1
+    local paths_source="${paths[source]}"
 
-    cp -r ".fonts" "${HOME_DIR}"
-    
-    sudo mkdir -p /usr/local/share/fonts && sudo cp -r ~/.fonts/* /usr/local/share/fonts
+    echo -e "${bullets[info]} Copying fonts:\n"
+
+    if [[ -d "$paths_source" ]]; then
+        local order_keys=("user" "system")
+        for key in "${order_keys[@]}"; do
+            local destination="${paths[$key]}"
+            sudo mkdir -p "$destination"
+            sudo cp -r -v "$paths_source"/* "$destination"
+            echo -e "${bullets[success]} Fonts copied to $destination\n"
+            paths_source="$destination"
+        done
+    else
+        echo -e "${bullets[error]} Source directory $paths_source does not exist.\n"
+        return 1
+    fi
+    return 0
 }
 
-# -------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 temporal() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
