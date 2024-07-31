@@ -129,33 +129,22 @@ copy_package_configuration() {
     fi
 }
 
+copy_bspwm_assets(){
+    local assets=("$@")
+
+    echo -e "${bullets[info]} Copying bspwm assets:\n"
+
+    for asset in "${assets[@]}"; do
+        cp -r "${asset}" "${paths[home]}"
+        set_permissions_for_executables "${paths[home]}/${asset}/"
+    done
+}
+
 set_permissions_for_executables() {
     local base_folder="$1"
     
     find "$base_folder" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
 }
-
-# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
-copy_bspwm_scripts() {
-    echo -e "${bullets[info]} Copying bspwm scripts:\n"
-
-    cp -r scripts "${paths[home]}"
-    
-    chmod +x "${paths[home]}/scripts/"*.sh
-    chmod +x "${paths[home]}/scripts/wall-scripts/"*.sh
-}
-
-copy_bspwm_themes() {
-    echo -e "${bullets[info]} Copying bspwm themes:\n"
-
-    cp -r .themes "${paths[home]}"
-    
-    for theme in Camila Esmeralda Nami Raven Ryan Simon Xavier Zenitsu; do
-        chmod +x "${paths[home]}/.themes/${theme}/bspwmrc"
-        chmod +x "${paths[home]}/.themes/${theme}/scripts/"*.sh
-    done
-}    
 
 copy_fonts() {
     local -n paths=$1
@@ -186,7 +175,7 @@ copy_fonts() {
     return 0
 }
 
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# ----------------------------------
 
 temporal() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
