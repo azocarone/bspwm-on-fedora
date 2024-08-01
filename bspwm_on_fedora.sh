@@ -17,10 +17,10 @@ main() {
     #install_rpm_packages "${packages[rpm]}"
     #deploy_git_packages "${packages[git]}" "${paths[install]}"
     #copy_and_configure_all_packages packages_permission
-    copy_bspwm_assets "scripts" ".themes"
+    #copy_bspwm_assets "scripts" ".themes"
     #copy_fonts paths_fonts
     
-    #temporal
+    #sin_nombre
 
     echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."
 }

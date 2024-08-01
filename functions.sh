@@ -177,7 +177,7 @@ copy_fonts() {
 
 # ----------------------------------
 
-temporal() {
+sin_nombre() {
     echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
     
     sudo rm -rf "${HOME_DIR}/.zsh"
