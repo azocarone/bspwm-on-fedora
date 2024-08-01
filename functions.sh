@@ -178,20 +178,34 @@ copy_fonts() {
 # ----------------------------------
 
 sin_nombre() {
-    echo -e "\n${WHITE} [${BLUE}i${WHITE}] Installing the powerlevel10k, fzf, sudo-plugin, and others for zsh."
+    echo -e "${bullets[info]} Installing the powerlevel10k, fzf, sudo-plugin, and others for the normal user"
     
-    sudo rm -rf "${HOME_DIR}/.zsh"
+    cd "${paths[current]}"
+    cp .zshrc "${paths[home]}"
+    cp .p10k.zsh "${paths[home]}"
+
+    cd /usr/share
+    sudo mkdir -p zsh-sudo
+    cd zsh-sudo
+    sudo wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh
+
+    cd
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
     
-    cp -r .zsh "${HOME_DIR}"
-    
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
-    
-    echo 'source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-    
+    cd "${paths[home]}"/scripts
+    git clone https://github.com/charitarthchugh/shell-color-scripts.git
+    sudo rm -rf "${paths[home]}"/scripts/shell-color-scripts/colorscripts
+    sudo rm -rf "${paths[home]}"/scripts/shell-color-scripts/colorscript.sh
+    cd "${paths[home]}"/scripts
+    mv colorscripts colorscript.sh "${paths[home]}"/scripts/shell-color-scripts
+    chmod +x "${paths[home]}"/scripts/shell-color-scripts/colorscript.sh
+    cd "${paths[home]}"/scripts/shell-color-scripts/colorscripts
+    chmod +x *
+
+    cd
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
-    cp -r .oh-my-zsh "${HOME_DIR}"
-    cp .zshrc "${HOME_DIR}"
-    cp .p10k.zsh "${HOME_DIR}"
-    cp -r .scripts "${HOME_DIR}"
+
+    cd "${paths[home]}"/scripts
+    git clone https://github.com/pipeseroni/pipes.sh.git
 }
