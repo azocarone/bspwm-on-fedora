@@ -85,3 +85,5 @@ local -A paths_fonts=(
     [user]="${paths[home]}/.fonts"
     [system]="/usr/local/share/fonts"
 )
+
+local assets=("scripts" ".themes" ".zshrc" ".p10k.zsh")

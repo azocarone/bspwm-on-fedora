@@ -5,20 +5,20 @@ source functions.sh
 main() {
     source config.sh
 
-    display_banner "${files[banner]}"
+    show_banner "${files[banner]}"
     
-    if ! confirm_installation; then
+    if ! ask_installation_confirmation; then
         echo -e "${bullets[success]} Installation aborted."
-        return
+        return 1
     fi
 
     echo -e "${bullets[info]} Starting the installation process.\n" 
 
-    #install_rpm_packages "${packages[rpm]}"
-    #deploy_git_packages "${packages[git]}" "${paths[install]}"
-    #copy_and_configure_all_packages packages_permission
-    #copy_bspwm_assets "scripts" ".themes"
-    #copy_fonts paths_fonts
+    #update_and_install_rpm_packages "${packages[rpm]}"
+    #install_git_packages "${packages[git]}" "${paths[install]}"
+    #copy_and_configure_packages packages_permission
+    #copy_assets_and_set_permissions "${paths[home]}" "${assets[@]}"
+    #copy_fonts_to_directories paths_fonts
     
     #sin_nombre
 

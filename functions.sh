@@ -1,9 +1,9 @@
-display_banner() {
+show_banner() {
     local banner_file="$1"
 
     clear
 
-    if [ -f "$banner_file" ]; then
+    if [[ -f "$banner_file" ]]; then
         echo -e "${colors[cyan]}" ; cat "$1"
     else
         echo -e "${bullets[error]} Banner file not found: $banner_file\n"
@@ -14,45 +14,41 @@ display_banner() {
     echo -e "${bullets[info]} Hello ${colors[purple]}$(whoami)${colors[white]}, installation will begin soon.\n"
 }
 
-confirm_installation() {
+ask_installation_confirmation() {
     echo -ne "${bullets[question]} Do you want to continue with the installation [y/N]?: "
-    tput setaf 1
-    read -r reply
-    tput setaf 0
+    tput setaf 1 ; read -r reply ; tput setaf 0
 
-    if [ "$reply" = "y" ]; then
-        return 0
-    else
-        return 1
-    fi
+    [[ "$reply" == "y" ]]
 }
 
-install_rpm_packages(){
+update_and_install_rpm_packages(){
     local rpm_packages="$1"
 
-    echo -e "${bullets[info]} Linux System Update:\n"
+    echo -e "${bullets[info]} Linux system update:\n"
+    
     sudo dnf upgrade -y --refresh
 
-    echo -e "${bullets[info]} Installing rpm packages:\n"
+    echo -e "${bullets[info]} Install RPM packages:\n"
+    
     sudo dnf install -y ${rpm_packages}
 }
 
-deploy_git_packages(){
+install_git_packages(){
     local git_packages="$1"
     local install_dir="$2"
 
-    echo -e "${bullets[info]} Installing packages from git:\n"
+    echo -e "${bullets[info]} Deploy Git packages:\n"
     
     while read -r repo_url build_command; do
         local package_name=$(basename "$repo_url" .git)
-        if clone_and_build "$repo_url" "$package_name" "$build_command"; then
-            copy_executable_to_install_dir "$package_name" "$install_dir"
+        if git_clone_and_build "$repo_url" "$package_name" "$build_command"; then
+            install_executable_to_path "$package_name" "$install_dir"
         fi
-        cleanup_package_dir "$package_name"
+        remove_package_folder "$package_name"
     done <<< "$git_packages"
 }
 
-clone_and_build(){
+git_clone_and_build(){
     local repo_url="$1"
     local package_name="$2"
     local build_command="$3"
@@ -77,76 +73,110 @@ clone_and_build(){
     fi
 
     rm "$temp_script"
-    return 0
 }
 
-copy_executable_to_install_dir(){
+install_executable_to_path(){
     local package_name="$1"
     local install_dir="$2"
-    local installer=$(find_installer .)
+    local installer=$(locate_installer .)
 
-    if [ -z "$installer" ] && [ -f "$package_name" ]; then
-        sudo cp "$package_name" "$install_dir"
+    if [[ -z "$installer" ]] && [[ -f "$package_name" ]]; then
+        copy_files_and_directories "$install_dir" "$package_name"
     fi
 }
 
-find_installer(){
-    local dir="$1"
+locate_installer(){
+    local path="$1"
 
-    find "$dir" -type f -name 'install*' -print -quit
+    find "$path" -type f -name 'install*' -print -quit
 }
 
-cleanup_package_dir(){
+remove_package_folder(){
     local package_name="$1"
 
     cd ..
     rm -rf "$package_name"
 }
 
-copy_and_configure_all_packages() {
+copy_and_configure_packages() {
     local -n permission=$1
-    echo -e "${bullets[info]} Copying and Configuring All Packages:\n"
+    
+    echo -e "${bullets[info]} Copy and configure all packages:\n"
     
     for package in "${!permission[@]}"; do
-        copy_package_configuration "$package" "${permission[$package]}"
+        copy_config_and_set_permissions "$package" "${permission[$package]}"
     done
 }
 
-copy_package_configuration() {
+copy_config_and_set_permissions() {
     local package="$1"
     local need_permission="$2"
     local paths_dest="${paths[home]}/.config/$package" 
     local paths_source="${paths[current]}/.config/$package"
 
-    if [ -d "$paths_dest" ]; then
+    if [[ -d "$paths_dest" ]]; then
         rm -rf "$paths_dest"
     fi
 
-    cp -r "$paths_source" "$paths_dest"
+    copy_files_and_directories "$paths_dest" "$paths_source" 
     
-    if [ "${need_permission}" == 1 ]; then
-        set_permissions_for_executables "$paths_dest" # Base folder
+    if [[ "${need_permission}" == 1 ]]; then
+        make_executables "$paths_dest"
     fi
 }
 
-copy_bspwm_assets(){
+copy_assets_and_set_permissions() {
+    local dest="$1"
+    shift
+    local assets=("$@")
+    local copied_assets=()
+
+    echo -e "${bullets[info]} Copy and set permissions:\n"
+
+    copy_files_and_directories "$dest" "${assets[@]}"
+    for asset in "${assets[@]}"; do
+        copied_assets+=("${dest}/$(basename "$asset")")
+    done
+    make_executables "${copied_assets[@]}"
+}
+
+copy_files_and_directories() {
+    local dest="$1"
+    shift
     local assets=("$@")
 
-    echo -e "${bullets[info]} Copying bspwm assets:\n"
+    echo -e "${bullets[info]} Copying assets to $dest:\n"
 
     for asset in "${assets[@]}"; do
-        cp -r "${asset}" "${paths[home]}"
-        set_permissions_for_executables "${paths[home]}/${asset}/"
+        if [[ -d "$asset" ]]; then
+            cp -r "$asset" "$dest"
+        elif [[ -f "$asset" ]]; then
+            cp "$asset" "$dest"
+        else
+            echo "${bullets[error]} $asset is neither a file nor a directory"
+            return 1
+        fi
     done
 }
 
-set_permissions_for_executables() {
-    local base_folder="$1"
-    
-    find "$base_folder" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
+make_executables() {
+    local assets=("$@")
+
+    echo -e "${bullets[info]} Set permission of execute:\n"
+
+    for asset in "${assets[@]}"; do
+        if [[ -f "$asset" ]]; then
+            grep -Il '^#!' "$asset" && chmod +x "$asset"
+        elif [[ -d "$asset" ]]; then
+            find "$asset" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
+        else
+            echo "${bullets[error]} $asset is neither a file nor a directory"
+            return 1
+        fi
+    done
 }
 
-copy_fonts() {
+copy_fonts_to_directories() {
     local -n paths=$1
     local paths_source="${paths[source]}"
 
@@ -172,7 +202,6 @@ copy_fonts() {
         echo -e "${bullets[error]} Source directory $paths_source does not exist.\n"
         return 1
     fi
-    return 0
 }
 
 # ----------------------------------
