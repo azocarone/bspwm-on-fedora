@@ -7,20 +7,19 @@ main() {
 
     show_banner "${files[banner]}"
     
-    if ! ask_installation_confirmation; then
+    if ! prompt_continue; then
         echo -e "${bullets[success]} Installation aborted."
         return 1
     fi
 
     echo -e "${bullets[info]} Starting the installation process.\n" 
 
-    #update_and_install_rpm_packages "${packages[rpm]}"
-    #install_git_packages "${packages[git]}" "${paths[install]}"
-    #copy_and_configure_packages packages_permission
-    #copy_assets_and_set_permissions "${paths[home]}" "${assets[@]}"
-    #copy_fonts_to_directories paths_fonts
-    
-    #sin_nombre
+    # install_pkgs_rpm "${packages[rpm]}"
+    deploy_clone "${packages[github]}" "${paths[bin]}"
+    #configure_packages packages_permission
+    #copy_font_folders paths_fonts
+    #deploy_bspwm_assets "${paths[home]}" "${assets[@]}"
+    #deploy_zsh_assets
 
     echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."
 }

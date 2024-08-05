@@ -1,5 +1,5 @@
-name: rpm_packages.yaml
-comments: bspwm professional environment on Fedora Linux Workstation.
+name: pkgs_rpm.yaml
+comments: Packages to install from the RPM repository.
 
 packages:
   - bspwm
@@ -31,7 +31,7 @@ common_dependencies:
   - pulseaudio-utils
   - lolcat
 
-# i3lock-color | install from git
+# i3lock-color | package deploy from GitHub
 
 i3lock-color_dependencies:
   - autoconf
@@ -52,7 +52,7 @@ i3lock-color_dependencies:
   - ncurses
   - ncurses-devel
 
-# betterlockscreen | install from git
+# betterlockscreen | package deploy from GitHub
 
 betterlockscreen_dependencies:
   - ImageMagick
