@@ -42,16 +42,18 @@ deploy_clone(){
 
         if [[ ! -z "$absolute_path" ]]; then
             if build_package "$absolute_path" "$build_command"; then
-                copy_bin_folder "$absolute_path" "$path_bin"
+                if copy_bin_folder "$absolute_path" "$path_bin"; then
+                    delete_cloned_folder "$absolute_path"
+                fi
             fi
         fi
-        #delete_cloned_folder "$absolute_path"
     done <<< "$pkgs_git"
 }
 
 clone_repo() {
     local git_url="$1"
     local base_path="$2"
+    
     local absolute_path=$(build_absolute_path "$git_url" "$base_path")
 
     if ! git clone --depth=1 "$git_url" "$absolute_path"; then
@@ -66,6 +68,7 @@ clone_repo() {
 build_absolute_path() {
     local git_url="$1"
     local base_path="${2:-${paths[current]}}"
+    
     local repo_name=$(basename "${git_url}" .git)
     local absolute_path="${base_path}${repo_name}"
 
@@ -76,6 +79,7 @@ build_absolute_path() {
 build_package() {
     local absolute_path="$1"
     local build_command="$2"
+    
     local script_temp=$(mktemp)
 
     cleanup() {
@@ -103,15 +107,18 @@ build_package() {
 copy_bin_folder(){
     local absolute_path="$1"
     local path_bin="$2"
-    local repo_name=$(basename "${absolute_path}")
-    local bin_file="$absolute_path/$repo_name"
-    local install_script=$(locate_install_script "${absolute_path}")
     
+    local repo_name=$(basename "${absolute_path}")
+    local install_script=$(locate_install_script "${absolute_path}")
+    local bin_file="$absolute_path/$repo_name"
+    local function_definition=$(declare -f copy_items)
+    local command_to_run="$function_definition; copy_items '$path_bin' '$bin_file'"
+  
     if [[ $install_script ]]; then
         return
-    else 
+    else
         if [[ -f "$bin_file" ]]; then
-            copy_items "$path_bin" "$bin_file"
+            sudo bash -c "$command_to_run"
         fi
     fi
 }
@@ -127,26 +134,10 @@ locate_install_script(){
     fi
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 delete_cloned_folder(){
-    local package_name="$1"
+    local absolute_path="$1"
 
-    cd ..
-    rm -rf "$package_name"
+    rm -rf "$absolute_path"
 }
 
 configure_packages() {

@@ -2,6 +2,7 @@
 
 get_pkgs_rpm() {
     local yaml="$1"
+    
     local pkgs_rpm=$(awk '
         /^[^:]+:$/ { in_list=1; next }
         /^\s*$/ { in_list=0 }
@@ -13,6 +14,7 @@ get_pkgs_rpm() {
 
 get_pkgs_github(){
     local yaml="$1"
+    
     local pkgs_github=$(awk '
         /^\s*git_url:/ {
             git_url=gensub(/.*git_url: /, "", 1)
