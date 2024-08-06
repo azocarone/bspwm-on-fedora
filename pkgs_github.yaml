@@ -2,12 +2,12 @@ name: pkgs_github.yaml
 comments: Dependency packages deployed from GitHub.
 
 packages:
-  i3lock-color:
-    git_url: "https://github.com/Raymo111/i3lock-color.git"
-    build_command: "./build.sh && ./install-i3lock-color.sh"
-  betterlockscreen:
-    git_url: "https://github.com/betterlockscreen/betterlockscreen.git"
-    build_command: "sudo ./install.sh system"
+  #i3lock-color:
+  #  git_url: "https://github.com/Raymo111/i3lock-color.git"
+  #  build_command: "./build.sh && ./install-i3lock-color.sh"
+  #betterlockscreen:
+  #  git_url: "https://github.com/betterlockscreen/betterlockscreen.git"
+  #  build_command: "sudo ./install.sh system"
   tty-clock:
     git_url: "https://github.com/xorg62/tty-clock.git"
     build_command: "make && chmod +x tty-clock"

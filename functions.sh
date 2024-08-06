@@ -40,10 +40,9 @@ deploy_clone(){
     while read -r git_url build_command; do
         local absolute_path=$(clone_repo "$git_url")
 
-        if [[ "$absolute_path" -eq 0 ]]; then
+        if [[ ! -z "$absolute_path" ]]; then
             if build_package "$absolute_path" "$build_command"; then
-                echo -e "${colors[red]}COPIAR${colors[white]}"
-                #copy_bin_folder "$path_bin" "$absolute_path"
+                copy_bin_folder "$absolute_path" "$path_bin"
             fi
         fi
         #delete_cloned_folder "$absolute_path"
@@ -52,8 +51,8 @@ deploy_clone(){
 
 clone_repo() {
     local git_url="$1"
-    local base_path=$2
-    local absolute_path=$(build_target_path "$git_url" "$base_path")
+    local base_path="$2"
+    local absolute_path=$(build_absolute_path "$git_url" "$base_path")
 
     if ! git clone --depth=1 "$git_url" "$absolute_path"; then
         echo -e "${bullets[error]} Error cloning repository: ${git_url}\n"
@@ -64,14 +63,11 @@ clone_repo() {
     return 0
 }
 
-build_target_path() {
+build_absolute_path() {
     local git_url="$1"
-    local base_path="$2"
-    local repo_name=$(basename "$git_url" .git)
-
-    if [[ ! -z $base_path ]]; then
-        local absolute_path="$base_path/$repo_name"
-    fi
+    local base_path="${2:-${paths[current]}}"
+    local repo_name=$(basename "${git_url}" .git)
+    local absolute_path="${base_path}${repo_name}"
 
     echo "${absolute_path}"
     return 0
@@ -105,19 +101,30 @@ build_package() {
 }
 
 copy_bin_folder(){
-    local bin_path="$1"
-    local absolute_path="$2"
-    local installer=$(locate_install_script "$absolute_path")
-
-    if [[ -z "$installer" ]] && [[ -f "$absolute_path" ]]; then
-        copy_items "$path_bin" "$absolute_patht"
+    local absolute_path="$1"
+    local path_bin="$2"
+    local repo_name=$(basename "${absolute_path}")
+    local bin_file="$absolute_path/$repo_name"
+    local install_script=$(locate_install_script "${absolute_path}")
+    
+    if [[ $install_script ]]; then
+        return
+    else 
+        if [[ -f "$bin_file" ]]; then
+            copy_items "$path_bin" "$bin_file"
+        fi
     fi
 }
 
 locate_install_script(){
-    local path="$1"
-
-    find "$path" -type f -name 'install*' -print -quit
+    local absolute_path="$1"
+    local pattern="install*"
+    
+    if find "$absolute_path" -type f -name "$pattern" -print -quit; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 

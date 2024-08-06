@@ -65,8 +65,8 @@ local -A packages=(
 )
 
 local -A paths=(
-    [home]=$"/home/${USERNAME}"
-    [current]=$(pwd)
+    [home]=$"/home/${USERNAME}/"
+    [current]="$(pwd)/"
     [bin]="/usr/local/bin/"
 )
 
