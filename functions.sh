@@ -89,7 +89,8 @@ build_package() {
     trap cleanup EXIT
 
     (
-        cd "$absolute_path" || { echo -e "${bullets[error]} Error changing to directory: $absolute_path\n"; return 1; }
+        cd "$absolute_path" || { echo -e "${bullets[error]} Error changing to \
+        directory: $absolute_path\n"; return 1; }
 
         echo "#!/bin/bash" > "$script_temp"
         echo "$build_command" >> "$script_temp"
@@ -111,8 +112,8 @@ copy_bin_folder(){
     local repo_name=$(basename "${absolute_path}")
     local install_script=$(locate_install_script "${absolute_path}")
     local bin_file="$absolute_path/$repo_name"
-    local function_definition=$(declare -f copy_items)
-    local command_to_run="$function_definition; copy_items '$path_bin' '$bin_file'"
+    local function_definition=$(declare -f copy_assets)
+    local command_to_run="$function_definition; copy_assets '$path_bin' '$bin_file'"
   
     if [[ $install_script ]]; then
         return
@@ -141,29 +142,30 @@ delete_cloned_folder(){
 }
 
 configure_packages() {
-    local -n permission=$1
+    local -n executables=$1
     
     echo -e "${bullets[info]} Configure packages:\n"
     
-    for package in "${!permission[@]}"; do
-        apply_configs "$package" "${permission[$package]}"
+    for package in "${!executables[@]}"; do
+        apply_configs "$package" "${executables[$package]}"
     done
 }
 
 apply_configs() {
     local package="$1"
-    local need_permission="$2"
-    local target="${paths[home]}/.config/$package" 
+    local execute="$2"
+
     local source="${paths[current]}/.config/$package"
+    local target="${paths[home]}/.config/$package" 
 
     if [[ -d "$target" ]]; then
         rm -rf "$target"
     fi
 
-    copy_items "$target" "$source" 
+    copy_assets "$target" "$source" 
     
-    if [[ "${need_permission}" == 1 ]]; then
-        add_exec_permission "$target"
+    if [[ "${execute}" == 1 ]]; then
+        add_exec_flag "$target"
     fi
 }
 
@@ -203,14 +205,14 @@ deploy_bspwm_assets(){
 
     echo -e "${bullets[info]} Copy the bspwm assets and make your scripts executable.:\n"
 
-    copy_items "$target" "${assets[@]}"
+    copy_assets "$target" "${assets[@]}"
     for asset in "${assets[@]}"; do
         copied_assets+=("${target}/$(basename "$asset")")
     done
-    add_exec_permission "${copied_assets[@]}"
+    add_exec_flag "${copied_assets[@]}"
 }
 
-copy_items() {
+copy_assets() {
     local target="$1"
     shift
     local assets=("$@")
@@ -229,7 +231,7 @@ copy_items() {
     done
 }
 
-add_exec_permission() {
+add_exec_flag() {
     local assets=("$@")
 
     echo -e "${bullets[info]} Sets execution permission:\n"
@@ -265,7 +267,7 @@ deploy_zsh_assets() {
     echo -e "${bullets[info]} Deploying Zsh, installing powerlevel10k, fzf, sudo-plugin and other"
     echo -e "${bullets[info]} packages for the ${colors[purple]}$(whoami)${colors[white]} user.\n"
 
-    #copy_items "${paths[home]}" "${files[@]}"
+    #copy_assets "${paths[home]}" "${files[@]}"
     #download_file "${url_one}" "${target_one}"
     #clone_repo "${url_two}" "${target_two}"
     #clone_and_build "${url_four}" "${target_four}" "${command_four}"

@@ -37,12 +37,6 @@ format_bullet() {
     echo -e "\n${colors[white]} [${colors[$color_symbol]}$symbol${colors[white]}]"
 }
 
-local -A files=(
-    [banner]="resources/banner.txt"
-    [pkgs_rpm]="pkgs_rpm.yaml"
-    [pkgs_github]="pkgs_github.yaml"
-)
-
 local -A colors=(
     [red]='\033[1;31m'
     [green]='\033[1;32m'
@@ -61,6 +55,12 @@ local -A bullets=(
     [error]=$(format_bullet "red" "✗")
 )
 
+local -A files=(
+    [banner]="resources/banner.txt"
+    [pkgs_rpm]="pkgs_rpm.yaml"
+    [pkgs_github]="pkgs_github.yaml"
+)
+
 local -A packages=(
     [rpm]=$(get_pkgs_rpm "${files[pkgs_rpm]}")
     [github]=$(get_pkgs_github "${files[pkgs_github]}")
@@ -72,7 +72,7 @@ local -A paths=(
     [bin]="/usr/local/bin/"
 )
 
-local -A packages_permission=(
+local -A executables=(
     [bspwm]=1
     [sxhkd]=1
     [kitty]=0
@@ -83,9 +83,9 @@ local -A packages_permission=(
     [polybar]=1
 )
 
-local -A paths_fonts=(
-    [source]=".fonts"
-    [user]="${paths[home]}/.fonts"
+local -A fonts=(
+    [source]="${paths[current]}.fonts"
+    [user]="${paths[home]}.fonts"
     [system]="/usr/local/share/fonts"
 )
 
