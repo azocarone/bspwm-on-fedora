@@ -3,20 +3,21 @@ show_banner() {
 
     clear
 
-    if [[ -f "$banner" ]]; then
-        echo -e "${colors[cyan]}" ; cat "$1"
-    else
-        echo -e "${bullets[error]} Banner file not found: $banner\n"
+    if [[ ! -f "$banner" ]]; then
+        echo -e "${bullets[error]} Error: ${colors[red]}${banner}${colors[white]} file not found."
+        return 1
     fi
 
-    echo -e "${bullets[info]} Scripts to install and configure a professional"
-    echo -e "${bullets[info]} BSPWM environment on Fedora Workstation.\n"
-    echo -e "${bullets[info]} Hello ${colors[purple]}$(whoami)${colors[white]}, deploy will begin soon.\n"
+    echo -e "${colors[cyan]}" && cat "$1"
+    echo -e "${bullets[info]} Scripts to install and configure a professional,"
+    echo -e "     BSPWM environment on Fedora Workstation."
+    echo -e "${bullets[info]} Hello, ${colors[purple]}$(whoami)${colors[white]}: deploy will begin soon."
 }
 
 prompt_continue() {
-    echo -ne "${bullets[question]} Do you want to continue with the installation [y/N]?: "
-    tput setaf 1 ; read -r reply ; tput setaf 0
+    local reply
+
+    read -p "${bullets[question]} Do you want to continue with the installation [y/N]?: " reply
 
     [[ "$reply" == "y" ]]
 }
@@ -24,10 +25,10 @@ prompt_continue() {
 install_pkgs_rpm(){
     local pkgs_rpm="$1"
 
-    echo -e "${bullets[info]} Fedora update system:\n"
+    echo -e "${bullets[info]} Fedora update system:"
     sudo dnf upgrade -y --refresh
 
-    echo -e "${bullets[info]} Install packages from RPM:\n"
+    echo -e "${bullets[info]} Install packages from RPM:"
     sudo dnf install -y ${pkgs_rpm}
 }
 
@@ -35,18 +36,21 @@ deploy_clone(){
     local pkgs_git="$1"
     local path_bin="$2"
 
-    echo -e "${bullets[info]} Installing packages from GitHub:\n"
+    local absolute_path
+
+    echo -e "${bullets[info]} Installing packages from GitHub:"
     
     while read -r git_url build_command; do
-        local absolute_path=$(clone_repo "$git_url")
+        absolute_path=$(clone_repo "$git_url")
 
-        if [[ ! -z "$absolute_path" ]]; then
-            if build_package "$absolute_path" "$build_command"; then
-                if copy_bin_folder "$absolute_path" "$path_bin"; then
-                    delete_cloned_folder "$absolute_path"
-                fi
-            fi
+        if [[ ! -d "$absolute_path" ]]; then
+            echo -e "${bullets[error]} Error: ${colors[red]}${absolute_path}${colors[white]} working directory does not exist." 
+            return 1
         fi
+
+        build_package "$absolute_path" "$build_command"
+        copy_bin_folder "$absolute_path" "$path_bin"
+        delete_work_folder "$absolute_path"
     done <<< "$pkgs_git"
 }
 
@@ -57,12 +61,11 @@ clone_repo() {
     local absolute_path=$(build_absolute_path "$git_url" "$base_path")
 
     if ! git clone --depth=1 "$git_url" "$absolute_path"; then
-        echo -e "${bullets[error]} Error cloning repository: ${git_url}\n"
+        echo -e "${bullets[error]} Error: cloning the ${colors[red]}${git_url}${colors[white]} repository."
         return 1
     fi
 
     echo "${absolute_path}"
-    return 0
 }
 
 build_absolute_path() {
@@ -73,7 +76,6 @@ build_absolute_path() {
     local absolute_path="${base_path}${repo_name}"
 
     echo "${absolute_path}"
-    return 0
 }
 
 build_package() {
@@ -82,27 +84,23 @@ build_package() {
     
     local script_temp=$(mktemp)
 
-    cleanup() {
-        rm -f "$script_temp"
-    }
-
-    trap cleanup EXIT
+    trap 'delete_work_folder $script_temp' EXIT
 
     (
-        cd "$absolute_path" || { echo -e "${bullets[error]} Error changing to \
-        directory: $absolute_path\n"; return 1; }
+        cd "$absolute_path" || {
+            echo -e "${bullets[error]} Error: when changing to ${colors[red]}${absolute_path}${colors[white]} directory."
+            return 1
+        }
 
         echo "#!/bin/bash" > "$script_temp"
         echo "$build_command" >> "$script_temp"
         chmod +x "$script_temp"
 
         if ! ( "$script_temp" ); then
-            echo -e "${bullets[error]} Error building package: $absolute_path\n"
+            echo -e "${bullets[error]} Error: when building the ${colors[red]}${absolute_path}${colors[white]} package."
             return 1
         fi
     )
-
-    return 0
 }
 
 copy_bin_folder(){
@@ -113,15 +111,11 @@ copy_bin_folder(){
     local install_script=$(locate_install_script "${absolute_path}")
     local bin_file="$absolute_path/$repo_name"
     local function_definition=$(declare -f copy_assets)
-    local command_to_run="$function_definition; copy_assets '$path_bin' '$bin_file'"
+    local command_to_run="$function_definition; copy_assets '$bin_file' '$path_bin'"
   
-    if [[ $install_script ]]; then
-        return
-    else
-        if [[ -f "$bin_file" ]]; then
-            sudo bash -c "$command_to_run"
-        fi
-    fi
+    [[ $install_script ]] && return
+    
+    [[ -f "$bin_file" ]] && sudo bash -c "$command_to_run"
 }
 
 locate_install_script(){
@@ -135,10 +129,10 @@ locate_install_script(){
     fi
 }
 
-delete_cloned_folder(){
-    local absolute_path="$1"
+delete_work_folder(){
+    local cleanup="$1"
 
-    rm -rf "$absolute_path"
+    rm -rf "$cleanup"
 }
 
 configure_packages() {
@@ -162,7 +156,7 @@ apply_configs() {
         rm -rf "$target"
     fi
 
-    copy_assets "$target" "$source" 
+    copy_assets "$source" "$target"
     
     if [[ "${execute}" == 1 ]]; then
         add_exec_flag "$target"
@@ -170,8 +164,8 @@ apply_configs() {
 }
 
 copy_font_folders() {
-    local -n paths=$1
-    local source="${paths[source]}"
+    local -n fonts=$1
+    local source="${fonts[source]}"
 
     echo -e "${bullets[info]} Copying fonts:\n"
 
@@ -180,7 +174,7 @@ copy_font_folders() {
         local cmd_prefix=""
 
         for key in "${order_keys[@]}"; do
-            local target="${paths[$key]}"
+            local target="${fonts[$key]}"
 
             [[ $key == "system" ]] && local cmd_prefix="sudo "
           
@@ -198,14 +192,15 @@ copy_font_folders() {
 }
 
 deploy_bspwm_assets(){
-    local target="$1"
-    shift
     local assets=("$@")
+    local target="${assets[-1]}"
+    unset 'assets[-1]'
+
     local copied_assets=()
 
     echo -e "${bullets[info]} Copy the bspwm assets and make your scripts executable.:\n"
 
-    copy_assets "$target" "${assets[@]}"
+    copy_assets "${assets[@]}" "$target"
     for asset in "${assets[@]}"; do
         copied_assets+=("${target}/$(basename "$asset")")
     done
@@ -213,19 +208,19 @@ deploy_bspwm_assets(){
 }
 
 copy_assets() {
-    local target="$1"
-    shift
     local assets=("$@")
+    local target="${assets[-1]}"
+    unset 'assets[-1]'
 
-    echo -e "${bullets[info]} Copying assets to $target:\n"
-
+    echo -e "${bullets[info]} Copy assets from directories or files:"
+    
     for asset in "${assets[@]}"; do
         if [[ -d "$asset" ]]; then
-            cp -r "$asset" "$target"
+            cp -rv "$asset" "$target"
         elif [[ -f "$asset" ]]; then
-            cp "$asset" "$target"
+            cp -v "$asset" "$target"
         else
-            echo -e "${bullets[error]} $asset is neither a file nor a directory\n"
+            echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is neither a file nor a directory."
             return 1
         fi
     done
@@ -267,7 +262,7 @@ deploy_zsh_assets() {
     echo -e "${bullets[info]} Deploying Zsh, installing powerlevel10k, fzf, sudo-plugin and other"
     echo -e "${bullets[info]} packages for the ${colors[purple]}$(whoami)${colors[white]} user.\n"
 
-    #copy_assets "${paths[home]}" "${files[@]}"
+    #copy_assets "${files[@]} "${paths[home]}""
     #download_file "${url_one}" "${target_one}"
     #clone_repo "${url_two}" "${target_two}"
     #clone_and_build "${url_four}" "${target_four}" "${command_four}"
