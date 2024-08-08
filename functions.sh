@@ -136,12 +136,12 @@ delete_work_folder(){
 }
 
 configure_packages() {
-    local -n executables=$1
+    local -n packages=$1
     
-    echo -e "${bullets[info]} Configure packages:\n"
+    echo -e "${bullets[info]} Configures packages installed from RPM:"
     
-    for package in "${!executables[@]}"; do
-        apply_configs "$package" "${executables[$package]}"
+    for package in "${!packages[@]}"; do
+        apply_configs "${package}" "${packages[$package]}"
     done
 }
 
@@ -149,67 +149,67 @@ apply_configs() {
     local package="$1"
     local execute="$2"
 
-    local source="${paths[current]}/.config/$package"
-    local target="${paths[home]}/.config/$package" 
+    local source="${paths[current]}.config/${package}"
+    local target="${paths[home]}.config/${package}" 
 
-    if [[ -d "$target" ]]; then
-        rm -rf "$target"
-    fi
-
-    copy_assets "$source" "$target"
+    [[ -d "${target}" ]] && delete_work_folder "${target}"
     
-    if [[ "${execute}" == 1 ]]; then
-        add_exec_flag "$target"
-    fi
+    copy_assets "${source}" "${target}"
+    
+    [[ "${execute}" -eq 1 ]] && add_exec_flag "${target}"
 }
 
-copy_font_folders() {
-    local -n fonts=$1
-    local source="${fonts[source]}"
+copy_new_fonts() {
+    local -n folders=$1
+    local source="${folders[source]}"
 
-    echo -e "${bullets[info]} Copying fonts:\n"
+    local order_keys=("user" "system")
+    local cmd_prefix=""
 
-    if [[ -d "$source" ]]; then
-        local order_keys=("user" "system")
-        local cmd_prefix=""
+    echo -e "${bullets[info]} Copying new fonts:"
 
-        for key in "${order_keys[@]}"; do
-            local target="${fonts[$key]}"
-
-            [[ $key == "system" ]] && local cmd_prefix="sudo "
-          
-            ${cmd_prefix}mkdir -p "$target"
-            ${cmd_prefix}cp -r -v "$source"/* "$target"
-            
-            source="$target"
-
-            echo -e "${bullets[success]} Fonts copied to $target\n"
-        done
-    else
-        echo -e "${bullets[error]} Source directory $source does not exist.\n"
+    if [[ ! -d "$source" ]]; then
+        echo -e "${bullets[error]} The source directory ${source} does not exist."
         return 1
     fi
+
+    for key in "${order_keys[@]}"; do
+        local target="${folders[$key]}"
+
+        [[ $key == "system" ]] && cmd_prefix="sudo "
+          
+        ${cmd_prefix}mkdir -p "${target}"
+        ${cmd_prefix}cp -rv "${source}"/* "${target}"
+        
+        source="${target}"
+
+        echo -e "${bullets[success]} Typefaces copied to ${target}"
+    done
 }
 
 deploy_bspwm_assets(){
     local assets=("$@")
     local target="${assets[-1]}"
-    unset 'assets[-1]'
-
+    
     local copied_assets=()
 
-    echo -e "${bullets[info]} Copy the bspwm assets and make your scripts executable.:\n"
+    unset 'assets[-1]'
+
+    echo -e "${bullets[info]} Copy the bspwm assets and make your scripts executable:"
 
     copy_assets "${assets[@]}" "$target"
+    
     for asset in "${assets[@]}"; do
         copied_assets+=("${target}/$(basename "$asset")")
     done
+    
     add_exec_flag "${copied_assets[@]}"
 }
 
 copy_assets() {
     local assets=("$@")
     local target="${assets[-1]}"
+
     unset 'assets[-1]'
 
     echo -e "${bullets[info]} Copy assets from directories or files:"
@@ -229,7 +229,7 @@ copy_assets() {
 add_exec_flag() {
     local assets=("$@")
 
-    echo -e "${bullets[info]} Sets execution permission:\n"
+    echo -e "${bullets[info]} Sets execution permission:"
 
     for asset in "${assets[@]}"; do
         if [[ -f "$asset" ]]; then
@@ -237,7 +237,7 @@ add_exec_flag() {
         elif [[ -d "$asset" ]]; then
             find "$asset" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
         else
-            echo -e "${bullets[error]} $asset is neither a file nor a directory\n"
+            echo -e "${bullets[error]} $asset is neither a file nor a directory."
             return 1
         fi
     done

@@ -16,8 +16,8 @@ main() {
 
     ##install_pkgs_rpm "${packages[rpm]}"
     ##deploy_clone "${packages[github]}" "${paths[bin]}"
-    #configure_packages executables
-    #copy_font_folders fonts
+    ##configure_packages privileges
+    ##copy_new_fonts directories
     #deploy_bspwm_assets "${assets[@]}" "${paths[home]}"
     #deploy_zsh_assets
 

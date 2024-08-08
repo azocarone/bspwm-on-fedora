@@ -72,7 +72,7 @@ local -A paths=(
     [bin]="/usr/local/bin/"
 )
 
-local -A executables=(
+local -A privileges=(
     [bspwm]=1
     [sxhkd]=1
     [kitty]=0
@@ -83,7 +83,7 @@ local -A executables=(
     [polybar]=1
 )
 
-local -A fonts=(
+local -A directories=(
     [source]="${paths[current]}.fonts"
     [user]="${paths[home]}.fonts"
     [system]="/usr/local/share/fonts"
