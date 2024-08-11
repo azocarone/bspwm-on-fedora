@@ -187,23 +187,21 @@ copy_new_fonts() {
     done
 }
 
-deploy_bspwm_assets(){
-    local assets=("$@")
-    local target="${assets[-1]}"
+process_bspwm_resources(){
+    local -a assets=("${@:1:$#-1}")
+    local target="${!#}"
+
+    if [ ${#assets[@]} -eq 0 ]; then
+        echo -e "${bullets[error]} Error: no assets specified."
+        return 1
+    fi
     
-    local copied_assets=()
+    echo -e "${bullets[info]} Processes bspwm resources:"
 
-    unset 'assets[-1]'
-
-    echo -e "${bullets[info]} Copy the bspwm assets and make your scripts executable:"
-
-    copy_assets "${assets[@]}" "$target"
-    
     for asset in "${assets[@]}"; do
-        copied_assets+=("${target}/$(basename "$asset")")
+        copy_assets "$asset" "$target"
+        add_exec_flag "$target$asset"
     done
-    
-    add_exec_flag "${copied_assets[@]}"
 }
 
 copy_assets() {

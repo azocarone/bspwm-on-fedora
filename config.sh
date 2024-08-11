@@ -89,4 +89,4 @@ local -A directories=(
     [system]="/usr/local/share/fonts"
 )
 
-local assets=("scripts" ".themes")
+local bspwm_assets=("scripts" ".themes")
