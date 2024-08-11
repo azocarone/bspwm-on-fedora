@@ -113,30 +113,40 @@ process_bspwm_assets(){
 
 # vvvvvvvvvvvvvvvvvvvvvvvv
 
-deploy_zsh_assets() {
+process_zsh_assets() {
     local files=(".zshrc" ".p10k.zsh")
     
-    local url_one="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
-    local target_one="/usr/share/zsh-sudo"
+    local url_2="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
+    local target_2="/usr/share/zsh-sudo"
     
-    local url_two="https://github.com/romkatv/powerlevel10k.git"
-    local target_two="${paths[home]}/$(basename "$url_two" .git)"
+    local url_3="https://github.com/romkatv/powerlevel10k.git"
+    local target_3="${paths[home]}$(basename "$url_3" .git)"
+        
+    local url_4="https://github.com/charitarthchugh/shell-color-scripts.git"
+    local target_4="${paths[home]}scripts/$(basename "$url_4" .git)"
+
+    local url_5="https://github.com/junegunn/fzf.git"
+    local target_5="${paths[home]}/.$(basename "$url_5" .git)"
+    local command_5="${target_5}/install"
     
-    local url_four="https://github.com/junegunn/fzf.git"
-    local target_four="${paths[home]}/.$(basename "$url_four" .git)"
-    local command_four="${target_four}/install"
-    
-    local url_last="https://github.com/pipeseroni/pipes.sh.git"
-    local target_last="${paths[home]}/scripts/$(basename "$url_last" .git)"
+    local url_6="https://github.com/pipeseroni/pipes.sh.git"
+    local target_6="${paths[home]}/scripts/$(basename "$url_6" .git)"
     
     echo -e "${bullets[info]} Deploying Zsh, installing powerlevel10k, fzf, sudo-plugin and other"
-    echo -e "${bullets[info]} packages for the ${colors[purple]}$(whoami)${colors[white]} user.\n"
+    echo -e "${bullets[info]} packages for the ${colors[purple]}$(whoami)${colors[white]} user."
 
-    #copy_assets "${files[@]} "${paths[home]}""
-    #download_file "${url_one}" "${target_one}"
-    #clone_repo "${url_two}" "${target_two}"
-    #clone_and_build "${url_four}" "${target_four}" "${command_four}"
-    #clone_repo "${url_last}" "${target_last}"
+    copy_assets "${files[@]}" "${paths[home]}"
+    download_file "${url_2}" "${target_2}"
+    clone_repo "${url_3}" "${target_3}"
+    clone_repo "${url_4}" "${target_4}"
+    rm -rf "${target_4}/colorscripts"
+    rm -rf "${target_4}/colorscript.sh"
+    mv "${paths[home]}scripts/colorscripts" "${target_4}"
+    mv "${paths[home]}scripts/colorscript.sh" "${target_4}"
+    chmod +x "${target_4}/colorscript.sh"
+    chmod +x "${target_4}/colorscripts/*"
+    clone_and_build "${url_5}" "${target_5}" "${command_5}"
+    clone_repo "${url_6}" "${target_6}"
 }
 
 download_file(){
@@ -148,20 +158,8 @@ download_file(){
 
     if [[ ! -f "$target/$file" ]]; then
         sudo curl -L "$url" -o "$target/$file"
-        echo -e "${bullets[check]} File downloaded successfully.\n"
+        echo -e "${bullets[check]} File downloaded successfully."
     else
-        echo -e "${bullets[success]} The file already exists.\n"
+        echo -e "${bullets[success]} The file already exists."
     fi
 } 
-
-sin_nombre(){
-    cd "${paths[home]}"/scripts
-    git clone https://github.com/charitarthchugh/shell-color-scripts.git
-    sudo rm -rf "${paths[home]}"/scripts/shell-color-scripts/colorscripts
-    sudo rm -rf "${paths[home]}"/scripts/shell-color-scripts/colorscript.sh
-    cd "${paths[home]}"/scripts
-    mv colorscripts colorscript.sh "${paths[home]}"/scripts/shell-color-scripts
-    chmod +x "${paths[home]}"/scripts/shell-color-scripts/colorscript.sh
-    cd "${paths[home]}"/scripts/shell-color-scripts/colorscripts
-    chmod +x *
-}

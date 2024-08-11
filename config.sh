@@ -1,5 +1,3 @@
-#!/bin/bash
-
 get_pkgs_rpm() {
     local yaml="$1"
     
