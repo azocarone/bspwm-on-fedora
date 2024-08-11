@@ -187,7 +187,7 @@ copy_new_fonts() {
     done
 }
 
-process_bspwm_resources(){
+process_bspwm_assets(){
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 
@@ -205,21 +205,20 @@ process_bspwm_resources(){
 }
 
 copy_assets() {
-    local assets=("$@")
-    local target="${assets[-1]}"
-
-    unset 'assets[-1]'
+    local -a assets=("${@:1:$#-1}")
+    local target="${!#}"
 
     echo -e "${bullets[info]} Copy assets from directories or files:"
-    
+       
     for asset in "${assets[@]}"; do
+        if ! is_valid_asset "$asset"; then
+            return 1
+        fi
+
         if [[ -d "$asset" ]]; then
             cp -rv "$asset" "$target"
-        elif [[ -f "$asset" ]]; then
-            cp -v "$asset" "$target"
         else
-            echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is neither a file nor a directory."
-            return 1
+            cp -v "$asset" "$target"
         fi
     done
 }
@@ -230,16 +229,43 @@ add_exec_flag() {
     echo -e "${bullets[info]} Sets execution permission:"
 
     for asset in "${assets[@]}"; do
-        if [[ -f "$asset" ]]; then
-            grep -Il '^#!' "$asset" && chmod +x "$asset"
-        elif [[ -d "$asset" ]]; then
+        if ! is_valid_asset "$asset"; then
+            return 1
+        fi
+
+        if [[ -d "$asset" ]]; then
             find "$asset" -type f -exec grep -Il '^#!' {} \; -exec chmod +x {} \;
         else
-            echo -e "${bullets[error]} $asset is neither a file nor a directory."
-            return 1
+            grep -Il '^#!' "$asset" && chmod +x "$asset"
         fi
     done
 }
+
+is_valid_asset() {
+    local asset="$1"
+
+    if [[ ! -e "$asset" ]]; then
+        echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is not a file or a directory."
+        return 1
+    fi
+
+    return 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 deploy_zsh_assets() {
     local files=(".zshrc" ".p10k.zsh")
