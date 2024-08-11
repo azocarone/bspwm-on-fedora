@@ -18,7 +18,7 @@ main() {
     ##deploy_clone "${packages[github]}" "${paths[bin]}"
     ##configure_packages privileges
     ##copy_new_fonts directories
-    process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
+    ##process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
     #deploy_zsh_assets
 
     echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."

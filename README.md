@@ -192,9 +192,9 @@ To install this desktop environment is very easy, first clone the repository, th
 git clone https://github.com/azocarone/bspwm-on-fedora.git ; cd bspwm-on-fedora
 ```
 
-Finally, chmod permissions to the files called **fedora.sh** and **root.sh** and then run it.
+Finally, chmod permissions to the files called **main.sh** and **root.sh** and then run it.
 ```bash
-chmod +x bspwm-on-fedora.sh root.sh ; ./bspwm_on_fedora.sh ; sudo ./root.sh
+chmod +x main.sh root.sh ; ./main.sh ; sudo ./root.sh
 ```
 Wait for the installation scripts to finish, once finished close section and select the new bspwm desktop.
 
