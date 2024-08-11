@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source functions.sh
+source config.sh
 
 main() {
-    source config.sh
+    source functions.sh
 
     show_banner "${files[banner]}"
   
