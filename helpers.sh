@@ -140,3 +140,18 @@ is_valid_asset() {
 
     return 0
 }
+
+download_file(){
+    local url="$1"
+    local file=$(basename "$url")
+    local target="$2"
+    
+    sudo mkdir -p "$target"
+
+    if [[ ! -f "$target/$file" ]]; then
+        sudo curl -L "$url" -o "$target/$file"
+        echo -e "${bullets[check]} File downloaded successfully."
+    else
+        echo -e "${bullets[success]} The file already exists."
+    fi
+} 
