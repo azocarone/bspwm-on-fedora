@@ -125,22 +125,22 @@ process_zsh_assets() {
 
     local targets=(
         "/usr/share/zsh-sudo"
-        "${paths[home]}powerlevel10k"
-        "${paths[home]}scripts/shell-color-scripts"
-        "${paths[home]}/.fzf"
-        "${paths[home]}scripts/pipes.sh"
+        "${paths[home]}"
+        "${paths[home]}scripts/"
+        "${paths[home]}."
+        "${paths[home]}scripts/"
     )
 
     local build_commands=(
         ""  # No command for sudo plugin
         ""  # No command for powerlevel10k
         ""  # No command for shell-color-scripts
-        "${paths[home]}/.fzf/install"
+        "${paths[home]}.fzf/install"
         ""  # No command for pipes.sh
     )
 
     echo -e "${bullets[info]} Deploying Zsh, installing powerlevel10k, fzf, sudo-plugin and other"
-    echo -e "${bullets[info]} packages for the ${colors[purple]}$(whoami)${colors[white]} user."
+    echo -e "     packages for the ${colors[purple]}$(whoami)${colors[white]} user."
 
     # Copiar archivos de configuración
     copy_assets "${files[@]}" "${paths[home]}"
@@ -149,7 +149,8 @@ process_zsh_assets() {
     for i in "${!urls[@]}"; do
         if [[ ${urls[i]} == *.git ]]; then
             if [[ -n ${build_commands[i]} ]]; then
-                clone_and_build "${urls[i]}" "${targets[i]}" "${build_commands[i]}"
+                local absolute_path=$(clone_repo "${urls[i]}" "${targets[i]}") 
+                build_package "${absolute_path}" "${build_commands[i]}"
             else
                 clone_repo "${urls[i]}" "${targets[i]}"
             fi
@@ -163,5 +164,5 @@ process_zsh_assets() {
     rm -rf "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
     mv "${paths[home]}scripts/colorscripts" "$color_scripts"
     mv "${paths[home]}scripts/colorscript.sh" "$color_scripts"
-    chmod +x "${color_scripts}/colorscript.sh" "${color_scripts}/colorscripts/*"
+    chmod +x "${color_scripts}/colorscript.sh" "${color_scripts}/colorscripts/"*
 }
