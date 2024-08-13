@@ -2,12 +2,51 @@ name: pkgs_github.yaml
 comments: Dependency packages deployed from GitHub.
 
 packages:
-  #i3lock-color:
-  #  git_url: "https://github.com/Raymo111/i3lock-color.git"
-  #  build_command: "./build.sh && ./install-i3lock-color.sh"
-  #betterlockscreen:
-  #  git_url: "https://github.com/betterlockscreen/betterlockscreen.git"
-  #  build_command: "sudo ./install.sh system"
+  i3lock-color:
+    url: "https://github.com/Raymo111/i3lock-color.git"
+    target: ""
+    command: "./build.sh && ./install-i3lock-color.sh"
+    binary: ""
+    cleanup: 1
+  betterlockscreen:
+    url: "https://github.com/betterlockscreen/betterlockscreen.git"
+    target: ""
+    command: "sudo ./install.sh system"
+    binary: ""
+    cleanup: 1
   tty-clock:
-    git_url: "https://github.com/xorg62/tty-clock.git"
-    build_command: "make && chmod +x tty-clock"
+    url: "https://github.com/xorg62/tty-clock.git"
+    target: ""
+    command: "make && chmod +x tty-clock"
+    binary: "/usr/local/bin/"
+    cleanup: 1
+  sudo.plugin.zsh:
+    url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
+    target: "/usr/share/zsh-sudo"
+    command: ""
+    binary: ""
+    cleanup: 0
+  powerlevel10k:
+    url: "https://github.com/romkatv/powerlevel10k.git"
+    target: "${paths[home]}"
+    command: ""
+    binary: ""
+    cleanup: 0
+  shell-color-scripts:
+    url: "https://github.com/charitarthchugh/shell-color-scripts.git"
+    target: "${paths[home]}scripts/"
+    command: ""
+    binary: ""
+    cleanup: 0
+  fzf:
+    url: "https://github.com/junegunn/fzf.git"
+    target: "${paths[home]}."
+    command: "${paths[home]}.fzf/install"
+    binary: ""
+    cleanup: 0
+  pipes.sh:
+    url: "https://github.com/pipeseroni/pipes.sh.git"
+    target: "${paths[home]}scripts/"
+    command: ""
+    binary: ""
+    cleanup: 0

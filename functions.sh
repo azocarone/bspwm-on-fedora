@@ -35,25 +35,26 @@ install_pkgs_rpm(){
 }
 
 deploy_clone(){
-    local pkgs_git="$1"
-    local path_bin="$2"
+    local pkgs_github="$1"
 
     local absolute_path
 
-    echo -e "${bullets[info]} Installing packages from GitHub:"
+    echo -e "${bullets[info]} Installing packages from Repositories:"
     
-    while read -r git_url build_command; do
-        absolute_path=$(clone_repo "$git_url")
-
-        if [[ ! -d "$absolute_path" ]]; then
-            echo -e "${bullets[error]} Error: ${colors[red]}${absolute_path}${colors[white]} working directory does not exist." 
-            return 1
+    while IFS=',' read -r url target command binary cleanup; do
+        if [[ ${url} == *.git ]]; then
+            if [[ -n ${command} ]]; then
+                echo "clone_repo" #absolute_path=$(clone_repo "${url}" "${target}")
+                echo "build_package" #build_package "${absolute_path}" "${command}"
+                [[ -n ${binary} ]] && echo "copy_bin_folder" #copy_bin_folder "$absolute_path" "$binary"
+                [[ ${cleanup} -eq 1 ]] && echo "delete_work_folder" #delete_work_folder "$absolute_path"
+            else
+                echo "clone_repo" #clone_repo "${url}" "${target}"
+            fi
+        else
+            echo "download_file" #download_file "${url}" "${target}"
         fi
-
-        build_package "$absolute_path" "$build_command"
-        copy_bin_folder "$absolute_path" "$path_bin"
-        delete_work_folder "$absolute_path"
-    done <<< "$pkgs_git"
+    done <<< "$pkgs_github"
 }
 
 configure_packages() {

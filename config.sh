@@ -3,7 +3,9 @@ get_pkgs_rpm() {
     
     local pkgs_rpm=$(awk '
         /^[^:]+:$/ { in_list=1; next }
+        
         /^\s*$/ { in_list=0 }
+        
         /^\s*-\s+/ && in_list { print $2 }
     ' "$yaml")
     
@@ -14,14 +16,32 @@ get_pkgs_github(){
     local yaml="$1"
     
     local pkgs_github=$(awk '
-        /^\s*git_url:/ {
-            git_url=gensub(/.*git_url: /, "", 1)
-            gsub(/"/, "", git_url)
+        BEGIN { OFS="," }
+
+        /^\s*url:/ {
+            match($0, /url:\s*"([^"]*)"/, arr)
+            url = arr[1]
         }
-        /^\s*build_command:/ {
-            build_command=gensub(/.*build_command: /, "", 1)
-            gsub(/"/, "", build_command)
-            print git_url, build_command
+
+        /^\s*target:/ {
+            match($0, /target:\s*"([^"]*)"/, arr)
+            target = arr[1]
+        }
+
+        /^\s*command:/ {
+            match($0, /command:\s*"([^"]*)"/, arr)
+            command = arr[1]
+        }
+
+        /^\s*binary:/ {
+            match($0, /binary:\s*"([^"]*)"/, arr)
+            binary = arr[1]
+        }
+
+        /^\s*cleanup:/ {
+            match($0, /cleanup:\s*([0-9]+)/, arr)
+            cleanup = arr[1]
+            print url, target, command, binary, cleanup
         }
     ' "$yaml")
     
@@ -67,8 +87,7 @@ local -A packages=(
 local -A paths=(
     [home]=$"/home/${USERNAME}/"
     [current]="$(pwd)/"
-    [bin]="/usr/local/bin/"
-)
+ 
 
 local -A privileges=(
     [bspwm]=1
