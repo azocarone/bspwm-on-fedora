@@ -5,8 +5,8 @@ source functions.sh
 main() {
     source config.sh
 
-    show_banner "${files[banner]}"
-  
+    show_banner "${files[baner]}"
+      
     if ! prompt_continue; then
         echo -e "${bullets[success]} Installation aborted."
         return 1
@@ -14,12 +14,12 @@ main() {
 
     echo -e "${bullets[info]} Starting the installation process." 
 
-    ##install_pkgs_rpm "${packages[rpm]}"
+    install_pkgs_rpm "${packages[rpm]}"
     deploy_clone "${packages[github]}"
-    ##configure_packages privileges
-    ##copy_new_fonts directories
-    ##process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
-    #process_zsh_assets
+    configure_packages privileges
+    copy_new_fonts directories
+    process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
+    process_zsh_assets "${zsh_assets[@]}"
 
     echo -e "${bullets[check]} Installation completed, please reboot to apply the configuration."
 }

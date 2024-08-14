@@ -107,3 +107,5 @@ local -A directories=(
 )
 
 local bspwm_assets=("scripts" ".themes")
+
+local zsh_assets=(".zshrc" ".p10k.zsh")

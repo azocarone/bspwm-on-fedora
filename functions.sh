@@ -44,15 +44,15 @@ deploy_clone(){
     while IFS=',' read -r url target command binary cleanup; do
         if [[ ${url} == *.git ]]; then
             if [[ -n ${command} ]]; then
-                echo "clone_repo" #absolute_path=$(clone_repo "${url}" "${target}")
-                echo "build_package" #build_package "${absolute_path}" "${command}"
-                [[ -n ${binary} ]] && echo "copy_bin_folder" #copy_bin_folder "$absolute_path" "$binary"
-                [[ ${cleanup} -eq 1 ]] && echo "delete_work_folder" #delete_work_folder "$absolute_path"
+                absolute_path=$(clone_repo "${url}" "${target}")
+                build_package "${absolute_path}" "${command}"
+                [[ -n ${binary} ]] && copy_bin_folder "$absolute_path" "$binary"
+                [[ ${cleanup} -eq 1 ]] && delete_work_folder "$absolute_path"
             else
-                echo "clone_repo" #clone_repo "${url}" "${target}"
+                clone_repo "${url}" "${target}"
             fi
         else
-            echo "download_file" #download_file "${url}" "${target}"
+            download_file "${url}" "${target}"
         fi
     done <<< "$pkgs_github"
 }
@@ -113,55 +113,14 @@ process_bspwm_assets(){
 }
 
 process_zsh_assets() {
-    local files=(".zshrc" ".p10k.zsh")
-
-    # Definición de URLs y destinos
-    local urls=(
-        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
-        "https://github.com/romkatv/powerlevel10k.git"
-        "https://github.com/charitarthchugh/shell-color-scripts.git"
-        "https://github.com/junegunn/fzf.git"
-        "https://github.com/pipeseroni/pipes.sh.git"
-    )
-
-    local targets=(
-        "/usr/share/zsh-sudo"
-        "${paths[home]}"
-        "${paths[home]}scripts/"
-        "${paths[home]}."
-        "${paths[home]}scripts/"
-    )
-
-    local build_commands=(
-        ""  # No command for sudo plugin
-        ""  # No command for powerlevel10k
-        ""  # No command for shell-color-scripts
-        "${paths[home]}.fzf/install"
-        ""  # No command for pipes.sh
-    )
-
-    echo -e "${bullets[info]} Deploying Zsh, installing powerlevel10k, fzf, sudo-plugin and other"
-    echo -e "     packages for the ${colors[purple]}$(whoami)${colors[white]} user."
-
-    # Copiar archivos de configuración
-    copy_assets "${files[@]}" "${paths[home]}"
-
-    # Procesar cada asset
-    for i in "${!urls[@]}"; do
-        if [[ ${urls[i]} == *.git ]]; then
-            if [[ -n ${build_commands[i]} ]]; then
-                local absolute_path=$(clone_repo "${urls[i]}" "${targets[i]}") 
-                build_package "${absolute_path}" "${build_commands[i]}"
-            else
-                clone_repo "${urls[i]}" "${targets[i]}"
-            fi
-        else
-            download_file "${urls[i]}" "${targets[i]}"
-        fi
-    done
-
-    # Operaciones específicas para shell-color-scripts
+    local assets=("$@")
+    
     local color_scripts="${paths[home]}scripts/shell-color-scripts"
+
+    echo -e "${bullets[info]} Processes Zsh resources"
+
+    copy_assets "${assets[@]}" "${paths[home]}"
+
     rm -rf "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
     mv "${paths[home]}scripts/colorscripts" "$color_scripts"
     mv "${paths[home]}scripts/colorscript.sh" "$color_scripts"
