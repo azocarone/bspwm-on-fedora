@@ -55,6 +55,10 @@ format_bullet() {
     echo -e "\n${colors[white]} [${colors[$color_symbol]}$symbol${colors[white]}]"
 }
 
+# :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
+# SUDO_USER and USER are environment variables of the Linux operating system.
+local USERNAME="${SUDO_USER:-$USER}" 
+
 local -A colors=(
     [red]='\033[1;31m'
     [green]='\033[1;32m'
@@ -85,9 +89,9 @@ local -A packages=(
 )
 
 local -A paths=(
-    [home]=$"/home/${USERNAME}/"
-    [current]="$(pwd)/"
- 
+    [home]=$"/home/${USERNAME}"
+    [current]="$(pwd)"
+)
 
 local -A privileges=(
     [bspwm]=1
@@ -101,8 +105,8 @@ local -A privileges=(
 )
 
 local -A directories=(
-    [source]="${paths[current]}.fonts"
-    [user]="${paths[home]}.fonts"
+    [source]="${paths[current]}/.fonts"
+    [user]="${paths[home]}/.fonts"
     [system]="/usr/local/share/fonts"
 )
 

@@ -18,7 +18,7 @@ packages:
     url: "https://github.com/xorg62/tty-clock.git"
     target: ""
     command: "make && chmod +x tty-clock"
-    binary: "/usr/local/bin/"
+    binary: "/usr/local/bin"
     cleanup: 1
   sudo.plugin.zsh:
     url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
@@ -34,19 +34,19 @@ packages:
     cleanup: 0
   shell-color-scripts:
     url: "https://github.com/charitarthchugh/shell-color-scripts.git"
-    target: "${paths[home]}scripts/"
+    target: "${paths[home]}/scripts"
     command: ""
     binary: ""
     cleanup: 0
   fzf:
     url: "https://github.com/junegunn/fzf.git"
-    target: "${paths[home]}."
-    command: "${paths[home]}.fzf/install"
+    target: "${paths[home]}/."
+    command: "${paths[home]}/.fzf/install"
     binary: ""
     cleanup: 0
   pipes.sh:
     url: "https://github.com/pipeseroni/pipes.sh.git"
-    target: "${paths[home]}scripts/"
+    target: "${paths[home]}/scripts"
     command: ""
     binary: ""
     cleanup: 0

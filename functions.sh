@@ -1,59 +1,64 @@
 source helpers.sh
 
-show_banner() {
-    local banner="$1"
-
-    clear
-
-    if [[ ! -f "$banner" ]]; then
-        echo -e "${bullets[error]} Error: ${colors[red]}${banner}${colors[white]} file not found."
-        return 1
-    fi
-
-    echo -e "${colors[cyan]}" && cat "$1"
-    echo -e "${bullets[info]} Scripts to install and configure a professional,"
-    echo -e "     BSPWM environment on Fedora Workstation."
-    echo -e "${bullets[info]} Hello, ${colors[purple]}$(whoami)${colors[white]}: deploy will begin soon."
-}
-
 prompt_continue() {
     local reply
 
-    read -p "${bullets[question]} Do you want to continue with the installation [y/N]?: " reply
+    show_banner "${files[banner]}"
+    
+    while true; do
+        read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
 
-    [[ "$reply" == "y" ]]
+        case "${reply,,}" in # Convert to lowercase
+            y)
+                if [[ $UID -ne 0 ]]; then
+                    echo -e "${bullets[success]} You need to run this script with Root user permissions."
+                    return 1
+                fi
+                return 0
+                ;;
+            n)
+                return 1
+                ;;
+            *)
+                echo -e "${bullets[error]} Error: invalid answer. Please enter 'y' or 'n'."
+                ;;
+        esac
+    done
 }
 
 install_pkgs_rpm(){
     local pkgs_rpm="$1"
 
     echo -e "${bullets[info]} Fedora update system:"
-    sudo dnf upgrade -y --refresh
+    if ! dnf upgrade -y --refresh; then
+        echo -e "${bullets[error]} Error: upgrading system."
+        return 1
+    fi
 
     echo -e "${bullets[info]} Install packages from RPM:"
-    sudo dnf install -y ${pkgs_rpm}
+    if ! dnf install -y ${pkgs_rpm}; then
+        echo -e "${bullets[error]} Error: installing packages."
+        return 1
+    fi
 }
 
 deploy_clone(){
     local pkgs_github="$1"
-
+    
     local absolute_path
 
     echo -e "${bullets[info]} Installing packages from Repositories:"
-    
+
     while IFS=',' read -r url target command binary cleanup; do
         if [[ ${url} == *.git ]]; then
-            if [[ -n ${command} ]]; then
-                absolute_path=$(clone_repo "${url}" "${target}")
-                build_package "${absolute_path}" "${command}"
-                [[ -n ${binary} ]] && copy_bin_folder "$absolute_path" "$binary"
-                [[ ${cleanup} -eq 1 ]] && delete_work_folder "$absolute_path"
-            else
-                clone_repo "${url}" "${target}"
-            fi
+            absolute_path=$(clone_repo "${url}" "${target}")
+            [[ -n ${command} ]] && build_package "${absolute_path}" "${command}"
+            [[ -n ${binary} ]] && copy_bin_folder "${absolute_path}" "${binary}"
         else
             download_file "${url}" "${target}"
         fi
+
+        [[ ${cleanup} -eq 1 && -n ${absolute_path} ]] && delete_work_folder "$absolute_path"
     done <<< "$pkgs_github"
 }
 
