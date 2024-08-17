@@ -12,7 +12,7 @@ prompt_continue() {
             y)
                 if [[ $UID -ne 0 ]]; then
                     echo -e "${bullets[success]} You need to run this script with Root user permissions."
-                    return 1
+                    #return 1
                 fi
                 return 0
                 ;;
@@ -45,17 +45,18 @@ install_pkgs_rpm(){
 deploy_clone(){
     local pkgs_github="$1"
     
-    local absolute_path
+    local url target command binary cleanup base_path absolute_path
 
     echo -e "${bullets[info]} Installing packages from Repositories:"
 
     while IFS=',' read -r url target command binary cleanup; do
+        base_path=$(resolve_target "$target")
         if [[ ${url} == *.git ]]; then
-            absolute_path=$(clone_repo "${url}" "${target}")
+            absolute_path=$(clone_repo "${url}" "${base_path}")
             [[ -n ${command} ]] && build_package "${absolute_path}" "${command}"
             [[ -n ${binary} ]] && copy_bin_folder "${absolute_path}" "${binary}"
         else
-            download_file "${url}" "${target}"
+            download_file "${url}" "${base_path}"
         fi
 
         [[ ${cleanup} -eq 1 && -n ${absolute_path} ]] && delete_work_folder "$absolute_path"

@@ -9,8 +9,8 @@ main() {
         echo -e "${bullets[info]} Starting the installation process."
 
         #install_pkgs_rpm "${packages[rpm]}"
-        deploy_clone "${packages[github]}"
-        #configure_packages privileges
+        #deploy_clone "${packages[github]}"
+        configure_packages privileges
         #copy_new_fonts directories
         #process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
         #process_zsh_assets "${zsh_assets[@]}"

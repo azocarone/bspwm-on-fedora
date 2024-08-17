@@ -16,11 +16,39 @@ show_banner() {
     echo -e "${bullets[info]} Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
 }
 
+resolve_target() {
+    local target="$1"
+    local resolved_path
+
+    case "$target" in
+        ".")
+            resolved_path="${paths[current]}"
+            ;;
+        "~")
+            resolved_path="${paths[home]}"
+            ;;
+        "~/"*)
+            # Remove the “~/” and add the path to home
+            resolved_path="${paths[home]}/${target:2}"
+            ;;
+        /*)
+            # Any absolute path is returned as is
+            resolved_path="$target"
+            ;;
+        *)
+            echo "Target not recognized: $target"
+            return 1
+            ;;
+    esac
+
+    echo "$resolved_path"
+}
+
 clone_repo() {
     local url="$1"
-    local target="$2"
+    local base_path="$2"
     
-    local absolute_path=$(build_absolute_path "$url" "$target")
+    local absolute_path=$(build_absolute_path "$url" "$base_path")
 
     if git clone --depth=1 "$url" "$absolute_path"; then
         echo "${absolute_path}"
@@ -34,11 +62,16 @@ build_absolute_path() {
     local url="$1"
     local base_path="${2:-${paths[current]}}"
     
+    local absolute_path
     local repo_name=$(basename "${url}" .git)
-    #local repo_name="${url##*/}"
-    #repo_name="${repo_name%.git}"
     
-    local absolute_path="${base_path}/${repo_name}"
+    if [[ "${base_path}" == *"/." ]]; then
+        # Case 1: If base_path ends in “/.”, do not add “/”.
+        absolute_path="${base_path}${repo_name}"
+    else
+        # Case 2: In any other case, add “/”.
+        absolute_path="${base_path}/${repo_name}"
+    fi
 
     echo "${absolute_path}"
 }
@@ -162,17 +195,24 @@ copy_assets() {
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 
+    local copy="cp"
+
     echo -e "${bullets[info]} Copy assets from directories or files:"
-       
+
+    # Determine if sudo is required
+    if [[ ! -w "$target" ]]; then
+        copy="sudo cp"
+    fi
+
     for asset in "${assets[@]}"; do
         if ! is_valid_asset "$asset"; then
             return 1
         fi
 
         if [[ -d "$asset" ]]; then
-            cp -rv "$asset" "$target"
+            $copy -rv "$asset" "$target"
         else
-            cp -v "$asset" "$target"
+            $copy -v "$asset" "$target"
         fi
     done
 }
