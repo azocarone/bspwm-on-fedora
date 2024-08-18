@@ -5,12 +5,12 @@ source functions.sh
 main() {
     source config.sh
     
-    if prompt_continue; then
+    if confirm_installation; then
         echo -e "${bullets[info]} Starting the installation process."
 
-        #install_pkgs_rpm "${packages[rpm]}"
-        #deploy_clone "${packages[github]}"
-        configure_packages privileges
+        #install_rpm_package "${packages[rpm]}"
+        #install_github_package "${packages[github]}"
+        configure_rpm_packages privileges
         #copy_new_fonts directories
         #process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
         #process_zsh_assets "${zsh_assets[@]}"

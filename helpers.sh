@@ -1,4 +1,4 @@
-show_banner() {
+display_installation_banner() {
     local banner="$1"
 
     clear
@@ -16,7 +16,7 @@ show_banner() {
     echo -e "${bullets[info]} Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
 }
 
-resolve_target() {
+expand_path() {
     local target="$1"
     local resolved_path
 
@@ -44,11 +44,11 @@ resolve_target() {
     echo "$resolved_path"
 }
 
-clone_repo() {
+clone_repository() {
     local url="$1"
     local base_path="$2"
     
-    local absolute_path=$(build_absolute_path "$url" "$base_path")
+    local absolute_path=$(determine_clone_path "$url" "$base_path")
 
     if git clone --depth=1 "$url" "$absolute_path"; then
         echo "${absolute_path}"
@@ -58,7 +58,7 @@ clone_repo() {
     fi
 }
 
-build_absolute_path() {
+determine_clone_path() {
     local url="$1"
     local base_path="${2:-${paths[current]}}"
     
@@ -76,7 +76,7 @@ build_absolute_path() {
     echo "${absolute_path}"
 }
 
-build_package() {
+build_from_source() {
     local absolute_path="$1"
     local command="$2"
     
@@ -108,23 +108,23 @@ EOF
     )
 }
 
-copy_bin_folder() {
+deploy_executable() {
     local absolute_path="$1"
     local target="$2"
     
     local repo_name=$(basename "$absolute_path")
     local bin_file="$absolute_path/$repo_name"
 
-    if locate_install_script "$absolute_path"; then
+    if has_install_script "$absolute_path"; then
         return
     fi
 
     if [[ -f "$bin_file" ]]; then
-        copy_assets "$bin_file" "$target"
+        copy_files_to_destination "$bin_file" "$target"
     fi
 }
 
-locate_install_script() {
+has_install_script() {
     local absolute_path="$1"
     local pattern="install*"
 
@@ -135,7 +135,44 @@ locate_install_script() {
     fi
 }
 
-download_file(){
+copy_files_to_destination() {
+    local -a assets=("${@:1:$#-1}")
+    local target="${!#}"
+
+    local copy="cp"
+
+    echo -e "${bullets[info]} Copy assets from directories or files:"
+
+    # Determine if sudo is required
+    if [[ ! -w "$target" ]]; then
+        copy="sudo cp"
+    fi
+
+    for asset in "${assets[@]}"; do
+        if ! file_or_directory_exists "$asset"; then
+            return 1
+        fi
+
+        if [[ -d "$asset" ]]; then
+            $copy -rv "$asset" "$target"
+        else
+            $copy -v "$asset" "$target"
+        fi
+    done
+}
+
+file_or_directory_exists() {
+    local asset="$1"
+
+    if [[ ! -e "$asset" ]]; then
+        echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is not a file or a directory."
+        return 1
+    fi
+
+    return 0
+}
+
+download_artifact(){
     local url="$1"
     local target="$2"
 
@@ -154,7 +191,7 @@ download_file(){
     fi
 } 
 
-delete_work_folder() {
+remove_directory() {
     local cleanup="$1"
 
     if [[ -z "$cleanup" ]]; then
@@ -177,53 +214,27 @@ delete_work_folder() {
     fi
 }
 
-apply_configs() {
+install_package_config() {
     local package="$1"
     local execute="$2"
 
     local source="${paths[current]}.config/${package}"
     local target="${paths[home]}.config/${package}" 
 
-    [[ -d "${target}" ]] && delete_work_folder "${target}"
+    [[ -d "${target}" ]] && remove_directory "${target}"
     
-    copy_assets "${source}" "${target}"
+    copy_files_to_destination "${source}" "${target}"
     
-    [[ "${execute}" -eq 1 ]] && add_exec_flag "${target}"
+    [[ "${execute}" -eq 1 ]] && make_executable "${target}"
 }
 
-copy_assets() {
-    local -a assets=("${@:1:$#-1}")
-    local target="${!#}"
-
-    local copy="cp"
-
-    echo -e "${bullets[info]} Copy assets from directories or files:"
-
-    # Determine if sudo is required
-    if [[ ! -w "$target" ]]; then
-        copy="sudo cp"
-    fi
-
-    for asset in "${assets[@]}"; do
-        if ! is_valid_asset "$asset"; then
-            return 1
-        fi
-
-        if [[ -d "$asset" ]]; then
-            $copy -rv "$asset" "$target"
-        else
-            $copy -v "$asset" "$target"
-        fi
-    done
-}
-
-add_exec_flag() {
+make_executable() {
     local assets=("$@")
 
     echo -e "${bullets[info]} Sets execution permission:"
 
     for asset in "${assets[@]}"; do
-        if ! is_valid_asset "$asset"; then
+        if ! file_or_directory_exists "$asset"; then
             return 1
         fi
 
@@ -233,15 +244,4 @@ add_exec_flag() {
             grep -Il '^#!' "$asset" && chmod +x "$asset"
         fi
     done
-}
-
-is_valid_asset() {
-    local asset="$1"
-
-    if [[ ! -e "$asset" ]]; then
-        echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is not a file or a directory."
-        return 1
-    fi
-
-    return 0
 }

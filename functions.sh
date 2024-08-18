@@ -1,9 +1,9 @@
 source helpers.sh
 
-prompt_continue() {
+confirm_installation() {
     local reply
 
-    show_banner "${files[banner]}"
+    display_installation_banner "${files[banner]}"
     
     while true; do
         read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
@@ -26,7 +26,7 @@ prompt_continue() {
     done
 }
 
-install_pkgs_rpm(){
+install_rpm_package(){
     local pkgs_rpm="$1"
 
     echo -e "${bullets[info]} Fedora update system:"
@@ -42,7 +42,7 @@ install_pkgs_rpm(){
     fi
 }
 
-deploy_clone(){
+install_github_package(){
     local pkgs_github="$1"
     
     local url target command binary cleanup base_path absolute_path
@@ -50,26 +50,26 @@ deploy_clone(){
     echo -e "${bullets[info]} Installing packages from Repositories:"
 
     while IFS=',' read -r url target command binary cleanup; do
-        base_path=$(resolve_target "$target")
+        base_path=$(expand_path "$target")
         if [[ ${url} == *.git ]]; then
-            absolute_path=$(clone_repo "${url}" "${base_path}")
-            [[ -n ${command} ]] && build_package "${absolute_path}" "${command}"
-            [[ -n ${binary} ]] && copy_bin_folder "${absolute_path}" "${binary}"
+            absolute_path=$(clone_repository "${url}" "${base_path}")
+            [[ -n ${command} ]] && build_from_source "${absolute_path}" "${command}"
+            [[ -n ${binary} ]] && deploy_executable "${absolute_path}" "${binary}"
         else
-            download_file "${url}" "${base_path}"
+            download_artifact "${url}" "${base_path}"
         fi
 
-        [[ ${cleanup} -eq 1 && -n ${absolute_path} ]] && delete_work_folder "$absolute_path"
+        [[ ${cleanup} -eq 1 && -n ${absolute_path} ]] && remove_directory "$absolute_path"
     done <<< "$pkgs_github"
 }
 
-configure_packages() {
+configure_rpm_packages() {
     local -n packages=$1
     
     echo -e "${bullets[info]} Configures packages installed from RPM:"
     
     for package in "${!packages[@]}"; do
-        apply_configs "${package}" "${packages[$package]}"
+        install_package_config "${package}" "${packages[$package]}"
     done
 }
 

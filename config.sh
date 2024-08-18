@@ -59,6 +59,43 @@ format_bullet() {
 # SUDO_USER and USER are environment variables of the Linux operating system.
 local USERNAME="${SUDO_USER:-$USER}" 
 
+local -A paths=(
+    [home]=$"/home/${USERNAME}"
+    [current]="$(pwd)"
+)
+
+local -A directories=(
+    [source]="${paths[current]}/.fonts"
+    [user]="${paths[home]}/.fonts"
+    [system]="/usr/local/share/fonts"
+)
+
+local -A files=(
+    [banner]="resources/banner.txt"
+    [pkgs_rpm]="pkgs_rpm.yaml"
+    [pkgs_github]="pkgs_github.yaml"
+)
+
+local -A packages=(
+    [rpm]=$(get_pkgs_rpm "${files[pkgs_rpm]}")
+    [github]=$(get_pkgs_github "${files[pkgs_github]}")
+)
+
+local -A privileges=(
+    [bspwm]=1
+    [sxhkd]=1
+    [kitty]=0
+    [picom]=0
+    [neofetch]=0
+    [ranger]=0
+    [cava]=0
+    [polybar]=1
+)
+
+local bspwm_assets=("scripts" ".themes")
+
+local zsh_assets=(".zshrc" ".p10k.zsh")
+
 local -A colors=(
     [red]='\033[1;31m'
     [green]='\033[1;32m'
@@ -76,40 +113,3 @@ local -A bullets=(
     [check]=$(format_bullet "green" "✓")
     [error]=$(format_bullet "red" "✗")
 )
-
-local -A files=(
-    [banner]="resources/banner.txt"
-    [pkgs_rpm]="pkgs_rpm.yaml"
-    [pkgs_github]="pkgs_github.yaml"
-)
-
-local -A packages=(
-    [rpm]=$(get_pkgs_rpm "${files[pkgs_rpm]}")
-    [github]=$(get_pkgs_github "${files[pkgs_github]}")
-)
-
-local -A paths=(
-    [home]=$"/home/${USERNAME}"
-    [current]="$(pwd)"
-)
-
-local -A privileges=(
-    [bspwm]=1
-    [sxhkd]=1
-    [kitty]=0
-    [picom]=0
-    [neofetch]=0
-    [ranger]=0
-    [cava]=0
-    [polybar]=1
-)
-
-local -A directories=(
-    [source]="${paths[current]}/.fonts"
-    [user]="${paths[home]}/.fonts"
-    [system]="/usr/local/share/fonts"
-)
-
-local bspwm_assets=("scripts" ".themes")
-
-local zsh_assets=(".zshrc" ".p10k.zsh")
