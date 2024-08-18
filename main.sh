@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source functions.sh
+source ./functions.sh
 
 main() {
-    source config.sh
+    source ./config.sh
     
     if confirm_installation; then
         echo -e "${bullets[info]} Starting the installation process."
