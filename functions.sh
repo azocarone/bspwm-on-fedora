@@ -1,4 +1,4 @@
-source helpers.sh
+source ./helpers/core.sh
 
 confirm_installation() {
     local reply
