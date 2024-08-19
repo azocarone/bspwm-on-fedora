@@ -6,7 +6,7 @@ Overview of the changes in the environment, the polybar font has been changed to
 
 ![image](https://github.com/user-attachments/assets/86b1109b-deb5-4ebf-b252-6efff906b29b)
 
-# Changes
+## Changes
 1. Comicmo fonts have been added to the polybar.
 2. Improved script output.
 3. The polybar was improved to be a little smaller
