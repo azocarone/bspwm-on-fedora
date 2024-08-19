@@ -12,3 +12,4 @@ Overview of the changes in the environment, the polybar font has been changed to
 3. The polybar was improved to be a little smaller
 4. icon changes in the modules.
 5. New wallpaper for Xavier theme.
+6. One more workspace has been added, now there are 6.
