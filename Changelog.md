@@ -2,7 +2,7 @@
 
 - May 31, 2024
 
-Overview of the changes in the environment, the polybar font has been changed to comicmono and adjusted to be smaller and more pleasing to the eye, icon changes in the modules, among other things, I have not abandoned this project and I plan to continue giving it more support and improving it. Regards.
+Overview of the changes in the environment, the polybar font has been changed to comicmono and adjusted to be smaller and more pleasing to the eye, icon changes in the modules, among other things, I have not abandoned this project and I plan to continue giving it more support and improving it, Regards.
 
 ![image](https://github.com/user-attachments/assets/86b1109b-deb5-4ebf-b252-6efff906b29b)
 
