@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./functions.sh
+source ./deploy.sh
 
 main() {
     source ./config.sh
