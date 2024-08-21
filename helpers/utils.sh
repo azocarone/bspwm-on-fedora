@@ -36,9 +36,7 @@ copy_files_to_destination() {
     echo -e "${bullets[info]} Copy assets from directories or files:"
 
     # Determine if sudo is required
-    if [[ ! -w "$target" ]]; then
-        copy="sudo cp"
-    fi
+    [[ -e "$target" ]] && [[ ! -w "$target" ]] && copy="sudo cp"
 
     for asset in "${assets[@]}"; do
         if ! file_or_directory_exists "$asset"; then
@@ -69,6 +67,29 @@ make_executable() {
             grep -Il '^#!' "$asset" && chmod +x "$asset"
         fi
     done
+}
+
+remove_directory() {
+    local cleanup="$1"
+
+    if [[ -z "$cleanup" ]]; then
+        echo -e "${bullets[error]} Error: no folder was provided for deletion."
+        return 1
+    fi
+
+    if [[ ! -d "$cleanup" ]]; then
+        echo -e "${bullets[error]} Error: the folder '${colors[red]}$cleanup${colors[white]}' does not exist or is not a directory."
+        return 1
+    fi
+
+    rm -rf "$cleanup"
+    
+    if [[ $? -eq 0 ]]; then
+        echo -e "${bullets[check]} The '${colors[green]}$cleanup${colors[white]}' folder has been successfully deleted."
+    else
+        echo -e "${bullets[error]} Error: the '${colors[red]}$cleanup${colors[white]}' folder could not be deleted."
+        return 1
+    fi
 }
 
 file_or_directory_exists() {

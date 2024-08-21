@@ -10,8 +10,8 @@ main() {
 
         #install_rpm_package "${packages[rpm]}"
         #install_github_package "${packages[github]}"
-        configure_rpm_packages privileges
-        #copy_new_fonts directories
+        #configure_rpm_packages perms_pkgs
+        deploy_fonts font_paths
         #process_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"
         #process_zsh_assets "${zsh_assets[@]}"
         

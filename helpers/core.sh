@@ -127,39 +127,16 @@ download_artifact(){
     fi
 } 
 
-remove_directory() {
-    local cleanup="$1"
-
-    if [[ -z "$cleanup" ]]; then
-        echo -e "${bullets[error]} Error: no folder was provided for deletion."
-        return 1
-    fi
-
-    if [[ ! -d "$cleanup" ]]; then
-        echo -e "${bullets[error]} Error: the folder '${colors[red]}$cleanup${colors[white]}' does not exist or is not a directory."
-        return 1
-    fi
-
-    rm -rf "$cleanup"
-    
-    if [[ $? -eq 0 ]]; then
-        echo -e "${bullets[check]} The '${colors[red]}$cleanup${colors[white]}' folder has been successfully deleted."
-    else
-        echo -e "${bullets[error]} Error: the '${colors[red]}$cleanup${colors[white]}' folder could not be deleted."
-        return 1
-    fi
-}
-
-install_package_config() {
+install_package_configuration() {
     local package="$1"
-    local execute="$2"
+    local permission="$2"
 
-    local source="${paths[current]}.config/${package}"
-    local target="${paths[home]}.config/${package}" 
+    local pkgs_source="${paths[current]}/.config/${package}"
+    local pkgs_target="${paths[home]}/.config/${package}" 
 
-    [[ -d "${target}" ]] && remove_directory "${target}"
+    [[ -d "${pkgs_target}" ]] && remove_directory "${pkgs_target}"
     
-    copy_files_to_destination "${source}" "${target}"
+    copy_files_to_destination "${pkgs_source}" "${pkgs_target}"
     
-    [[ "${execute}" -eq 1 ]] && make_executable "${target}"
+    [[ "${permission}" -eq 1 ]] && make_executable "${pkgs_target}"
 }

@@ -10,10 +10,10 @@ confirm_installation() {
 
         case "${reply,,}" in # Convert to lowercase
             y)
-                if [[ $UID -ne 0 ]]; then
-                    echo -e "${bullets[success]} You need to run this script with Root user permissions."
-                    #return 1
-                fi
+                #if [[ $UID -ne 0 ]]; then
+                #    echo -e "${bullets[success]} You need to run this script with Root user permissions."
+                #    return 1
+                #fi
                 return 0
                 ;;
             n)
@@ -30,13 +30,13 @@ install_rpm_package(){
     local pkgs_rpm="$1"
 
     echo -e "${bullets[info]} Fedora update system:"
-    if ! dnf upgrade -y --refresh; then
+    if ! sudo dnf upgrade -y --refresh; then
         echo -e "${bullets[error]} Error: upgrading system."
         return 1
     fi
 
     echo -e "${bullets[info]} Install packages from RPM:"
-    if ! dnf install -y ${pkgs_rpm}; then
+    if ! sudo dnf install -y ${pkgs_rpm}; then
         echo -e "${bullets[error]} Error: installing packages."
         return 1
     fi
@@ -64,26 +64,26 @@ install_github_package(){
 }
 
 configure_rpm_packages() {
-    local -n packages=$1
+    local -n permissions=$1
     
     echo -e "${bullets[info]} Configures packages installed from RPM:"
     
-    for package in "${!packages[@]}"; do
-        install_package_config "${package}" "${packages[$package]}"
+    for package in "${!permissions[@]}"; do
+        install_package_configuration "${package}" "${permissions[$package]}"
     done
 }
 
-copy_new_fonts() {
-    local -n folders=$1
-    local source="${folders[source]}"
+deploy_fonts() {
+    local -n paths=$1
+    local source="${paths[source]}"
 
     local order_keys=("user" "system")
     local cmd_prefix=""
 
-    echo -e "${bullets[info]} Copying new fonts:"
+    echo -e "${bullets[info]} Deploying fonts:"
 
     if [[ ! -d "$source" ]]; then
-        echo -e "${bullets[error]} The source directory ${source} does not exist."
+        echo -e "${bullets[error]} Error: the source directory ${colors[red]}${source}${colors[white]} does not exist."
         return 1
     fi
 
@@ -92,12 +92,12 @@ copy_new_fonts() {
 
         [[ $key == "system" ]] && cmd_prefix="sudo "
           
-        ${cmd_prefix}mkdir -p "${target}"
-        ${cmd_prefix}cp -rv "${source}"/* "${target}"
+        ${cmd_prefix}mkdir -p "$target"
+        ${cmd_prefix}cp -rv "$source"/* "$target"
         
         source="${target}"
 
-        echo -e "${bullets[success]} Typefaces copied to ${target}"
+        echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
     done
 }
 
