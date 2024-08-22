@@ -18,114 +18,35 @@ display_installation_banner() {
     echo -e "${bullets[info]} Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
 }
 
-expand_path() {
-    local target="$1"
-    local resolved_path
+handle_git_repository() {
+    local repo_url="$1"
+    local target_dir="$2"
+    local build_command="$3"
+    local binary_name="$4"
+    local base_path repo_path
 
-    case "$target" in
-        ".")
-            resolved_path="${paths[current]}"
-            ;;
-        "~")
-            resolved_path="${paths[home]}"
-            ;;
-        "~/"*)
-            # Remove the “~/” and add the path to home
-            resolved_path="${paths[home]}/${target:2}"
-            ;;
-        /*)
-            # Any absolute path is returned as is
-            resolved_path="$target"
-            ;;
-        *)
-            echo "Target not recognized: $target"
-            return 1
-            ;;
-    esac
+    base_path=$(expand_path "$target_dir")
+    repo_path=$(clone_repository "${repo_url}" "${base_path}")
 
-    echo "$resolved_path"
+    [[ -n ${build_command} ]] && build_from_source "${repo_path}" "${build_command}"
+    [[ -n ${binary_name} ]] && deploy_executable "${repo_path}" "${binary_name}"
+
+    echo "${repo_path}"
 }
 
-clone_repository() {
-    local url="$1"
-    local base_path="$2"
-    
-    local absolute_path=$(determine_clone_path "$url" "$base_path")
+handle_download_artifact() {
+    local artifact_url="$1"
+    local target_dir="$2"
 
-    if git clone --depth=1 "$url" "$absolute_path"; then
-        echo "${absolute_path}"
-    else
-        echo -e "${bullets[error]} Error: cloning the ${colors[red]}${url}${colors[white]} repository."
-        return 1
-    fi
+    local base_path
+    base_path=$(expand_path "$target_dir")
+    download_artifact "${artifact_url}" "${base_path}"
 }
 
-build_from_source() {
-    local absolute_path="$1"
-    local command="$2"
-    
-    local script_temp=$(mktemp)
-
-    # Trap with anonymous function.
-    trap 'rm -f "$script_temp"' EXIT 
-    
-    # Sub-shell so as not to alter or change the current working directory.
-    ( 
-    
-        cd "$absolute_path" || {
-            echo -e "${bullets[error]} Error: when changing to ${colors[red]}${absolute_path}${colors[white]} directory."
-            return 1
-        }
-
-        # Implement a Heredocs
-        cat > "$script_temp" <<EOF
-#!/bin/bash
-$command
-EOF
-
-        chmod +x "$script_temp"
-
-        if ! ( "$script_temp" ); then
-            echo -e "${bullets[error]} Error: when building the ${colors[red]}${absolute_path}${colors[white]} package."
-            return 1
-        fi
-    )
+handle_cleanup() {
+    local dir_path="$1"
+    [[ -n ${dir_path} ]] && remove_directory "$dir_path"
 }
-
-deploy_executable() {
-    local absolute_path="$1"
-    local target="$2"
-    
-    local repo_name=$(basename "$absolute_path")
-    local bin_file="$absolute_path/$repo_name"
-
-    if has_install_script "$absolute_path"; then
-        return
-    fi
-
-    if [[ -f "$bin_file" ]]; then
-        copy_files_to_destination "$bin_file" "$target"
-    fi
-}
-
-download_artifact(){
-    local url="$1"
-    local target="$2"
-
-    local file=$(basename "$url")
-
-    if [[ -f "$target/$file" ]]; then
-        echo -e "${bullets[success]} The file ${colors[yellow]}${file}${colors[white]} already exists."
-        return 1
-    fi
-        
-    if sudo mkdir -p "$target" && sudo curl -L "$url" -o "$target/$file"; then
-        echo -e "${bullets[check]} The file ${colors[green]}${file}${colors[white]} downloaded successfully."
-    else
-        echo -e "${bullets[error]} Error: failed to download the file ${colors[red]}${file}${colors[white]}."
-        return 1
-    fi
-} 
 
 install_package_configuration() {
     local package="$1"

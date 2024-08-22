@@ -42,25 +42,21 @@ install_rpm_package(){
     fi
 }
 
-install_github_package(){
-    local pkgs_github="$1"
+install_packages_from_github() {
+    local packages_list="$1"
+    local url target command binary cleanup
     
-    local url target command binary cleanup base_path absolute_path
-
     echo -e "${bullets[info]} Installing packages from Repositories:"
 
     while IFS=',' read -r url target command binary cleanup; do
-        base_path=$(expand_path "$target")
         if [[ ${url} == *.git ]]; then
-            absolute_path=$(clone_repository "${url}" "${base_path}")
-            [[ -n ${command} ]] && build_from_source "${absolute_path}" "${command}"
-            [[ -n ${binary} ]] && deploy_executable "${absolute_path}" "${binary}"
+            repo_path=$(handle_git_repository "${url}" "${target}" "${command}" "${binary}")
         else
-            download_artifact "${url}" "${base_path}"
+            handle_download_artifact "${url}" "${target}"
         fi
 
-        [[ ${cleanup} -eq 1 && -n ${absolute_path} ]] && remove_directory "$absolute_path"
-    done <<< "$pkgs_github"
+        [[ ${cleanup} -eq 1 ]] && handle_cleanup "$repo_path"
+    done <<< "$packages_list"
 }
 
 configure_rpm_packages() {
