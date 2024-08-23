@@ -61,3 +61,13 @@ install_package_configuration() {
     
     [[ "${permission}" -eq 1 ]] && make_executable "${pkgs_target}"
 }
+
+deploy_fonts_to_target() {
+    local source="$1"
+    local target="$2"
+    local cmd_prefix="$3"
+
+    ${cmd_prefix}mkdir -p "$target"
+    ${cmd_prefix}cp -rv "$source"/* "$target"
+    echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
+}

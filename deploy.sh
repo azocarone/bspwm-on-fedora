@@ -87,13 +87,10 @@ deploy_fonts() {
         local target="${folders[$key]}"
 
         [[ $key == "system" ]] && cmd_prefix="sudo "
-          
-        ${cmd_prefix}mkdir -p "$target"
-        ${cmd_prefix}cp -rv "$source"/* "$target"
-        
-        source="${target}"
 
-        echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
+        deploy_fonts_to_target "$source" "$target" "$cmd_prefix"        
+
+        source="${target}"
     done
 }
 

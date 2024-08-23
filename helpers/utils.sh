@@ -132,31 +132,6 @@ remove_directory() {
     fi
 }
 
-copy_files_to_destination() {
-    local -a assets=("${@:1:$#-1}")
-    local target="${!#}"
-
-    local copy="cp"
-
-    echo -e "${bullets[info]} Copy assets from directories or files:"
-
-    # Determine if sudo is required
-    [[ -e "$target" ]] && [[ ! -w "$target" ]] && copy="sudo cp"
-
-    for asset in "${assets[@]}"; do
-        if ! file_or_directory_exists "$asset"; then
-            return 1
-        fi
-
-        if [[ -d "$asset" ]]; then
-            $copy -rv "$asset" "$target"
-        else
-            $copy -v "$asset" "$target"
-        fi
-    done
-}
-
-
 make_executable() {
     local assets=("$@")
 

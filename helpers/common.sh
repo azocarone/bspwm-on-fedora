@@ -27,6 +27,41 @@ has_install_script() {
     fi
 }
 
+copy_files_to_destination() {
+    local -a assets=("${@:1:$#-1}")
+    local target="${!#}"
+
+    local copy_cmd
+
+    echo -e "${bullets[info]} Copy assets from directories or files:"
+
+    copy_cmd=$(determine_copy_command "$target")
+
+    for asset in "${assets[@]}"; do
+        process_asset "$asset" "$target" "$copy_cmd" || return 1
+    done
+}
+
+determine_copy_command() {
+    local target="$1"
+    [[ -e "$target" && ! -w "$target" ]] && echo "sudo cp" || echo "cp"
+}
+
+process_asset() {
+    local asset="$1"
+    local target="$2"
+    local copy_cmd="$3"
+
+    if ! file_or_directory_exists "$asset"; then
+        return 1
+    fi
+
+    if [[ -d "$asset" ]]; then
+        $copy_cmd -rv "$asset" "$target"
+    else
+        $copy_cmd -v "$asset" "$target"
+    fi
+}
 
 file_or_directory_exists() {
     local asset="$1"
