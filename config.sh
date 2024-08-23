@@ -45,10 +45,10 @@ get_github_package(){
             binary = arr[1]
         }
 
-        /^\s*cleanup:/ {
-            match($0, /cleanup:\s*([0-9]+)/, arr)
-            cleanup = arr[1]
-            print url, target, command, binary, cleanup
+        /^\s*remove:/ {
+            match($0, /remove:\s*([0-9]+)/, arr)
+            remove = arr[1]
+            print url, target, command, binary, remove
         }
     ' "$yaml")
     

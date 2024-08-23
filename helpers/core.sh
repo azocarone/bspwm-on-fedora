@@ -43,7 +43,7 @@ handle_download_artifact() {
     download_artifact "${artifact_url}" "${base_path}"
 }
 
-handle_cleanup() {
+handle_remove() {
     local dir_path="$1"
     [[ -n ${dir_path} ]] && remove_directory "$dir_path"
 }

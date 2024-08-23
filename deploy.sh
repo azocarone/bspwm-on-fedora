@@ -44,18 +44,18 @@ install_rpm_package(){
 
 install_packages_from_github() {
     local packages_list="$1"
-    local url target command binary cleanup
+    local url target command binary remove
     
     echo -e "${bullets[info]} Installing packages from Repositories:"
 
-    while IFS=',' read -r url target command binary cleanup; do
+    while IFS=',' read -r url target command binary remove; do
         if [[ ${url} == *.git ]]; then
             repo_path=$(handle_git_repository "${url}" "${target}" "${command}" "${binary}")
         else
             handle_download_artifact "${url}" "${target}"
         fi
 
-        [[ ${cleanup} -eq 1 ]] && handle_cleanup "$repo_path"
+        [[ ${remove} -eq 1 ]] && handle_remove "$repo_path"
     done <<< "$packages_list"
 }
 

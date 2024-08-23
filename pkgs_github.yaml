@@ -7,46 +7,46 @@ packages:
     target: "."
     command: "./build.sh && ./install-i3lock-color.sh"
     binary: ""
-    cleanup: 1
+    remove: 1
   betterlockscreen:
     url: "https://github.com/betterlockscreen/betterlockscreen.git"
     target: "."
     command: "sudo ./install.sh system"
     binary: ""
-    cleanup: 1
+    remove: 1
   tty-clock:
     url: "https://github.com/xorg62/tty-clock.git"
     target: "."
     command: "make && chmod +x tty-clock"
     binary: "/usr/local/bin"
-    cleanup: 1
+    remove: 1
   sudo.plugin.zsh:
     url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
     target: "/usr/share/zsh-sudo"
     command: ""
     binary: ""
-    cleanup: 0
+    remove: 0
   powerlevel10k:
     url: "https://github.com/romkatv/powerlevel10k.git"
     target: "~"
     command: ""
     binary: ""
-    cleanup: 0
+    remove: 0
   shell-color-scripts:
     url: "https://github.com/charitarthchugh/shell-color-scripts.git"
     target: "~/scripts"
     command: ""
     binary: ""
-    cleanup: 0
+    remove: 0
   fzf:
     url: "https://github.com/junegunn/fzf.git"
     target: "~/."
     command: "~/.fzf/install"
     binary: ""
-    cleanup: 0
+    remove: 0
   pipes.sh:
     url: "https://github.com/pipeseroni/pipes.sh.git"
     target: "~/scripts"
     command: ""
     binary: ""
-    cleanup: 0
+    remove: 0
