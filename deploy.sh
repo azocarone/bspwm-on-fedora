@@ -90,9 +90,11 @@ deploy_fonts() {
     done
 }
 
-process_bspwm_assets(){
+setup_bspwm_assets(){
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
+
+    local copied_assets=()
 
     if [ ${#assets[@]} -eq 0 ]; then
         echo -e "${bullets[error]} Error: no assets specified."
@@ -101,10 +103,11 @@ process_bspwm_assets(){
     
     echo -e "${bullets[info]} Processes bspwm resources:"
 
-    for asset in "${assets[@]}"; do
-        copy_assets "$asset" "$target"
-        add_exec_flag "$target$asset"
-    done
+    copy_files_to_destination "${assets[@]}" "$target"
+
+    copied_assets=($(generate_copied_assets "${assets[@]}" "$target"))
+
+    make_executable "${copied_assets[@]}"
 }
 
 process_zsh_assets() {

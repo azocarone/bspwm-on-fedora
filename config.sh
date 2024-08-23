@@ -110,6 +110,6 @@ local -A font_paths=(
     [system]="/usr/local/share/fonts"
 )
 
-local bspwm_assets=("scripts" ".themes")
+local bspwm_assets=("${paths[current]}/scripts" "${paths[current]}/.themes")
 
-local zsh_assets=(".zshrc" ".p10k.zsh")
+local zsh_assets=("${paths[current]}/.zshrc" "${paths[current]}/.p10k.zsh")

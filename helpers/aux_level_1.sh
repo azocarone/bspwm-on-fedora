@@ -77,3 +77,16 @@ deploy_fonts_to_target() {
     
     echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
 }
+
+generate_copied_assets() {
+    local -a assets=("${@:1:$#-1}")
+    local target="${!#}"
+
+    local -a copied_assets=()
+    
+    for asset in "${assets[@]}"; do
+        copied_assets+=("$target/$(basename "$asset")")
+    done
+
+    echo "${copied_assets[@]}"
+}
