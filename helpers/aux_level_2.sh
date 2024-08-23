@@ -111,7 +111,7 @@ download_artifact(){
 
 remove_directory() {
     local cleanup="$1"
-
+    
     if [[ -z "$cleanup" ]]; then
         echo -e "${bullets[error]} Error: no folder was provided for deletion."
         return 1

@@ -90,3 +90,16 @@ generate_copied_assets() {
 
     echo "${copied_assets[@]}"
 }
+
+handle_color_scripts(){
+    local home_scripts="${paths[home]}/scripts"
+    local color_scripts="${home_scripts}/shell-color-scripts"
+
+    rm -rf "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
+    
+    mv "${home_scripts}/colorscripts" "$color_scripts"
+    mv "${home_scripts}/colorscript.sh" "$color_scripts"
+    
+    make_executable "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
+    #chmod +x "${color_scripts}/colorscript.sh" "${color_scripts}/colorscripts/"*
+}

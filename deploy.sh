@@ -110,17 +110,11 @@ setup_bspwm_assets(){
     make_executable "${copied_assets[@]}"
 }
 
-process_zsh_assets() {
+setup_zsh_assets() {
     local assets=("$@")
     
-    local color_scripts="${paths[home]}scripts/shell-color-scripts"
-
     echo -e "${bullets[info]} Processes Zsh resources"
 
-    copy_assets "${assets[@]}" "${paths[home]}"
-
-    rm -rf "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
-    mv "${paths[home]}scripts/colorscripts" "$color_scripts"
-    mv "${paths[home]}scripts/colorscript.sh" "$color_scripts"
-    chmod +x "${color_scripts}/colorscript.sh" "${color_scripts}/colorscripts/"*
+    copy_files_to_destination "${assets[@]}" "${paths[home]}"
+    handle_color_scripts
 }
