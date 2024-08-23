@@ -10,10 +10,6 @@ confirm_installation() {
 
         case "${reply,,}" in # Convert to lowercase
             y)
-                #if [[ $UID -ne 0 ]]; then
-                #    echo -e "${bullets[success]} You need to run this script with Root user permissions."
-                #    return 1
-                #fi
                 return 0
                 ;;
             n)
@@ -74,7 +70,7 @@ deploy_fonts() {
     local source="${paths[source]}"
 
     local order_keys=("user" "system")
-    local cmd_prefix=""
+    local target cmd_prefix
 
     echo -e "${bullets[info]} Deploying fonts:"
 
@@ -84,11 +80,11 @@ deploy_fonts() {
     fi
 
     for key in "${order_keys[@]}"; do
-        local target="${folders[$key]}"
+        target="${paths[$key]}"
 
-        [[ $key == "system" ]] && cmd_prefix="sudo "
-
-        deploy_fonts_to_target "$source" "$target" "$cmd_prefix"        
+        cmd_prefix=$(determine_sudo_command "$key")
+       
+        deploy_fonts_to_target "$source" "$target" "$cmd_prefix"
 
         source="${target}"
     done

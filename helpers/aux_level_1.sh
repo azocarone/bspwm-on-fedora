@@ -62,6 +62,11 @@ install_package_configuration() {
     [[ "${permission}" -eq 1 ]] && make_executable "${pkgs_target}"
 }
 
+determine_sudo_command() {
+    local key="$1"
+    [[ $key == "system" ]] && echo "sudo " || echo ""
+}
+
 deploy_fonts_to_target() {
     local source="$1"
     local target="$2"
@@ -69,5 +74,6 @@ deploy_fonts_to_target() {
 
     ${cmd_prefix}mkdir -p "$target"
     ${cmd_prefix}cp -rv "$source"/* "$target"
+    
     echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
 }
