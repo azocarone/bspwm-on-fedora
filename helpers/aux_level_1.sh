@@ -101,5 +101,4 @@ handle_color_scripts(){
     mv "${home_scripts}/colorscript.sh" "$color_scripts"
     
     make_executable "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
-    #chmod +x "${color_scripts}/colorscript.sh" "${color_scripts}/colorscripts/"*
 }
