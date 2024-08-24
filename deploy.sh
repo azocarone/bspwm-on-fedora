@@ -1,4 +1,4 @@
-source ./helpers/aux_level_1.sh
+source ./helpers/auxiliary.sh
 
 confirm_installation() {
     local reply

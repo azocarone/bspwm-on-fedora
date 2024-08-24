@@ -1,5 +1,3 @@
-source ./helpers/aux_level_2.sh
-
 display_installation_banner() {
     local banner="$1"
 
