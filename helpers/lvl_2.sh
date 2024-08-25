@@ -110,29 +110,6 @@ download_artifact(){
     fi
 } 
 
-_remove_directory() {
-    local cleanup="$1"
-    
-    if [[ -z "$cleanup" ]]; then
-        echo -e "${bullets[error]} Error: no folder was provided for deletion."
-        return 1
-    fi
-
-    if [[ ! -d "$cleanup" ]]; then
-        echo -e "${bullets[error]} Error: the folder '${colors[red]}$cleanup${colors[white]}' does not exist or is not a directory."
-        return 1
-    fi
-
-    rm -rf "$cleanup"
-    
-    if [[ $? -eq 0 ]]; then
-        echo -e "${bullets[check]} The '${colors[green]}$cleanup${colors[white]}' folder has been successfully deleted."
-    else
-        echo -e "${bullets[error]} Error: the '${colors[red]}$cleanup${colors[white]}' folder could not be deleted."
-        return 1
-    fi
-}
-
 remove_items() {
     local items=("$@")
 
