@@ -29,6 +29,7 @@ handle_git_repository() {
     local target_dir="$2"
     local build_command="$3"
     local binary_name="$4"
+    
     local base_path repo_path
 
     base_path=$(expand_path "$target_dir")
@@ -45,12 +46,14 @@ handle_download_artifact() {
     local target_dir="$2"
 
     local base_path
+
     base_path=$(expand_path "$target_dir")
     download_artifact "${artifact_url}" "${base_path}"
 }
 
 handle_remove() {
     local dir_path="$1"
+
     [[ -n ${dir_path} ]] && remove_items "$dir_path"
 }
 
@@ -70,6 +73,7 @@ install_package_configuration() {
 
 determine_sudo_command() {
     local key="$1"
+
     [[ $key == "system" ]] && echo "sudo " || echo ""
 }
 
@@ -88,7 +92,7 @@ copy_files_to_destination() {
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 
-    local copy_cmd
+    local copy_cmd asset
 
     echo -e "${bullets[info]} Copy assets from directories or files:"
 
@@ -103,6 +107,7 @@ generate_copied_assets() {
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 
+    local asset
     local -a copied_assets=()
     
     for asset in "${assets[@]}"; do
@@ -114,6 +119,8 @@ generate_copied_assets() {
 
 make_executable() {
     local assets=("$@")
+
+    local asset
 
     echo -e "${bullets[info]} Sets execution permission:"
 
@@ -131,7 +138,8 @@ make_executable() {
 }
 
 handle_color_scripts(){
-    local home_scripts="${paths[home]}/scripts"
+    local home_scripts="$1"
+    
     local color_scripts="${home_scripts}/shell-color-scripts"
 
     remove_items "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"

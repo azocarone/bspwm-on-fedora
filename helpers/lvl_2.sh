@@ -2,6 +2,7 @@ source ./helpers/lvl_3.sh
 
 expand_path() {
     local target="$1"
+    
     local resolved_path
 
     case "$target" in
@@ -109,7 +110,7 @@ download_artifact(){
     fi
 } 
 
-remove_directory() {
+_remove_directory() {
     local cleanup="$1"
     
     if [[ -z "$cleanup" ]]; then
@@ -163,6 +164,7 @@ remove_items() {
 
 determine_copy_command() {
     local target="$1"
+    
     [[ -e "$target" && ! -w "$target" ]] && echo "sudo cp" || echo "cp"
 }
 

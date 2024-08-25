@@ -7,7 +7,6 @@ confirm_installation() {
     
     while true; do
         reply=$(read_user_confirmation)
-
         case "${reply}" in 
             y)
                 return 0
@@ -40,6 +39,7 @@ install_rpm_package(){
 
 install_packages_from_github() {
     local packages_list="$1"
+
     local url target command binary remove
     
     echo -e "${bullets[info]} Installing packages from Repositories:"
@@ -57,6 +57,8 @@ install_packages_from_github() {
 
 configure_rpm_packages() {
     local -n permissions=$1
+
+    local package
     
     echo -e "${bullets[info]} Configures packages installed from RPM:"
     
@@ -67,10 +69,10 @@ configure_rpm_packages() {
 
 deploy_fonts() {
     local -n paths=$1
-    local source="${paths[source]}"
 
+    local source="${paths[source]}"
     local order_keys=("user" "system")
-    local target cmd_prefix
+    local key target cmd_prefix
 
     echo -e "${bullets[info]} Deploying fonts:"
 
@@ -116,5 +118,5 @@ setup_zsh_assets() {
     echo -e "${bullets[info]} Processes Zsh resources"
 
     copy_files_to_destination "${assets[@]}" "${paths[home]}"
-    handle_color_scripts
+    handle_color_scripts "${paths[home]}/scripts"
 }
