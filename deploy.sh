@@ -1,4 +1,4 @@
-source ./helpers/auxiliary.sh
+source ./helpers/lvl_1.sh
 
 confirm_installation() {
     local reply
@@ -6,9 +6,9 @@ confirm_installation() {
     display_installation_banner "${files[banner]}"
     
     while true; do
-        read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
+        reply=$(read_user_confirmation)
 
-        case "${reply,,}" in # Convert to lowercase
+        case "${reply}" in 
             y)
                 return 0
                 ;;
