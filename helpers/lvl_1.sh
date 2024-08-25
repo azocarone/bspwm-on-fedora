@@ -51,7 +51,7 @@ handle_download_artifact() {
 
 handle_remove() {
     local dir_path="$1"
-    [[ -n ${dir_path} ]] && remove_directory "$dir_path"
+    [[ -n ${dir_path} ]] && remove_items "$dir_path"
 }
 
 install_package_configuration() {
@@ -61,7 +61,7 @@ install_package_configuration() {
     local pkgs_source="${paths[current]}/.config/${package}"
     local pkgs_target="${paths[home]}/.config/${package}" 
 
-    [[ -d "${pkgs_target}" ]] && remove_directory "${pkgs_target}"
+    [[ -d "${pkgs_target}" ]] && remove_items "${pkgs_target}"
     
     copy_files_to_destination "${pkgs_source}" "${pkgs_target}"
     
@@ -134,7 +134,7 @@ handle_color_scripts(){
     local home_scripts="${paths[home]}/scripts"
     local color_scripts="${home_scripts}/shell-color-scripts"
 
-    rm -rf "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
+    remove_items "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
     
     mv "${home_scripts}/colorscripts" "$color_scripts"
     mv "${home_scripts}/colorscript.sh" "$color_scripts"

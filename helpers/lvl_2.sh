@@ -132,6 +132,35 @@ remove_directory() {
     fi
 }
 
+remove_items() {
+    local items=("$@")
+
+    local item
+    local success=true
+
+    if [[ ${#items[@]} -eq 0 ]]; then
+        echo -e "${bullets[error]} Error: no directories or files were provided for deletion."
+        return 1
+    fi
+
+    for item in "${items[@]}"; do
+        if [[ -d "$item" ]]; then
+            delete_directory "$item" || success=false
+        elif [[ -f "$item" ]]; then
+            delete_file "$item" || success=false
+        else
+            echo -e "${bullets[error]} Error: ${colors[red]}$item${colors[white]} is not a directory or file."
+            success=false
+        fi
+    done
+
+    if [[ "$success" = true ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 determine_copy_command() {
     local target="$1"
     [[ -e "$target" && ! -w "$target" ]] && echo "sudo cp" || echo "cp"

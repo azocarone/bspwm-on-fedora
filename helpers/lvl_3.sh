@@ -26,3 +26,29 @@ has_install_script() {
         return 1
     fi
 }
+
+delete_directory() {
+    local dir="$1"
+
+    rm -rf "$dir"
+    if [[ $? -ne 0 ]]; then
+        echo -e "${bullets[error]} Error: the directory ${colors[red]}$dir${colors[white]} could not be removed."
+        return 1
+    else
+        echo -e "${bullets[check]} The directory ${colors[green]}$dir${colors[white]} has been successfully removed."
+        return 0
+    fi
+}
+
+delete_file() {
+    local file="$1"
+
+    rm -f "$file"
+    if [[ $? -ne 0 ]]; then
+        echo -e "${bullets[error]} Error: the file ${colors[red]}$file${colors[white]} could not be deleted."
+        return 1
+    else
+        echo -e "${bullets[check]} The file ${colors[green]}$file${colors[white]} has been successfully deleted."
+        return 0
+    fi
+}
