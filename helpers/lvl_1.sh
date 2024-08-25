@@ -141,11 +141,11 @@ handle_color_scripts(){
     local home_scripts="$1"
     
     local color_scripts="${home_scripts}/shell-color-scripts"
+    local items=("${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh")
 
-    remove_items "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
+    remove_items "${items[@]}"
     
-    mv "${home_scripts}/colorscripts" "$color_scripts"
-    mv "${home_scripts}/colorscript.sh" "$color_scripts"
+    mv "${home_scripts}/colorscripts" "${home_scripts}/colorscript.sh" "$color_scripts"
     
-    make_executable "${color_scripts}/colorscripts" "${color_scripts}/colorscript.sh"
+    make_executable "${items[@]}"
 }
