@@ -28,15 +28,22 @@ handle_git_repository() {
     local repo_url="$1"
     local target_dir="$2"
     local build_command="$3"
-    local binary_name="$4"
+    local target_bin="$4"
     
     local base_path repo_path
 
     base_path=$(expand_path "$target_dir")
     repo_path=$(clone_repository "${repo_url}" "${base_path}")
 
-    [[ -n ${build_command} ]] && build_from_source "${repo_path}" "${build_command}"
-    [[ -n ${binary_name} ]] && deploy_executable "${repo_path}" "${binary_name}"
+    if ! build_from_source "${repo_path}" "${build_command}"; then
+        echo "Error durante la construcción desde la fuente."
+        return 1
+    fi
+    	
+    if ! deploy_executable "${repo_path}" "${target_bin}"; then
+        echo "Error durante el despliegue del ejecutable."
+        return 1
+    fi
 
     echo "${repo_path}"
 }

@@ -25,30 +25,30 @@ get_github_package(){
     local pkgs_github=$(awk '
         BEGIN { OFS="," }
 
-        /^\s*url:/ {
-            match($0, /url:\s*"([^"]*)"/, arr)
-            url = arr[1]
+        /^\s*repo_url:/ {
+            match($0, /repo_url:\s*"([^"]*)"/, arr)
+            repo_url = arr[1]
         }
 
-        /^\s*target:/ {
-            match($0, /target:\s*"([^"]*)"/, arr)
-            target = arr[1]
+        /^\s*target_dir:/ {
+            match($0, /target_dir:\s*"([^"]*)"/, arr)
+            target_dir = arr[1]
         }
 
-        /^\s*command:/ {
-            match($0, /command:\s*"([^"]*)"/, arr)
-            command = arr[1]
+        /^\s*build_command:/ {
+            match($0, /build_command:\s*"([^"]*)"/, arr)
+            build_command = arr[1]
         }
 
-        /^\s*binary:/ {
-            match($0, /binary:\s*"([^"]*)"/, arr)
-            binary = arr[1]
+        /^\s*target_bin:/ {
+            match($0, /target_bin:\s*"([^"]*)"/, arr)
+            target_bin = arr[1]
         }
 
-        /^\s*remove:/ {
-            match($0, /remove:\s*([0-9]+)/, arr)
-            remove = arr[1]
-            print url, target, command, binary, remove
+        /^\s*remove_repo:/ {
+            match($0, /remove_repo:\s*([0-9]+)/, arr)
+            remove_repo = arr[1]
+            print repo_url, target_dir, build_command, target_bin, remove_repo
         }
     ' "$yaml")
     

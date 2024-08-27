@@ -1,9 +1,9 @@
 determine_clone_path() {
-    local url="$1"
+    local repo_url="$1"
     local base_path="${2:-${paths[current]}}"
     
     local absolute_path
-    local repo_name=$(basename "${url}" .git)
+    local repo_name=$(basename "${repo_url}" .git)
     
     if [[ "${base_path}" == *"/." ]]; then
         # Case 1: If base_path ends in “/.”, do not add “/”.
@@ -17,11 +17,11 @@ determine_clone_path() {
 }
 
 has_install_script() {
-    local absolute_path="$1"
+    local repo_path="$1"
 
     local pattern="install*"
 
-    if find "$absolute_path" -maxdepth 1 -name "$pattern" -type f | grep -q .; then
+    if find "$repo_path" -maxdepth 1 -name "$pattern" -type f | grep -q .; then
         return 0
     else
         return 1

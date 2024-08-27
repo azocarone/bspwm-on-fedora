@@ -30,10 +30,10 @@ expand_path() {
 }
 
 clone_repository() {
-    local url="$1"
+    local repo_url="$1"
     local base_path="$2"
     
-    local absolute_path=$(determine_clone_path "$url" "$base_path")
+    local absolute_path=$(determine_clone_path "$repo_url" "$base_path")
 
     if git clone --depth=1 "$url" "$absolute_path"; then
         echo "${absolute_path}"
@@ -44,50 +44,54 @@ clone_repository() {
 }
 
 build_from_source() {
-    local absolute_path="$1"
-    local command="$2"
-    
-    local script_temp=$(mktemp)
+    local repo_path="$1"
+    local build_command="$2"
 
-    # Trap with anonymous function.
-    trap 'rm -f "$script_temp"' EXIT 
+    if [[ -n ${build_command} ]]; then
     
-    # Sub-shell so as not to alter or change the current working directory.
-    ( 
-    
-        cd "$absolute_path" || {
-            echo -e "${bullets[error]} Error: when changing to ${colors[red]}${absolute_path}${colors[white]} directory."
-            return 1
-        }
+        local script_temp=$(mktemp)
 
-        # Implement a Heredocs
-        cat > "$script_temp" <<EOF
+        # Trap with anonymous function.
+        trap 'rm -f "$script_temp"' EXIT 
+    
+        # Sub-shell so as not to alter or change the current working directory.
+        ( 
+    
+            cd "$repo_path" || {
+                echo -e "${bullets[error]} Error: when changing to ${colors[red]}${repo_path}${colors[white]} directory."
+                return 1
+            }
+
+            # Implement a Heredocs
+            cat > "$script_temp" <<EOF
 #!/bin/bash
-$command
+$build_command
 EOF
+            chmod +x "$script_temp"
 
-        chmod +x "$script_temp"
-
-        if ! ( "$script_temp" ); then
-            echo -e "${bullets[error]} Error: when building the ${colors[red]}${absolute_path}${colors[white]} package."
-            return 1
-        fi
-    )
+            if ! ( "$script_temp" ); then
+                echo -e "${bullets[error]} Error: when building the ${colors[red]}${repo_path}${colors[white]} package."
+                return 1
+            fi
+        )
+    fi
 }
 
 deploy_executable() {
-    local absolute_path="$1"
-    local target="$2"
+    local repo_path="$1"
+    local target_bin="$2"
     
-    local repo_name=$(basename "$absolute_path")
-    local bin_file="$absolute_path/$repo_name"
+    if [[ -n ${target_bin} ]]; then
+        local repo_name=$(basename "$repo_path")
+        local bin_file="$repo_path/$repo_name"
 
-    if has_install_script "$absolute_path"; then
-        return
-    fi
+        if has_install_script "$repo_path"; then
+            return
+        fi
 
-    if [[ -f "$bin_file" ]]; then
-        copy_files_to_destination "$bin_file" "$target"
+        if [[ -f "$bin_file" ]]; then
+            copy_files_to_destination "$bin_file" "$target_bin"
+        fi
     fi
 }
 
