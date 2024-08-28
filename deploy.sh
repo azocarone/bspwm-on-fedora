@@ -10,7 +10,7 @@ confirm_installation() {
         case "${reply}" in 
             y) return 0 ;;
             n) return 1 ;; 
-            *) echo -e "${bullets[error]} Error: invalid answer. Please enter 'y' or 'n'." ;;
+            *) echo_error "Invalid answer. Please enter 'y' or 'n'." ;;
         esac
     done
 }
