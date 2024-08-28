@@ -57,7 +57,7 @@ delete_file() {
 }
 
 echo_check() {
-    echo -e "${bullets[check]} ${colors[green]}$1{colors[white]}"
+    echo -e "${bullets[check]} ${colors[green]}$1${colors[white]}"
 }
 
 echo_error() {
