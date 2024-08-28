@@ -66,11 +66,11 @@ local -A colors=(
 )
 
 local -A bullets=(
+    [check]=$(format_bullet "green" "✓")
+    [error]=$(format_bullet "red" "✗")
     [info]=$(format_bullet "blue" "i")
     [question]=$(format_bullet "red" "?")
     [success]=$(format_bullet "yellow" "!")
-    [check]=$(format_bullet "green" "✓")
-    [error]=$(format_bullet "red" "✗")
 )
 
 local -A files=(

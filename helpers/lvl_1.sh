@@ -6,14 +6,14 @@ display_installation_banner() {
     clear
     
     if [[ ! -f "$banner" ]]; then
-        echo -e "${bullets[error]} Error: ${colors[red]}${banner}${colors[white]} file not found."
+        echo_error "${banner} file not found."
         return 1
     fi
 
     echo -e "${colors[cyan]}" && cat "$banner"
-    echo -e "${bullets[info]} Scripts to install and configure a professional,"
-    echo -e "     BSPWM environment on Fedora Workstation."
-    echo -e "${bullets[info]} Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
+    echo_info "Scripts to install and configure a professional,"
+    echo "     BSPWM environment on Fedora Workstation."
+    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
 }
 
 read_user_confirmation() {
@@ -32,18 +32,12 @@ handle_git_repository() {
     
     local base_path repo_path
 
-    base_path=$(expand_path "$target_dir")
-    repo_path=$(clone_repository "${repo_url}" "${base_path}")
+    base_path=$(expand_path "$target_dir") || return 1
+    repo_path=$(clone_repository "${repo_url}" "${base_path}") || return 1
 
-    if ! build_from_source "${repo_path}" "${build_command}"; then
-        echo "Error durante la construcción desde la fuente."
-        return 1
-    fi
-    	
-    if ! deploy_executable "${repo_path}" "${target_bin}"; then
-        echo "Error durante el despliegue del ejecutable."
-        return 1
-    fi
+    build_from_source "${repo_path}" "${build_command}" || return 1
+
+    deploy_executable "${repo_path}" "${target_bin}" || return 1
 
     echo "${repo_path}"
 }
@@ -93,7 +87,7 @@ deploy_fonts_to_target() {
     ${cmd_prefix}mkdir -p "$target"
     ${cmd_prefix}cp -rv "$source"/* "$target"
     
-    echo -e "${bullets[check]} Fonts deployed to ${colors[green]}$target${colors[white]}"
+    echo_check "Fonts deployed to ${target}."
 }
 
 copy_files_to_destination() {
@@ -102,7 +96,7 @@ copy_files_to_destination() {
 
     local copy_cmd asset
 
-    echo -e "${bullets[info]} Copy assets from directories or files:"
+    echo_info "Copy assets from directories or files:"
 
     copy_cmd=$(determine_copy_command "$target")
 
@@ -130,7 +124,7 @@ make_executable() {
 
     local asset
 
-    echo -e "${bullets[info]} Sets execution permission:"
+    echo_info "Sets execution permission:"
 
     for asset in "${assets[@]}"; do
         if ! file_or_directory_exists "$asset"; then

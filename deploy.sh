@@ -8,15 +8,9 @@ confirm_installation() {
     while true; do
         reply=$(read_user_confirmation)
         case "${reply}" in 
-            y)
-                return 0
-                ;;
-            n)
-                return 1
-                ;;
-            *)
-                echo -e "${bullets[error]} Error: invalid answer. Please enter 'y' or 'n'."
-                ;;
+            y) return 0 ;;
+            n) return 1 ;; 
+            *) echo -e "${bullets[error]} Error: invalid answer. Please enter 'y' or 'n'." ;;
         esac
     done
 }
@@ -24,15 +18,15 @@ confirm_installation() {
 install_rpm_package(){
     local pkgs_rpm="$1"
 
-    echo -e "${bullets[info]} Fedora update system:"
+    echo_info "Fedora update system:"
     if ! sudo dnf upgrade -y --refresh; then
-        echo -e "${bullets[error]} Error: upgrading system."
+        echo_error "Upgrading system."
         return 1
     fi
 
-    echo -e "${bullets[info]} Install packages from RPM:"
+    echo_info "Install packages from RPM:"
     if ! sudo dnf install -y ${pkgs_rpm}; then
-        echo -e "${bullets[error]} Error: installing packages."
+        echo_error "Installing packages."
         return 1
     fi
 }
@@ -42,7 +36,7 @@ install_packages_from_github() {
 
     local repo_url target_dir build_command target_bin remove_repo
     
-    echo -e "${bullets[info]} Installing packages from Repositories:"
+    echo_info "Installing packages from Repositories:"
 
     while IFS=',' read -r repo_url target_dir build_command target_bin remove_repo; do
         if [[ ${repo_url} == *.git ]]; then
@@ -59,7 +53,7 @@ configure_rpm_packages() {
 
     local package
     
-    echo -e "${bullets[info]} Configures packages installed from RPM:"
+    echo_info "Configures packages installed from RPM:"
     
     for package in "${!permissions[@]}"; do
         install_package_configuration "${package}" "${permissions[$package]}"
@@ -73,10 +67,10 @@ deploy_fonts() {
     local order_keys=("user" "system")
     local key target cmd_prefix
 
-    echo -e "${bullets[info]} Deploying fonts:"
+    echo_info "Deploying fonts:"
 
     if [[ ! -d "$source" ]]; then
-        echo -e "${bullets[error]} Error: the source directory ${colors[red]}${source}${colors[white]} does not exist."
+        echo_error "The source directory ${source} does not exist."
         return 1
     fi
 
@@ -98,11 +92,11 @@ setup_bspwm_assets(){
     local copied_assets=()
 
     if [ ${#assets[@]} -eq 0 ]; then
-        echo -e "${bullets[error]} Error: no assets specified."
+        echo_error "No assets specified."
         return 1
     fi
     
-    echo -e "${bullets[info]} Processes bspwm resources:"
+    echo_info "Processes bspwm resources:"
 
     copy_files_to_destination "${assets[@]}" "$target"
 
@@ -114,7 +108,7 @@ setup_bspwm_assets(){
 setup_zsh_assets() {
     local assets=("$@")
     
-    echo -e "${bullets[info]} Processes Zsh resources"
+    echo_info "Processes Zsh resources"
 
     copy_files_to_destination "${assets[@]}" "${paths[home]}"
     handle_color_scripts "${paths[home]}/scripts"

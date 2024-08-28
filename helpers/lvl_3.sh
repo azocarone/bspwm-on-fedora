@@ -2,18 +2,18 @@ determine_clone_path() {
     local repo_url="$1"
     local base_path="${2:-${paths[current]}}"
     
-    local absolute_path
+    local repo_path # Type absolute path
     local repo_name=$(basename "${repo_url}" .git)
     
     if [[ "${base_path}" == *"/." ]]; then
         # Case 1: If base_path ends in “/.”, do not add “/”.
-        absolute_path="${base_path}${repo_name}"
+        repo_path="${base_path}${repo_name}"
     else
         # Case 2: In any other case, add “/”.
-        absolute_path="${base_path}/${repo_name}"
+        repo_path="${base_path}/${repo_name}"
     fi
 
-    echo "${absolute_path}"
+    echo "${repo_path}"
 }
 
 has_install_script() {
@@ -34,10 +34,10 @@ delete_directory() {
     rm -rf "$dir"
     
     if [[ $? -ne 0 ]]; then
-        echo -e "${bullets[error]} Error: the directory ${colors[red]}$dir${colors[white]} could not be removed."
+        echo_error "The directory ${dir} could not be removed."
         return 1
     else
-        echo -e "${bullets[check]} The directory ${colors[green]}$dir${colors[white]} has been successfully removed."
+        echo_check "The directory ${dir} has been successfully removed."
         return 0
     fi
 }
@@ -48,10 +48,26 @@ delete_file() {
     rm -f "$file"
     
     if [[ $? -ne 0 ]]; then
-        echo -e "${bullets[error]} Error: the file ${colors[red]}$file${colors[white]} could not be deleted."
+        echo_error "The file ${file} could not be deleted."
         return 1
     else
-        echo -e "${bullets[check]} The file ${colors[green]}$file${colors[white]} has been successfully deleted."
+        echo_check "The file ${file} has been successfully deleted."
         return 0
     fi
+}
+
+echo_check() {
+    echo -e "${bullets[check]} ${colors[green]}$1{colors[white]}"
+}
+
+echo_error() {
+    echo -e "${bullets[error]} Error: ${colors[red]}$1${colors[white]}"
+}
+
+echo_info() {
+    echo -e "${bullets[info]} ${colors[blue]}$1${colors[white]}"
+}
+
+echo_success() {
+    echo -e "${bullets[success]} ${colors[yellow]}$1{colors[white]}"
 }

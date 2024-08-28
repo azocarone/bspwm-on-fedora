@@ -1,27 +1,21 @@
 source ./helpers/lvl_3.sh
 
 expand_path() {
-    local target="$1"
+    local target_dir="$1"
     
     local resolved_path
 
-    case "$target" in
-        ".")
-            resolved_path="${paths[current]}"
-            ;;
-        "~")
-            resolved_path="${paths[home]}"
-            ;;
+    case "$target_dir" in
+        ".") resolved_path="${paths[current]}" ;;
+        "~") resolved_path="${paths[home]}" ;;
         "~/"*)
             # Remove the “~/” and add the path to home
-            resolved_path="${paths[home]}/${target:2}"
-            ;;
+            resolved_path="${paths[home]}/${target_dir:2}" ;;
         /*)
             # Any absolute path is returned as is
-            resolved_path="$target"
-            ;;
+            resolved_path="$target_dir" ;;
         *)
-            echo "Target not recognized: $target"
+            echo_error "The target directory ${target_dir} is not recognized."
             return 1
             ;;
     esac
@@ -33,12 +27,12 @@ clone_repository() {
     local repo_url="$1"
     local base_path="$2"
     
-    local absolute_path=$(determine_clone_path "$repo_url" "$base_path")
+    local repo_path=$(determine_clone_path "$repo_url" "$base_path")
 
-    if git clone --depth=1 "$url" "$absolute_path"; then
-        echo "${absolute_path}"
+    if git clone --depth=1 "$url" "$repo_path"; then
+        echo "${repo_path}"
     else
-        echo -e "${bullets[error]} Error: cloning the ${colors[red]}${url}${colors[white]} repository."
+        echo_error "Cloning the ${repo_url} repository failed."
         return 1
     fi
 }
@@ -47,49 +41,59 @@ build_from_source() {
     local repo_path="$1"
     local build_command="$2"
 
-    if [[ -n ${build_command} ]]; then
-        local script_temp=$(mktemp)
+    [[ -z ${build_command} ]] && {
+        echo_success "No building is required."
+        return 0
+    }
 
-        # Trap with anonymous function.
-        trap 'rm -f "$script_temp"' EXIT 
+    local script_temp=$(mktemp)
+
+    # Trap with anonymous function.
+    trap 'rm -f "$script_temp"' EXIT 
     
-        # Sub-shell so as not to alter or change the current working directory.
-        ( 
-            cd "$repo_path" || {
-                echo -e "${bullets[error]} Error: when changing to ${colors[red]}${repo_path}${colors[white]} directory."
-                return 1
-            }
+    # Sub-shell so as not to alter or change the current working directory.
+    ( 
+        cd "$repo_path" || {
+            echo_error "Changing to ${repo_path} directory failed."
+            return 1
+        }
 
-            # Implement a Heredocs
-            cat > "$script_temp" <<EOF
+        # Implement a Heredocs
+        cat > "$script_temp" <<EOF
 #!/bin/bash
 $build_command
 EOF
-            chmod +x "$script_temp"
+        chmod +x "$script_temp"
 
-            if ! ( "$script_temp" ); then
-                echo -e "${bullets[error]} Error: when building the ${colors[red]}${repo_path}${colors[white]} package."
-                return 1
-            fi
-        )
-    fi
+        if ! ( "$script_temp" ); then
+            echo_error "Building the package in ${repo_path} failed."
+            return 1
+        fi
+     )
 }
 
 deploy_executable() {
     local repo_path="$1"
     local target_bin="$2"
     
-    if [[ -n ${target_bin} ]]; then
-        local repo_name=$(basename "$repo_path")
-        local bin_file="$repo_path/$repo_name"
+    [[ -z ${target_bin} ]] && {
+        echo_success "No executable deployment needed."
+        return 0
+    }
 
-        if has_install_script "$repo_path"; then
-            return
-        fi
+    local repo_name=$(basename "$repo_path")
+    local bin_file="$repo_path/$repo_name"
 
-        if [[ -f "$bin_file" ]]; then
-            copy_files_to_destination "$bin_file" "$target_bin"
-        fi
+    if has_install_script "$repo_path"; then
+        echo_success "Installation script found; skipping executable deployment."
+        return 0
+    fi
+
+    if [[ -f $bin_file ]]; then
+        copy_files_to_destination "$bin_file" "$target_bin"
+    else
+        echo_error "Binary file ${bin_file} does not exist."
+        return 1
     fi
 }
 
@@ -100,14 +104,14 @@ download_artifact(){
     local file=$(basename "$url")
 
     if [[ -f "$target/$file" ]]; then
-        echo -e "${bullets[success]} The file ${colors[yellow]}${file}${colors[white]} already exists."
+        echo_success "The file ${file}$ already exists."
         return 1
     fi
         
     if sudo mkdir -p "$target" && sudo curl -L "$url" -o "$target/$file"; then
-        echo -e "${bullets[check]} The file ${colors[green]}${file}${colors[white]} downloaded successfully."
+        echo_check "The file ${file} downloaded successfully."
     else
-        echo -e "${bullets[error]} Error: failed to download the file ${colors[red]}${file}${colors[white]}."
+        echo_error "Failed to download the file ${file}."
         return 1
     fi
 } 
@@ -119,7 +123,7 @@ remove_items() {
     local success=true
 
     if [[ ${#items[@]} -eq 0 ]]; then
-        echo -e "${bullets[error]} Error: no directories or files were provided for deletion."
+        echo_error "No directories or files were provided for deletion."
         return 1
     fi
 
@@ -129,7 +133,7 @@ remove_items() {
         elif [[ -f "$item" ]]; then
             delete_file "$item" || success=false
         else
-            echo -e "${bullets[error]} Error: ${colors[red]}$item${colors[white]} is not a directory or file."
+            echo_error "${item} is not a directory or file."
             success=false
         fi
     done
@@ -167,7 +171,7 @@ file_or_directory_exists() {
     local asset="$1"
 
     if [[ ! -e "$asset" ]]; then
-        echo -e "${bullets[error]} Error: ${colors[red]}${asset}${colors[white]} is not a file or a directory."
+        echo_error "${asset} is not a file or a directory."
         return 1
     fi
 
