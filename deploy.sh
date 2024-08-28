@@ -45,13 +45,12 @@ install_packages_from_github() {
     echo -e "${bullets[info]} Installing packages from Repositories:"
 
     while IFS=',' read -r repo_url target_dir build_command target_bin remove_repo; do
-        if [[ ${url} == *.git ]]; then
+        if [[ ${repo_url} == *.git ]]; then
             repo_path=$(handle_git_repository "${repo_url}" "${target_dir}" "${build_command}" "${target_bin}")
         else
             handle_download_artifact "${repo_url}" "${targe_dir}"
         fi
-
-        [[ ${remove_repo} -eq 1 ]] && handle_remove "$repo_path"
+        handle_remove "$remove_repo" "$repo_path"
     done <<< "$packages_list"
 }
 

@@ -48,7 +48,6 @@ build_from_source() {
     local build_command="$2"
 
     if [[ -n ${build_command} ]]; then
-    
         local script_temp=$(mktemp)
 
         # Trap with anonymous function.
@@ -56,7 +55,6 @@ build_from_source() {
     
         # Sub-shell so as not to alter or change the current working directory.
         ( 
-    
             cd "$repo_path" || {
                 echo -e "${bullets[error]} Error: when changing to ${colors[red]}${repo_path}${colors[white]} directory."
                 return 1

@@ -59,9 +59,10 @@ handle_download_artifact() {
 }
 
 handle_remove() {
-    local dir_path="$1"
-
-    [[ -n ${dir_path} ]] && remove_items "$dir_path"
+    local remove_repo="$1"
+    local dir_path="$2"
+    
+    [[ ${remove_repo} -eq 1 && -n ${dir_path} ]] && remove_items ${dir_path}
 }
 
 install_package_configuration() {
