@@ -98,17 +98,17 @@ deploy_executable() {
 }
 
 download_artifact(){
-    local url="$1"
-    local target="$2"
+    local repo_url="$1"
+    local base_path="$2"
 
     local file=$(basename "$url")
 
-    if [[ -f "$target/$file" ]]; then
+    if [[ -f "$base_path/$file" ]]; then
         echo_success "The file ${file}$ already exists."
         return 1
     fi
         
-    if sudo mkdir -p "$target" && sudo curl -L "$url" -o "$target/$file"; then
+    if sudo mkdir -p "$base_path" && sudo curl -L "$repo_url" -o "$base_path/$file"; then
         echo_check "The file ${file} downloaded successfully."
     else
         echo_error "Failed to download the file ${file}."

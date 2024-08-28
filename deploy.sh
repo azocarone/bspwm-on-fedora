@@ -34,7 +34,7 @@ install_rpm_package(){
 install_packages_from_github() {
     local packages_list="$1"
 
-    local repo_url target_dir build_command target_bin remove_repo
+    local repo_url target_dir build_command target_bin remove_repo repo_path
     
     echo_info "Installing packages from Repositories:"
 

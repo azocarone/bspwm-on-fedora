@@ -69,5 +69,5 @@ echo_info() {
 }
 
 echo_success() {
-    echo -e "${bullets[success]} ${colors[yellow]}$1{colors[white]}"
+    echo -e "${bullets[success]} ${colors[yellow]}$1${colors[white]}"
 }

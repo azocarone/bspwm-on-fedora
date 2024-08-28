@@ -12,8 +12,8 @@ display_installation_banner() {
 
     echo -e "${colors[cyan]}" && cat "$banner"
     echo_info "Scripts to install and configure a professional,"
-    echo "     BSPWM environment on Fedora Workstation."
-    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[white]}: deploy will begin soon."
+    echo -e "     ${colors[blue]}BSPWM environment on Fedora Workstation.${colors[white]}"
+    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[blue]}: deploy will begin soon."
 }
 
 read_user_confirmation() {
@@ -43,20 +43,20 @@ handle_git_repository() {
 }
 
 handle_download_artifact() {
-    local artifact_url="$1"
+    local repo_url="$1"
     local target_dir="$2"
 
     local base_path
 
     base_path=$(expand_path "$target_dir")
-    download_artifact "${artifact_url}" "${base_path}"
+    download_artifact "${repo_url}" "${base_path}"
 }
 
 handle_remove() {
     local remove_repo="$1"
-    local dir_path="$2"
+    local repo_path="$2"
     
-    [[ ${remove_repo} -eq 1 && -n ${dir_path} ]] && remove_items ${dir_path}
+    [[ ${remove_repo} -eq 1 && -n ${repo_path} ]] && remove_items ${repo_path}
 }
 
 install_package_configuration() {
