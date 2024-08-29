@@ -29,7 +29,7 @@ clone_repository() {
     
     local repo_path=$(determine_clone_path "$repo_url" "$base_path")
 
-    if git clone --depth=1 "$url" "$repo_path"; then
+    if git clone --depth=1 "$repo_url" "$repo_path"; then
         echo "${repo_path}"
     else
         echo_error "Cloning the ${repo_url} repository failed."
