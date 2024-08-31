@@ -1,30 +1,29 @@
-source ./helpers/lvl_2.sh
-
-display_installation_banner() {
-    local banner="$1"
-
-    clear
+handle_git_repository() {
+    local repo_url="$1"
+    local target_dir="$2"
+    local build_command="$3"
+    local target_bin="$4"
     
-    if [[ ! -f "$banner" ]]; then
-        echo_error "${banner} file not found."
-        return 1
+    local base_path=$(expand_path "$target_dir")
+    
+    local repo_path
+
+    if ! repo_path=$(clone_repository "$repo_url" "$base_path"); then
+        return 1 # Error already handled in clone_repository.
+    fi
+    
+    if ! build_from_source "$repo_path" "$build_command"; then
+        return 1 # Error already handled in build_from_source.
     fi
 
-    echo -e "${colors[cyan]}" && cat "$banner"
-    echo_info "Scripts to install and configure a professional,"
-    echo -e "     ${colors[blue]}BSPWM environment on Fedora Workstation.${colors[white]}"
-    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[blue]}: deploy will begin soon."
+    if ! deploy_executable "$repo_path" "$target_bin"; then
+        return 1  # Error already handled in deploy_executable.
+    fi
+
+    echo "$repo_path"
 }
 
-read_user_confirmation() {
-    local reply
-    
-    read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
-    
-    echo "${reply,,}" #  Convert to lowercase ",," and return the answer
-}
-
-handle_git_repository() {
+_handle_git_repository() {
     local repo_url="$1"
     local target_dir="$2"
     local build_command="$3"
@@ -48,7 +47,7 @@ handle_git_repository() {
         return 1
     }
 
-    # 2>&1 flow (stderr) redirected to the same place as (stdout).
+    # 2>&1>> flow (stderr) redirected to the same place as (stdout).
     # Combined outputs 2>&1 are passed through pipe | tee -a “$temp_file” >&2
 
     build_from_source "$repo_path" "$build_command" 2>&1 | tee -a "$temp_file" >&2
@@ -144,7 +143,7 @@ make_executable() {
     echo_info "Sets execution permission:"
 
     for asset in "${assets[@]}"; do
-        if ! file_or_directory_exists "$asset"; then
+        if ! directory_or_file_exists "$asset"; then
             return 1
         fi
 

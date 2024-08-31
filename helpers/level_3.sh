@@ -1,19 +1,23 @@
-source ./helpers/lvl_3.sh
-
 expand_path() {
     local target_dir="$1"
     
     local resolved_path
 
     case "$target_dir" in
-        ".") resolved_path="${paths[current]}" ;;
-        "~") resolved_path="${paths[home]}" ;;
+        ".") 
+            resolved_path="${paths[current]}"
+            ;;
+        "~")
+            resolved_path="${paths[home]}"
+            ;;
         "~/"*)
             # Remove the “~/” and add the path to home
-            resolved_path="${paths[home]}/${target_dir:2}" ;;
+            resolved_path="${paths[home]}/${target_dir:2}"
+            ;;
         /*)
             # Any absolute path is returned as is
-            resolved_path="$target_dir" ;;
+            resolved_path="$target_dir"
+            ;;
         *)
             echo_error "The target directory ${target_dir} is not recognized."
             return 1
@@ -29,22 +33,27 @@ clone_repository() {
     
     local repo_path=$(determine_clone_path "$repo_url" "$base_path")
 
-    if git clone --depth=1 "$repo_url" "$repo_path"; then
-        echo "${repo_path}"
-    else
+    if directory_or_file_exists "$repo_path"; then
+        echo_error "The destination directory ${repo_path} already exists."
+        return 1
+    fi
+
+    if ! git clone --depth=1 "$repo_url" "$repo_path"; then
         echo_error "Cloning the ${repo_url} repository failed."
         return 1
     fi
+
+    echo "${repo_path}"
 }
 
 build_from_source() {
     local repo_path="$1"
     local build_command="$2"
 
-    [[ -z ${build_command} ]] && {
+    if [[ -z ${build_command} ]]; then
         echo_success "No building is required."
         return 0
-    }
+    fi
 
     local script_temp=$(mktemp)
 
@@ -76,10 +85,10 @@ deploy_executable() {
     local repo_path="$1"
     local target_bin="$2"
     
-    [[ -z ${target_bin} ]] && {
+    if [[ -z ${target_bin} ]]; then
         echo_success "No executable deployment needed."
         return 0
-    }
+    fi
 
     local repo_name=$(basename "$repo_path")
     local bin_file="$repo_path/$repo_name"
@@ -101,7 +110,7 @@ download_artifact(){
     local repo_url="$1"
     local base_path="$2"
 
-    local file=$(basename "$url")
+    local file=$(basename "$repo_url")
 
     if [[ -f "$base_path/$file" ]]; then
         echo_success "The file ${file}$ already exists."
@@ -156,7 +165,7 @@ process_asset() {
     local target="$2"
     local copy_cmd="$3"
 
-    if ! file_or_directory_exists "$asset"; then
+    if ! directory_or_file_exists "$asset"; then
         return 1
     fi
 
@@ -165,15 +174,4 @@ process_asset() {
     else
         $copy_cmd -v "$asset" "$target"
     fi
-}
-
-file_or_directory_exists() {
-    local asset="$1"
-
-    if [[ ! -e "$asset" ]]; then
-        echo_error "${asset} is not a file or a directory."
-        return 1
-    fi
-
-    return 0
 }

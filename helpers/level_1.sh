@@ -1,20 +1,3 @@
-source ./helpers/lvl_1.sh
-
-confirm_installation() {
-    local reply
-
-    display_installation_banner "${files[banner]}"
-    
-    while true; do
-        reply=$(read_user_confirmation)
-        case "${reply}" in 
-            y) return 0 ;;
-            n) return 1 ;; 
-            *) echo_error "Invalid answer. Please enter 'y' or 'n'." ;;
-        esac
-    done
-}
-
 install_rpm_package(){
     local pkgs_rpm="$1"
 

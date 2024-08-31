@@ -2,18 +2,29 @@ determine_clone_path() {
     local repo_url="$1"
     local base_path="${2:-${paths[current]}}"
     
-    local repo_path # Type absolute path
     local repo_name=$(basename "${repo_url}" .git)
+    local repo_path # Type absolute path
     
     if [[ "${base_path}" == *"/." ]]; then
-        # Case 1: If base_path ends in “/.”, do not add “/”.
+        # Case 1: if base_path ends in “/.”, do not add “/”.
         repo_path="${base_path}${repo_name}"
     else
-        # Case 2: In any other case, add “/”.
+        # Case 2: in any other case, add “/”.
         repo_path="${base_path}/${repo_name}"
     fi
 
     echo "${repo_path}"
+}
+
+directory_or_file_exists() {
+    local path="$1"
+
+    if [[ -e "$path" ]]; then
+        return 0
+    else
+        echo_error "The specified path ${path} does not exist."
+        return 1
+    fi
 }
 
 has_install_script() {
@@ -54,20 +65,4 @@ delete_file() {
         echo_check "The file ${file} has been successfully deleted."
         return 0
     fi
-}
-
-echo_check() {
-    echo -e "${bullets[check]} ${colors[green]}$1${colors[white]}"
-}
-
-echo_error() {
-    echo -e "${bullets[error]} Error: ${colors[red]}$1${colors[white]}"
-}
-
-echo_info() {
-    echo -e "${bullets[info]} ${colors[blue]}$1${colors[white]}"
-}
-
-echo_success() {
-    echo -e "${bullets[success]} ${colors[yellow]}$1${colors[white]}"
 }
