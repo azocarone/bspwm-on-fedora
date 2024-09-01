@@ -20,6 +20,7 @@ directory_or_file_exists() {
     local path="$1"
 
     if [[ -e "$path" ]]; then
+        echo_info "The path ${path} exists."
         return 0
     else
         echo_error "The specified path ${path} does not exist."

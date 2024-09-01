@@ -23,41 +23,6 @@ handle_git_repository() {
     echo "$repo_path"
 }
 
-_handle_git_repository() {
-    local repo_url="$1"
-    local target_dir="$2"
-    local build_command="$3"
-    local target_bin="$4"
-    
-    local temp_file base_path repo_path
-
-    temp_file=$(mktemp)
-    trap 'rm -f "$temp_file"' EXIT
-
-    # 2>> flow (stderr)
-    # >&2 flow (stdout) to (stderr)
-
-    base_path=$(expand_path "$target_dir" 2>>"$temp_file") || {
-        cat "$temp_file" >&2
-        return 1
-    }
-
-    repo_path=$(clone_repository "$repo_url" "$base_path" 2>>"$temp_file") || {
-        cat "$temp_file" >&2
-        return 1
-    }
-
-    # 2>&1>> flow (stderr) redirected to the same place as (stdout).
-    # Combined outputs 2>&1 are passed through pipe | tee -a “$temp_file” >&2
-
-    build_from_source "$repo_path" "$build_command" 2>&1 | tee -a "$temp_file" >&2
-
-    deploy_executable "$repo_path" "$target_bin" 2>&1 | tee -a "$temp_file" >&2
-
-    # Return only the value of repo_path
-    echo "$repo_path"
-}
-
 handle_download_artifact() {
     local repo_url="$1"
     local target_dir="$2"

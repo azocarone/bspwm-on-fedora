@@ -34,7 +34,6 @@ clone_repository() {
     local repo_path=$(determine_clone_path "$repo_url" "$base_path")
 
     if directory_or_file_exists "$repo_path"; then
-        echo_error "The destination directory ${repo_path} already exists."
         return 1
     fi
 
@@ -46,64 +45,62 @@ clone_repository() {
     echo "${repo_path}"
 }
 
+# NOTE:
+# 2>&1 flow (stderr) redirected to the same place as (stdout).
+# Combined outputs 2>&1 are passed through pipe | tee -a “$temp_file” >&2
+
 build_from_source() {
     local repo_path="$1"
     local build_command="$2"
 
-    if [[ -z ${build_command} ]]; then
+    if [[ -z $build_command ]]; then
         echo_success "No building is required."
         return 0
     fi
 
-    local script_temp=$(mktemp)
+    local build_log=$(mktemp)
 
-    # Trap with anonymous function.
-    trap 'rm -f "$script_temp"' EXIT 
-    
-    # Sub-shell so as not to alter or change the current working directory.
-    ( 
-        cd "$repo_path" || {
-            echo_error "Changing to ${repo_path} directory failed."
-            return 1
-        }
+    trap 'rm -f "$build_log"' EXIT 
 
-        # Implement a Heredocs
-        cat > "$script_temp" <<EOF
-#!/bin/bash
-$build_command
-EOF
-        chmod +x "$script_temp"
-
-        if ! ( "$script_temp" ); then
-            echo_error "Building the package in ${repo_path} failed."
-            return 1
-        fi
-     )
+    if ! (
+        cd "$repo_path" &&
+        bash -c "$build_command" 2>&1 | tee -a "$build_log" >&2
+    ); then
+        echo_error "Building the package in ${repo_path} failed."
+        return 1
+    fi
 }
 
 deploy_executable() {
     local repo_path="$1"
     local target_bin="$2"
+
+    local temp_file=$(mktemp)
     
-    if [[ -z ${target_bin} ]]; then
-        echo_success "No executable deployment needed."
-        return 0
-    fi
+    trap 'rm -f "$temp_file"' EXIT
+    
+    {
+        if [[ -z ${target_bin} ]]; then
+            echo_success "No executable deployment needed."
+            return 0
+        fi
 
-    local repo_name=$(basename "$repo_path")
-    local bin_file="$repo_path/$repo_name"
+        local repo_name=$(basename "$repo_path")
+        local bin_file="$repo_path/$repo_name"
 
-    if has_install_script "$repo_path"; then
-        echo_success "Installation script found; skipping executable deployment."
-        return 0
-    fi
+        if has_install_script "$repo_path"; then
+            echo_success "Installation script found; skipping executable deployment."
+            return 0
+        fi
 
-    if [[ -f $bin_file ]]; then
-        copy_files_to_destination "$bin_file" "$target_bin"
-    else
-        echo_error "Binary file ${bin_file} does not exist."
-        return 1
-    fi
+    
+        if [[ -f $bin_file ]]; then
+            copy_files_to_destination "$bin_file" "$target_bin"
+        else
+            echo_error "Binary file ${bin_file} does not exist."
+            return 1
+        fi
+    } 2>&1 | tee -a "$temp_file" >&2
 }
 
 download_artifact(){

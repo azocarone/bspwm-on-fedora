@@ -62,13 +62,13 @@ main() {
 
     echo_info "Starting the installation process."
 
-    if ! install_rpm_package "${packages[rpm]}"; then
+    #if ! install_rpm_package "${packages[rpm]}"; then
+    #    return 1
+    #fi
+
+    if ! install_packages_from_github "${packages[github]}"; then
         return 1
     fi
-
-    # if ! install_packages_from_github "${packages[github]}"; then
-    #     return 1
-    # fi
 
     # if ! configure_rpm_packages perms_pkgs; then
     #     return 1
