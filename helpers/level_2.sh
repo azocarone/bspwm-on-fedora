@@ -37,7 +37,11 @@ handle_remove() {
     local remove_repo="$1"
     local repo_path="$2"
     
-    [[ ${remove_repo} -eq 1 && -n ${repo_path} ]] && remove_items ${repo_path}
+    if [[ "$remove_repo" -eq 1 && -n "$repo_path" ]]; then
+        remove_items "$repo_path" || return 1
+    fi
+
+    return 0
 }
 
 install_package_configuration() {

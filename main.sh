@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source ./configs/formatting.sh
-source ./configs/messages.sh
-source ./configs/packages.sh
-source ./configs/variables.sh
+source configs/formatting.sh
+source configs/messages.sh
+source configs/packages.sh
+source configs/variables.sh
 
 confirm_installation() {
     local reply
@@ -55,10 +55,10 @@ main() {
         return 1
     fi
 
-    source ./helpers/level_1.sh
-    source ./helpers/level_2.sh
-    source ./helpers/level_3.sh
-    source ./helpers/level_4.sh
+    source  helpers/level_1.sh
+    source  helpers/level_2.sh
+    source  helpers/level_3.sh
+    source  helpers/level_4.sh
 
     echo_info "Starting the installation process."
 

@@ -25,7 +25,7 @@ install_packages_from_github() {
         if [[ ${repo_url} == *.git ]]; then
             repo_path=$(handle_git_repository "${repo_url}" "${target_dir}" "${build_command}" "${target_bin}")
         else
-            handle_download_artifact "${repo_url}" "${targe_dir}"
+            handle_download_artifact "${repo_url}" "${target_dir}"
         fi
         handle_remove "$remove_repo" "$repo_path"
     done <<< "$packages_list"

@@ -8,4 +8,45 @@ packages:
     build_command: "./build.sh && ./install-i3lock-color.sh"
     target_bin: ""
     remove_repo: 1
-  
+  betterlockscreen:
+    repo_url: "https://github.com/betterlockscreen/betterlockscreen.git"
+    target_dir: "."
+    build_command: "sudo ./install.sh system"
+    target_bin: ""
+    remove_repo: 1
+  tty-clock:
+    repo_url: "https://github.com/xorg62/tty-clock.git"
+    target_dir: "."
+    build_command: "make && chmod +x tty-clock"
+    target_bin: "/usr/local/bin"
+    remove_repo: 1
+  sudo.plugin.zsh:
+    repo_url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/sudo/sudo.plugin.zsh"
+    target_dir: "/usr/share/zsh-sudo"
+    build_command: ""
+    target_bin: ""
+    remove_repo: 0
+  powerlevel10k:
+    repo_url: "https://github.com/romkatv/powerlevel10k.git"
+    target_dir: "~"
+    build_command: ""
+    target_bin: ""
+    remove_repo: 0
+  shell-color-scripts:
+    repo_url: "https://github.com/charitarthchugh/shell-color-scripts.git"
+    target_dir: "~/scripts"
+    build_command: ""
+    target_bin: ""
+    remove_repo: 0
+  fzf:
+    repo_url: "https://github.com/junegunn/fzf.git"
+    target_dir: "~/."
+    build_command: "~/.fzf/install"
+    target_bin: ""
+    remove_repo: 0
+  pipes.sh:
+    repo_url: "https://github.com/pipeseroni/pipes.sh.git"
+    target_dir: "~/scripts"
+    build_command: ""
+    target_bin: ""
+    remove_repo: 0

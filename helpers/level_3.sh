@@ -32,11 +32,11 @@ clone_repository() {
     local base_path="$2"
     
     local repo_path=$(determine_clone_path "$repo_url" "$base_path")
-
+    
     if directory_or_file_exists "$repo_path"; then
         return 1
     fi
-
+    
     if ! git clone --depth=1 "$repo_url" "$repo_path"; then
         echo_error "Cloning the ${repo_url} repository failed."
         return 1
@@ -59,7 +59,6 @@ build_from_source() {
     fi
 
     local build_log=$(mktemp)
-
     trap 'rm -f "$build_log"' EXIT 
 
     if ! (
@@ -75,32 +74,28 @@ deploy_executable() {
     local repo_path="$1"
     local target_bin="$2"
 
-    local temp_file=$(mktemp)
-    
-    trap 'rm -f "$temp_file"' EXIT
-    
-    {
-        if [[ -z ${target_bin} ]]; then
-            echo_success "No executable deployment needed."
-            return 0
-        fi
+    if [[ -z ${target_bin} ]]; then
+        echo_success "No executable deployment needed."
+        return 0
+    fi
 
-        local repo_name=$(basename "$repo_path")
-        local bin_file="$repo_path/$repo_name"
+    local deploy_log=$(mktemp)
+    trap 'rm -f "$deploy_log"' EXIT 
 
-        if has_install_script "$repo_path"; then
-            echo_success "Installation script found; skipping executable deployment."
-            return 0
-        fi
+    local repo_name=$(basename "$repo_path")
+    local bin_file="$repo_path/$repo_name"
 
-    
-        if [[ -f $bin_file ]]; then
-            copy_files_to_destination "$bin_file" "$target_bin"
-        else
-            echo_error "Binary file ${bin_file} does not exist."
-            return 1
-        fi
-    } 2>&1 | tee -a "$temp_file" >&2
+    if has_install_script "$repo_path"; then
+        echo_success "Installation script found; skipping executable deployment."
+        return 0
+    fi
+
+    if [[ -f $bin_file ]]; then
+        copy_files_to_destination "$bin_file" "$target_bin" 2>&1 | tee -a "$deploy_log" >&2
+    else
+        echo_error "Binary file ${bin_file} does not exist."
+        return 1
+    fi
 }
 
 download_artifact(){
