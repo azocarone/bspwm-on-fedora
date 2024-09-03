@@ -45,10 +45,6 @@ clone_repository() {
     echo "${repo_path}"
 }
 
-# NOTE:
-# 2>&1 flow (stderr) redirected to the same place as (stdout).
-# Combined outputs 2>&1 are passed through pipe | tee -a “$temp_file” >&2
-
 build_from_source() {
     local repo_path="$1"
     local build_command="$2"
@@ -148,6 +144,7 @@ remove_items() {
 
 determine_copy_command() {
     local target="$1"
+    local temp_file="$2"
     
     [[ -e "$target" && ! -w "$target" ]] && echo "sudo cp" || echo "cp"
 }
@@ -156,6 +153,7 @@ process_asset() {
     local asset="$1"
     local target="$2"
     local copy_cmd="$3"
+    local temp_file="$4"
 
     if ! directory_or_file_exists "$asset"; then
         return 1

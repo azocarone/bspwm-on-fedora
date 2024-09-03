@@ -76,8 +76,8 @@ deploy_fonts_to_target() {
 }
 
 copy_files_to_destination() {
-    local -a assets=("${@:1:$#-1}")
-    local target="${!#}"
+    local -a assets=("${@:1:$#-1}") # All parameters except the last one
+    local target="${!#}" # The last parameter
 
     local copy_cmd asset
 

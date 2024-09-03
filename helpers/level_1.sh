@@ -94,5 +94,6 @@ setup_zsh_assets() {
     echo_info "Processes Zsh resources"
 
     copy_files_to_destination "${assets[@]}" "${paths[home]}"
+    
     handle_color_scripts "${paths[home]}/scripts"
 }
