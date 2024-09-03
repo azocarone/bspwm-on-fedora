@@ -66,13 +66,13 @@ main() {
     #    return 1
     #fi
 
-    if ! install_packages_from_github "${packages[github]}"; then
+    #if ! install_packages_from_github "${packages[github]}"; then
+    #    return 1
+    #fi
+
+    if ! configure_rpm_packages perms_pkgs; then
         return 1
     fi
-
-    # if ! configure_rpm_packages perms_pkgs; then
-    #     return 1
-    # fi
 
     # if ! deploy_fonts font_paths; then
     #     return 1
