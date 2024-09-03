@@ -135,11 +135,7 @@ remove_items() {
         fi
     done
 
-    if [[ "$success" = true ]]; then
-        return 0
-    else
-        return 1
-    fi
+    [[ "$success" = true ]] && return 0 || return 1
 }
 
 determine_copy_command() {

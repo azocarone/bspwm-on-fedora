@@ -62,29 +62,29 @@ main() {
 
     echo_info "Starting the installation process."
 
-    #if ! install_rpm_package "${packages[rpm]}"; then
-    #    return 1
-    #fi
-
-    #if ! install_packages_from_github "${packages[github]}"; then
-    #    return 1
-    #fi
-
-    if ! configure_rpm_packages perms_pkgs; then
+    if ! install_rpm_packages "${packages[rpm]}"; then
         return 1
     fi
 
-    # if ! deploy_fonts font_paths; then
-    #     return 1
-    # fi
+    if ! install_packages_from_github "${packages[github]}"; then
+        return 1
+    fi
 
-    # if ! setup_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"; then
-    #     return 1
-    # fi
+    if ! configure_rpm_packages rpm_pkgs_permissions; then
+        return 1
+    fi
 
-    # if ! setup_zsh_assets "${zsh_assets[@]}"; then
-    #     return 1
-    # fi
+    if ! deploy_fonts font_paths; then
+        return 1
+    fi
+
+    if ! setup_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"; then
+        return 1
+    fi
+
+    if ! setup_zsh_assets "${zsh_assets[@]}"; then
+        return 1
+    fi
         
     echo_check "Installation completed, please reboot to apply the configuration."
 }

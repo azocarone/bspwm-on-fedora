@@ -1,4 +1,4 @@
-install_rpm_package(){
+install_rpm_packages(){
     local pkgs_rpm="$1"
 
     echo_info "Fedora update system:"
@@ -7,7 +7,7 @@ install_rpm_package(){
         return 1
     fi
 
-    echo_info "Install packages from RPM:"
+    echo_info "Install RPM packages:"
     if ! sudo dnf install -y ${pkgs_rpm}; then
         echo_error "Installing packages."
         return 1
@@ -19,7 +19,7 @@ install_packages_from_github() {
 
     local repo_url target_dir build_command target_bin remove_repo repo_path
     
-    echo_info "Installing packages from Repositories:"
+    echo_info "Installing packages from GitHub:"
 
     while IFS=',' read -r repo_url target_dir build_command target_bin remove_repo; do
         if [[ ${repo_url} == *.git ]]; then
@@ -36,7 +36,7 @@ configure_rpm_packages() {
 
     local package
     
-    echo_info "Configures packages installed from RPM:"
+    echo_info "Configures RPM packages installed:"
     
     for package in "${!permissions[@]}"; do
         install_package_configuration "${package}" "${permissions[$package]}"
@@ -50,7 +50,7 @@ deploy_fonts() {
     local order_keys=("user" "system")
     local key target cmd_prefix
 
-    echo_info "Deploying fonts:"
+    echo_info "Deployment of user and system fonts:"
 
     if [[ ! -d "$source" ]]; then
         echo_error "The source directory ${source} does not exist."
@@ -79,7 +79,7 @@ setup_bspwm_assets(){
         return 1
     fi
     
-    echo_info "Processes bspwm resources:"
+    echo_info "Setup BSPWM assets:"
 
     copy_files_to_destination "${assets[@]}" "$target"
 
@@ -91,7 +91,7 @@ setup_bspwm_assets(){
 setup_zsh_assets() {
     local assets=("$@")
     
-    echo_info "Processes Zsh resources"
+    echo_info "Setup Zsh assets:"
 
     copy_files_to_destination "${assets[@]}" "${paths[home]}"
     

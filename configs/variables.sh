@@ -36,7 +36,7 @@ local -A paths=(
     [current]="$(pwd)"
 )
 
-local -A perms_pkgs=(
+local -A rpm_pkgs_permissions=(
     [bspwm]=1
     [sxhkd]=1
     [kitty]=0

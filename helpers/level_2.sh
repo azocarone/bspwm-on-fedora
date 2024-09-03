@@ -55,7 +55,9 @@ install_package_configuration() {
     
     copy_files_to_destination "${pkgs_source}" "${pkgs_target}"
     
-    [[ "${permission}" -eq 1 ]] && make_executable "${pkgs_target}"
+    if [[ "${permission}" -eq 1 ]]; then
+        make_executable "${pkgs_target}"
+    fi
 }
 
 determine_sudo_command() {
