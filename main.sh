@@ -11,11 +11,6 @@
 #  Usage       : chmod +x main.sh root.sh ; ./main.sh ; sudo ./root.sh
 # =============================================================================
 
-source configs/formatting.sh
-source configs/messages.sh
-source configs/packages.sh
-source configs/variables.sh
-
 confirm_installation() {
     local reply
 
@@ -62,44 +57,32 @@ read_user_confirmation() {
 }
 
 main() {
-    if ! confirm_installation; then
-        return 1
-    fi
+    confirm_installation || return 1
 
-    source  helpers/level_1.sh
-    source  helpers/level_2.sh
-    source  helpers/level_3.sh
-    source  helpers/level_4.sh
+    local helpers=("helpers/level_1.sh" "helpers/level_2.sh" "helpers/level_3.sh" "helpers/level_4.sh")
+
+    for helper in "${helpers[@]}"; do
+        source "$helper"
+    done
 
     echo_info "Starting the installation process."
 
-    if ! install_rpm_packages "${packages[rpm]}"; then
-        return 1
-    fi
-
-    if ! install_packages_from_github "${packages[github]}"; then
-        return 1
-    fi
-
-    if ! configure_rpm_packages rpm_pkgs_permissions; then
-        return 1
-    fi
-
-    if ! deploy_fonts font_paths; then
-        return 1
-    fi
-
-    if ! setup_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}"; then
-        return 1
-    fi
-
-    if ! setup_zsh_assets "${zsh_assets[@]}"; then
-        return 1
-    fi
-        
+    install_rpm_packages "${packages[rpm]}" &&
+    install_packages_from_github "${packages[github]}" &&
+    configure_rpm_packages rpm_pkgs_permissions &&
+    deploy_fonts font_paths &&
+    setup_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}" &&
+    setup_zsh_assets "${zsh_assets[@]}" &&
+            
     echo_check "Installation completed, please reboot to apply the configuration."
 }
- 
+
+local configs=("configs/formatting.sh" "configs/messages.sh" "configs/packages.sh" "configs/variables.sh")
+
+for config in "${configs[@]}"; do
+    source "$config"
+done
+
 if ! main; then
     echo_error "Installation failed."
     exit $?
