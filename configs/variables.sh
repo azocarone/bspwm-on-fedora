@@ -1,4 +1,4 @@
-local -A colors=(
+declare -A colors=(
     [red]='\033[1;31m'
     [green]='\033[1;32m'
     [yellow]='\033[33m'
@@ -8,7 +8,7 @@ local -A colors=(
     [white]='\033[1;37m'
 )
 
-local -A bullets=(
+declare -A bullets=(
     [check]=$(format_bullet "green" "✓")
     [error]=$(format_bullet "red" "✗")
     [info]=$(format_bullet "blue" "i")
@@ -16,27 +16,27 @@ local -A bullets=(
     [success]=$(format_bullet "yellow" "!")
 )
 
-local -A files=(
+declare -A files=(
     [banner]="./resources/banner.txt"
     [pkgs_rpm]="./configs/pkgs_rpm.yaml"
     [pkgs_github]="./configs/pkgs_github.yaml"
 )
 
-local -A packages=(
+declare -A packages=(
     [rpm]=$(get_rpm_package "${files[pkgs_rpm]}")
     [github]=$(get_github_package "${files[pkgs_github]}")
 )
 
 # :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
 # SUDO_USER and USER are environment variables of the Linux operating system.
-local USERNAME="${SUDO_USER:-$USER}" 
+USERNAME="${SUDO_USER:-$USER}" 
 
-local -A paths=(
+declare -A paths=(
     [home]=$"/home/${USERNAME}"
     [current]="$(pwd)"
 )
 
-local -A rpm_pkgs_permissions=(
+declare -A rpm_pkgs_permissions=(
     [bspwm]=1
     [sxhkd]=1
     [kitty]=0
@@ -47,12 +47,12 @@ local -A rpm_pkgs_permissions=(
     [polybar]=1
 )
 
-local -A font_paths=(
+declare -A font_paths=(
     [source]="${paths[current]}/.fonts"
     [user]="${paths[home]}/.fonts"
     [system]="/usr/local/share/fonts"
 )
 
-local bspwm_assets=("${paths[current]}/scripts" "${paths[current]}/.themes")
+bspwm_assets=("${paths[current]}/scripts" "${paths[current]}/.themes")
 
-local zsh_assets=("${paths[current]}/.zshrc" "${paths[current]}/.p10k.zsh")
+zsh_assets=("${paths[current]}/.zshrc" "${paths[current]}/.p10k.zsh")

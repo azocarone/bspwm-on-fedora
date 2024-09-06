@@ -5,29 +5,30 @@
 #                BSPWM environment on Fedora Linux Workstation. 
 # -----------------------------------------------------------------------------
 #  Author      : José AZOCAR (azocarone)
-#  Created on  : 2024-09-03
-#  Version     : RC1
+#  Created on  : 2024-09-06
+#  Version     : RC3
 # -----------------------------------------------------------------------------
-#  Usage       : chmod +x main.sh root.sh ; ./main.sh ; sudo ./root.sh
+#  Usage       : Script and main execution function.
+#               
+#                1. > chmod +x main.sh root.sh
+#                2. > ./main.sh
+#                3. > sudo ./root.sh
 # =============================================================================
 
-confirm_installation() {
-    local reply
+source configs/formatting.sh
+source configs/messages.sh
+source configs/packages.sh
+source configs/variables.sh
 
+confirm_installation() {
     display_installation_banner "${files[banner]}"
-    
+
     while true; do
-        reply=$(read_user_confirmation)
-        case "${reply}" in 
-            y)
-                return 0
-                ;;
-            n)
-                return 1
-                ;; 
-            *)
-                echo_error "Invalid answer. Please enter 'y' or 'n'."
-                ;;
+        read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
+        case "${reply,,}" in  # Convert input to lowercase
+            y) return 0 ;; # Continue
+            n) return 1 ;; # Exit
+            *) echo_error "Invalid answer. Please enter 'y' or 'n'." ;;
         esac
     done
 }
@@ -36,54 +37,56 @@ display_installation_banner() {
     local banner="$1"
 
     clear
-    
+
     if [[ ! -f "$banner" ]]; then
-        echo_error "${banner} file not found."
+        echo_error "Banner file ${banner} not found."
         return 1
     fi
 
-    echo -e "${colors[cyan]}" && cat "$banner"
+    echo -e "${colors[cyan]}"
+    cat "$banner"
     echo_info "Scripts to install and configure a professional,"
     echo -e "     ${colors[blue]}BSPWM environment on Fedora Workstation.${colors[white]}"
-    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[blue]}: deploy will begin soon."
+    echo_info "Hello, ${colors[purple]}${USERNAME}${colors[blue]}: deployment will begin soon."
 }
 
-read_user_confirmation() {
-    local reply
-    
-    read -rp "${bullets[question]} Do you want to continue with the installation [y/n]?: " reply
-    
-    echo "${reply,,}" #  Convert to lowercase ",," and return the answer
+run_or_fail() {
+    local function="$1"
+    local description="$2"
+    shift 2  # Remove the first two arguments (function and description)
+    local parameters=("$@")  # Remaining arguments are the parameters
+
+    if ! "$function" "${parameters[@]}"; then
+        echo_error "$description failed."
+        exit 1
+    fi
 }
 
 main() {
-    confirm_installation || return 1
+    confirm_installation || { echo_error "Installation aborted."; exit 1; }
 
-    local helpers=("helpers/level_1.sh" "helpers/level_2.sh" "helpers/level_3.sh" "helpers/level_4.sh")
-
-    for helper in "${helpers[@]}"; do
-        source "$helper"
-    done
-
+    declare -A steps=(
+        [rpm_package_installation]="RPM package installation,${packages[rpm]}"
+        #[github_package_installation]="GitHub package installation,${packages[github]}"
+        #[rpm_package_configuration]="RPM package configuration,rpm_pkgs_permissions"
+        #[font_deployment]="Font deployment,font_paths"
+        #[bspwm_assets_setup]="BSPWM assets setup,${bspwm_assets[@]} ${paths[home]}"
+        #[zsh_assets_setup]="ZSH assets setup,${zsh_assets[@]}"
+    )
+    
+    source helpers/steps.sh
+    
     echo_info "Starting the installation process."
 
-    install_rpm_packages "${packages[rpm]}" &&
-    install_packages_from_github "${packages[github]}" &&
-    configure_rpm_packages rpm_pkgs_permissions &&
-    deploy_fonts font_paths &&
-    setup_bspwm_assets "${bspwm_assets[@]}" "${paths[home]}" &&
-    setup_zsh_assets "${zsh_assets[@]}" &&
-            
+    for function in "${!steps[@]}"; do
+        IFS="," read -r description parameters <<< "${steps[$function]}" # Split the value by the delimiter ","
+        run_or_fail "$function" "$description" $parameters
+    done
+
     echo_check "Installation completed, please reboot to apply the configuration."
 }
 
-local configs=("configs/formatting.sh" "configs/messages.sh" "configs/packages.sh" "configs/variables.sh")
-
-for config in "${configs[@]}"; do
-    source "$config"
-done
-
 if ! main; then
     echo_error "Installation failed."
-    exit $?
+    exit 1
 fi
