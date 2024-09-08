@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-#  Helper functions for verifications
+#  Helper functions for verifications.
 # =============================================================================
 
 check_file_exists() {

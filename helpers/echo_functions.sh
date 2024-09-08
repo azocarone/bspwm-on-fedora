@@ -1,8 +1,9 @@
 #!/bin/bash
 # =============================================================================
-#  Helper functions for displaying messages
+#  Helper functions for displaying messages.
 # -----------------------------------------------------------------------------
 #  Note:
+#  
 #  2>&1 flow (stderr) redirected to the same place as (stdout).
 #  Combined outputs 2>&1 are passed through pipe | tee -a “$temp_log” >&2
 # =============================================================================

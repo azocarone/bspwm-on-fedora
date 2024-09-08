@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-#  Helper functions to manage package fetching and parsing from YAML
+#  Helper functions for manage package fetching and parsing from YAML.
 # =============================================================================
 
 get_rpm_package() {

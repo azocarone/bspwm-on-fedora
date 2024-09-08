@@ -3,7 +3,10 @@
 #  Project Name: bspwm-on-fedora
 #  Description : Main script for installing and configuring BSPWM on Fedora
 # -----------------------------------------------------------------------------
-#  Version     : RC3
+#  Author      : José AZOCAR (azocarone)
+#  Created on  : 2024-09-06
+# -----------------------------------------------------------------------------
+#  Version     : RC4
 # =============================================================================
 
 source helpers/echo_functions.sh

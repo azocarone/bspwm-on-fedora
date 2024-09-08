@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-#  Helper functions to manage installation flow (display banner, user confirmation)
+#  Helper func. for manage installation flow (display banner, user confirmation).
 # =============================================================================
 
 display_installation_banner() {

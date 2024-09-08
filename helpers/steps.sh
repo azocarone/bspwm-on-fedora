@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-#  Helper script to manage installation steps
+#  Helper functions for manage installation steps.
 # =============================================================================
 
 source helpers/github_install.sh

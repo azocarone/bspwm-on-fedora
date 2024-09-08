@@ -1,13 +1,6 @@
+#!/bin/bash
 # =============================================================================
-#  Project Name: bspwm-on-fedora
-#  Description : Scripts to install and configure a professional 
-#                BSPWM environment on Fedora Linux Workstation. 
-# -----------------------------------------------------------------------------
-#  Author      : José AZOCAR (azocarone)
-#  Created on  : 2024-09-06
-#  Version     : RC3
-# -----------------------------------------------------------------------------
-#  Usage       : Common funcs. and their related aux. funcs.
+#  Helper common functions and their related auxiliary functions.
 # =============================================================================
 
 comm_expand_path() {

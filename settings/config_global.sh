@@ -1,6 +1,11 @@
 #!/bin/bash
 # =============================================================================
-# Global settings and variables for the script
+# Global settings and variables for the script.
+# -----------------------------------------------------------------------------
+#  Note:
+#  
+#  :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
+#  SUDO_USER and USER are environment variables of the Linux operating system.
 # =============================================================================
 
 source helpers/package_utils.sh
@@ -34,9 +39,6 @@ declare -A packages=(
     [github]=$(get_github_package "${files[pkgs_github]}")
 )
 
-#  Note:
-#  :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
-#  SUDO_USER and USER are environment variables of the Linux operating system.
 USERNAME="${SUDO_USER:-$USER}" 
 
 declare -A paths=(
