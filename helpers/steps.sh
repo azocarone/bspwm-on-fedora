@@ -1,23 +1,9 @@
+#!/bin/bash
 # =============================================================================
-#  Project Name: bspwm-on-fedora
-#  Description : Scripts to install and configure a professional 
-#                BSPWM environment on Fedora Linux Workstation. 
-# -----------------------------------------------------------------------------
-#  Author      : José AZOCAR (azocarone)
-#  Created on  : 2024-09-06
-#  Version     : RC3
-# -----------------------------------------------------------------------------
-#  Usage       : Aux. funcs. for executing deployment steps
+#  Helper script to manage installation steps
 # =============================================================================
 
-source helpers/github_install.sh
-source helpers/rpm_config.sh
-source helpers/font_deploy.sh
-source helpers/bspwm_setup.sh
-source helpers/zsh_setup.sh
-source helpers/common.sh
-
-rpm_package_installation(){
+step_rpm_package_installation(){
     local pkgs_rpm="$1"
 
     echo_info "Fedora update system:"
@@ -33,7 +19,7 @@ rpm_package_installation(){
     fi
 }
 
-github_package_installation() {
+step_github_package_installation() {
     local packages_list="$1"
 
     local repo_url target_dir build_command target_bin remove_repo repo_path
@@ -50,7 +36,7 @@ github_package_installation() {
     done <<< "$packages_list"
 }
 
-rpm_package_configuration() {
+step_rpm_package_configuration() {
     local -n permissions=$1
 
     local package
@@ -62,7 +48,7 @@ rpm_package_configuration() {
     done
 }
 
-font_deployment() {
+step_font_deployment() {
     local -n paths=$1
 
     local source="${paths[source]}"
@@ -87,7 +73,7 @@ font_deployment() {
     done
 }
 
-bspwm_assets_setup(){
+step_bspwm_assets_setup(){
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 
@@ -104,5 +90,17 @@ bspwm_assets_setup(){
 
     copied_assets=($(generate_copied_assets "${assets[@]}" "$target"))
 
+    comm_make_executable "${copied_assets[@]}"
+}
+
+step_zsh_assets_setup() {
+    local assets=("$@")
+
+    echo_info "Zsh assets setup :"
+
+    copy_files_to_destination "${assets[@]}" "${paths[home]}"
+
+    handle_color_scripts "${paths[home]}/scripts"
+    
     comm_make_executable "${copied_assets[@]}"
 }

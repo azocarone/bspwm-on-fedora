@@ -1,3 +1,10 @@
+#!/bin/bash
+# =============================================================================
+# Global settings and variables for the script
+# =============================================================================
+
+source helpers/package_utils.sh
+
 declare -A colors=(
     [red]='\033[1;31m'
     [green]='\033[1;32m'
@@ -9,11 +16,11 @@ declare -A colors=(
 )
 
 declare -A bullets=(
-    [check]=$(format_bullet "green" "✓")
-    [error]=$(format_bullet "red" "✗")
-    [info]=$(format_bullet "blue" "i")
-    [question]=$(format_bullet "red" "?")
-    [success]=$(format_bullet "yellow" "!")
+    [check]=$(echo_bullet "green" "✓")
+    [error]=$(echo_bullet "red" "✗")
+    [info]=$(echo_bullet "blue" "i")
+    [question]=$(echo_bullet "red" "?")
+    [success]=$(echo_bullet "yellow" "!")
 )
 
 declare -A files=(
