@@ -7,19 +7,12 @@
 # =============================================================================
 
 source helpers/echo_functions.sh
+source settings/config_global.sh
 source helpers/verification.sh
 source helpers/installation_flow.sh
 source helpers/steps.sh
-source configs/settings.sh
 
 main() {
-    #local configs=("packages")
-
-    #for config in "${configs[@]}"; do
-    #    check_file_exists "configs/${config}.sh" || return 1
-    #    source "configs/${config}.sh"
-    #done
-
     check_file_exists "${files[banner]}" || return 1
     display_installation_banner "${files[banner]}"
     confirm_installation || {

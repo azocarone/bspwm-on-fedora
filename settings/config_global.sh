@@ -25,8 +25,8 @@ declare -A bullets=(
 
 declare -A files=(
     [banner]="./resources/banner.txt"
-    [pkgs_rpm]="./configs/pkgs_rpm.yaml"
-    [pkgs_github]="./configs/pkgs_github.yaml"
+    [pkgs_rpm]="./settings/pkgs_rpm.yaml"
+    [pkgs_github]="./settings/pkgs_github.yaml"
 )
 
 declare -A packages=(
@@ -34,8 +34,9 @@ declare -A packages=(
     [github]=$(get_github_package "${files[pkgs_github]}")
 )
 
-# :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
-# SUDO_USER and USER are environment variables of the Linux operating system.
+#  Note:
+#  :- Ternary operator: sets USERNAME to SUDO_USER if defined, otherwise uses USER.
+#  SUDO_USER and USER are environment variables of the Linux operating system.
 USERNAME="${SUDO_USER:-$USER}" 
 
 declare -A paths=(

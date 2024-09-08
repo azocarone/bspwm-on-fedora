@@ -3,6 +3,12 @@
 #  Helper script to manage installation steps
 # =============================================================================
 
+source helpers/github_install.sh
+source helpers/rpm_config.sh
+source helpers/font_deploy.sh
+source helpers/bspwm_setup.sh
+source helpers/zsh_setup.sh
+
 step_rpm_package_installation(){
     local pkgs_rpm="$1"
 
