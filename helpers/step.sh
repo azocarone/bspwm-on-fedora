@@ -8,7 +8,7 @@ source helpers/steps/rpm_config.sh
 source helpers/steps/font_deploy.sh
 source helpers/steps/bspwm_setup.sh
 source helpers/steps/zsh_setup.sh
-source helpers/common.sh
+source helpers/steps/common.sh
 
 step_rpm_installation(){
     local pkgs_rpm="$1"
