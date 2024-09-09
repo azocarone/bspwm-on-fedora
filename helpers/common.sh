@@ -72,21 +72,21 @@ comm_copy_files_to_destination() {
 
     echo_info "Copy assets from directories or files:"
 
-    copy_cmd=$(determine_copy_command "$target")
+    copy_cmd=$(comm_determine_copy_command "$target")
 
     for asset in "${assets[@]}"; do
-        process_asset "$asset" "$target" "$copy_cmd" || return 1
+        comm_process_asset "$asset" "$target" "$copy_cmd" || return 1
     done
 }
 
-determine_copy_command() {
+comm_determine_copy_command() {
     local target="$1"
     local temp_file="$2"
     
     [[ -e "$target" && ! -w "$target" ]] && echo "sudo cp" || echo "cp"
 }
 
-process_asset() {
+comm_process_asset() {
     local asset="$1"
     local target="$2"
     local copy_cmd="$3"
@@ -116,9 +116,9 @@ comm_remove_items() {
 
     for item in "${items[@]}"; do
         if [[ -d "$item" ]]; then
-            delete_directory "$item" || success=false
+            comm_delete_directory "$item" || success=false
         elif [[ -f "$item" ]]; then
-            delete_file "$item" || success=false
+            comm_delete_file "$item" || success=false
         else
             echo_error "${item} is not a directory or file."
             success=false
@@ -128,7 +128,7 @@ comm_remove_items() {
     [[ "$success" = true ]] && return 0 || return 1
 }
 
-delete_directory() {
+comm_delete_directory() {
     local dir="$1"
 
     rm -rf "$dir"
@@ -142,7 +142,7 @@ delete_directory() {
     fi
 }
 
-delete_file() {
+comm_delete_file() {
     local file="$1"
 
     rm -f "$file"

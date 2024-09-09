@@ -144,7 +144,7 @@ download_artifact(){
     local file=$(basename "$repo_url")
 
     if [[ -f "$base_path/$file" ]]; then
-        echo_success "The file ${file}$ already exists."
+        echo_success "The file ${file} already exists."
         return 1
     fi
         

@@ -3,11 +3,12 @@
 #  Helper functions for manage installation steps.
 # =============================================================================
 
-source helpers/github_install.sh
-source helpers/rpm_config.sh
-source helpers/font_deploy.sh
-source helpers/bspwm_setup.sh
-source helpers/zsh_setup.sh
+source helpers/github_install.sh    # github_
+source helpers/rpm_config.sh        # rpm_
+source helpers/font_deploy.sh       # font_
+source helpers/bspwm_setup.sh       # bspwm_
+source helpers/zsh_setup.sh         # zsh_
+source helpers/common.sh            # common_
 
 step_rpm_package_installation(){
     local pkgs_rpm="$1"
@@ -80,9 +81,10 @@ step_font_deployment() {
 }
 
 step_bspwm_assets_setup(){
-    local -a assets=("${@:1:$#-1}")
-    local target="${!#}"
-
+    IFS=' ' read -r -a str_args <<< "$1"
+    
+    local -a assets=("${str_args[@]:0:${#str_args[@]}-1}")
+    local target="${str_args[${#str_args[@]}-1]}"
     local copied_assets=()
 
     if [ ${#assets[@]} -eq 0 ]; then
@@ -95,16 +97,15 @@ step_bspwm_assets_setup(){
     comm_copy_files_to_destination "${assets[@]}" "$target"
 
     copied_assets=($(generate_copied_assets "${assets[@]}" "$target"))
-
     comm_make_executable "${copied_assets[@]}"
 }
 
 step_zsh_assets_setup() {
     local assets=("$@")
 
-    echo_info "Zsh assets setup :"
+    echo_info "Zsh assets setup:"
 
-    copy_files_to_destination "${assets[@]}" "${paths[home]}"
+    comm_copy_files_to_destination "${assets[@]}" "${paths[home]}"
 
     handle_color_scripts "${paths[home]}/scripts"
     

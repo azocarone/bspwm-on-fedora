@@ -24,7 +24,7 @@ confirm_installation() {
             n) return 1 ;;
             *) 
                 (( attempts-- ))
-                echo_error "Invalid answer. Please enter 'y' or 'n'. Remaining attempts: $attempts."
+                echo_error "Invalid answer, please enter 'y' or 'n'. Remaining attempts: $attempts"
                 ;;
         esac
     done

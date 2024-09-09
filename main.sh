@@ -4,7 +4,7 @@
 #  Description : Main script for installing and configuring BSPWM on Fedora
 # -----------------------------------------------------------------------------
 #  Author      : José AZOCAR (azocarone)
-#  Created on  : 2024-09-07
+#  Created on  : 2024-09-08
 # -----------------------------------------------------------------------------
 #  Version     : RC4
 # =============================================================================
@@ -24,12 +24,12 @@ main() {
     }
 
     local -A steps=(
-        [rpm_package_installation]=${packages[rpm]}
+        #[rpm_package_installation]=${packages[rpm]}
         #[github_package_installation]="${packages[github]}"
         #[rpm_package_configuration]="rpm_pkgs_permissions"
         #[font_deployment]="font_paths"
         #[bspwm_assets_setup]="${bspwm_assets[@]} ${paths[home]}"
-        #[zsh_assets_setup]="${zsh_assets[@]}"
+        [zsh_assets_setup]="${zsh_assets[@]}"
     )
 
     echo_info "Starting the installation process."
