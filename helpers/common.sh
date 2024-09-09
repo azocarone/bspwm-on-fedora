@@ -40,7 +40,7 @@ comm_make_executable() {
     echo_info "Sets execution permission:"
 
     for asset in "${assets[@]}"; do
-        if ! comm_directory_or_file_exists "$asset"; then
+        if ! comm_path_exists "$asset"; then
             return 1
         fi
 
@@ -52,7 +52,7 @@ comm_make_executable() {
     done
 }
 
-comm_directory_or_file_exists() {
+comm_path_exists() {
     local path="$1"
 
     if [[ -e "$path" ]]; then
@@ -64,7 +64,7 @@ comm_directory_or_file_exists() {
     fi
 }
 
-comm_copy_files_to_destination() {
+comm_copy_destination() {
     local -a assets=("${@:1:$#-1}") # All parameters except the last one
     local target="${!#}" # The last parameter
 
@@ -72,14 +72,14 @@ comm_copy_files_to_destination() {
 
     echo_info "Copy assets from directories or files:"
 
-    copy_cmd=$(comm_determine_copy_command "$target")
+    copy_cmd=$(comm_determine_command "$target")
 
     for asset in "${assets[@]}"; do
         comm_process_asset "$asset" "$target" "$copy_cmd" || return 1
     done
 }
 
-comm_determine_copy_command() {
+comm_determine_command() {
     local target="$1"
     local temp_file="$2"
     
@@ -92,7 +92,7 @@ comm_process_asset() {
     local copy_cmd="$3"
     local temp_file="$4"
 
-    if ! comm_directory_or_file_exists "$asset"; then
+    if ! comm_path_exists "$asset"; then
         return 1
     fi
 

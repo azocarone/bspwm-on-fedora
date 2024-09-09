@@ -3,7 +3,7 @@
 #  Helper functions for bspwm assets setup.
 # =============================================================================
 
-generate_copied_assets() {
+bspwm_generate_copied() {
     local -a assets=("${@:1:$#-1}")
     local target="${!#}"
 

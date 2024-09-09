@@ -3,13 +3,13 @@
 #  Helper functions for font deployment of user and system fonts.
 # =============================================================================
 
-determine_sudo_command() {
+font_determine_command() {
     local key="$1"
 
     [[ $key == "system" ]] && echo "sudo " || echo ""
 }
 
-deploy_fonts_to_target() {
+font_deploy_target() {
     local source="$1"
     local target="$2"
     local cmd_prefix="$3"

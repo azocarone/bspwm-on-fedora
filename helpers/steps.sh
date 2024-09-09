@@ -3,14 +3,14 @@
 #  Helper functions for manage installation steps.
 # =============================================================================
 
-source helpers/github_install.sh    # github_
-source helpers/rpm_config.sh        # rpm_
-source helpers/font_deploy.sh       # font_
-source helpers/bspwm_setup.sh       # bspwm_
-source helpers/zsh_setup.sh         # zsh_
-source helpers/common.sh            # common_
+source helpers/github_install.sh
+source helpers/rpm_config.sh
+source helpers/font_deploy.sh
+source helpers/bspwm_setup.sh
+source helpers/zsh_setup.sh
+source helpers/common.sh
 
-step_rpm_package_installation(){
+step_rpm_installation(){
     local pkgs_rpm="$1"
 
     echo_info "Fedora update system:"
@@ -26,7 +26,7 @@ step_rpm_package_installation(){
     fi
 }
 
-step_github_package_installation() {
+step_github_installation() {
     local packages_list="$1"
 
     local repo_url target_dir build_command target_bin remove_repo repo_path
@@ -35,15 +35,15 @@ step_github_package_installation() {
 
     while IFS=',' read -r repo_url target_dir build_command target_bin remove_repo; do
         if [[ ${repo_url} == *.git ]]; then
-            repo_path=$(handle_git_repository "${repo_url}" "${target_dir}" "${build_command}" "${target_bin}")
+            repo_path=$(github_handle_repository "${repo_url}" "${target_dir}" "${build_command}" "${target_bin}")
         else
-            handle_download_artifact "${repo_url}" "${target_dir}"
+            github_handle_artifact "${repo_url}" "${target_dir}"
         fi
-        handle_remove "$remove_repo" "$repo_path"
+        github_handle_remove "$remove_repo" "$repo_path"
     done <<< "$packages_list"
 }
 
-step_rpm_package_configuration() {
+step_rpm_configuration() {
     local -n permissions=$1
 
     local package
@@ -51,7 +51,7 @@ step_rpm_package_configuration() {
     echo_info "RPM package configuration:"
     
     for package in "${!permissions[@]}"; do
-        install_package_configuration "${package}" "${permissions[$package]}"
+        rpm_install_configuration "${package}" "${permissions[$package]}"
     done
 }
 
@@ -72,15 +72,15 @@ step_font_deployment() {
     for key in "${order_keys[@]}"; do
         target="${paths[$key]}"
 
-        cmd_prefix=$(determine_sudo_command "$key")
+        cmd_prefix=$(font_determine_command "$key")
        
-        deploy_fonts_to_target "$source" "$target" "$cmd_prefix"
+        font_deploy_target "$source" "$target" "$cmd_prefix"
 
         source="${target}"
     done
 }
 
-step_bspwm_assets_setup(){
+step_bspwm_setup(){
     IFS=' ' read -r -a str_args <<< "$1"
     
     local -a assets=("${str_args[@]:0:${#str_args[@]}-1}")
@@ -94,20 +94,20 @@ step_bspwm_assets_setup(){
     
     echo_info "BSPWM assets setup:"
 
-    comm_copy_files_to_destination "${assets[@]}" "$target"
+    comm_copy_destination "${assets[@]}" "$target"
 
-    copied_assets=($(generate_copied_assets "${assets[@]}" "$target"))
+    copied_assets=($(bspwm_generate_copied "${assets[@]}" "$target"))
     comm_make_executable "${copied_assets[@]}"
 }
 
-step_zsh_assets_setup() {
+step_zsh_setup() {
     local assets=("$@")
 
     echo_info "Zsh assets setup:"
 
-    comm_copy_files_to_destination "${assets[@]}" "${paths[home]}"
+    comm_copy_destination "${assets[@]}" "${paths[home]}"
 
-    handle_color_scripts "${paths[home]}/scripts"
+    zsh_handle_scripts "${paths[home]}/scripts"
     
     comm_make_executable "${copied_assets[@]}"
 }

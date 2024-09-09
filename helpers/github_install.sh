@@ -3,7 +3,7 @@
 #  Helper functions for GitHub package installation.
 # =============================================================================
 
-handle_git_repository() {
+github_handle_repository() {
     local repo_url="$1"
     local target_dir="$2"
     local build_command="$3"
@@ -13,28 +13,28 @@ handle_git_repository() {
     
     local repo_path
 
-    if ! repo_path=$(clone_repository "$repo_url" "$base_path"); then
+    if ! repo_path=$(github_clone_repository "$repo_url" "$base_path"); then
         return 1 # Error already handled in clone_repository.
     fi
     
-    if ! build_from_source "$repo_path" "$build_command"; then
+    if ! github_build_source "$repo_path" "$build_command"; then
         return 1 # Error already handled in build_from_source.
     fi
 
-    if ! deploy_executable "$repo_path" "$target_bin"; then
+    if ! github_deploy_executable "$repo_path" "$target_bin"; then
         return 1  # Error already handled in deploy_executable.
     fi
 
     echo "$repo_path"
 }
 
-clone_repository() {
+github_clone_repository() {
     local repo_url="$1"
     local base_path="$2"
     
-    local repo_path=$(determine_clone_path "$repo_url" "$base_path")
+    local repo_path=$(github_determine_path "$repo_url" "$base_path")
     
-    if comm_directory_or_file_exists "$repo_path"; then
+    if comm_path_exists "$repo_path"; then
         return 1
     fi
     
@@ -46,7 +46,7 @@ clone_repository() {
     echo "${repo_path}"
 }
 
-determine_clone_path() {
+github_determine_path() {
     local repo_url="$1"
     local base_path="${2:-${paths[current]}}"
     
@@ -64,7 +64,7 @@ determine_clone_path() {
     echo "${repo_path}"
 }
 
-build_from_source() {
+github_build_source() {
     local repo_path="$1"
     local build_command="$2"
 
@@ -85,7 +85,7 @@ build_from_source() {
     fi
 }
 
-deploy_executable() {
+github_deploy_executable() {
     local repo_path="$1"
     local target_bin="$2"
 
@@ -100,20 +100,20 @@ deploy_executable() {
     local repo_name=$(basename "$repo_path")
     local bin_file="$repo_path/$repo_name"
 
-    if has_install_script "$repo_path"; then
+    if github_has_install "$repo_path"; then
         echo_success "Installation script found; skipping executable deployment."
         return 0
     fi
 
     if [[ -f $bin_file ]]; then
-        comm_copy_files_to_destination "$bin_file" "$target_bin" 2>&1 | tee -a "$deploy_log" >&2
+        comm_copy_destination "$bin_file" "$target_bin" 2>&1 | tee -a "$deploy_log" >&2
     else
         echo_error "Binary file ${bin_file} does not exist."
         return 1
     fi
 }
 
-has_install_script() {
+github_has_install() {
     local repo_path="$1"
 
     local pattern="install*"
@@ -125,19 +125,17 @@ has_install_script() {
     fi
 }
 
-# ----> ^^^ <----
-
-handle_download_artifact() {
+github_handle_artifact() {
     local repo_url="$1"
     local target_dir="$2"
 
     local base_path
 
     base_path=$(comm_expand_path "$target_dir")
-    download_artifact "${repo_url}" "${base_path}"
+    github_download_artifact "${repo_url}" "${base_path}"
 }
 
-download_artifact(){
+github_download_artifact(){
     local repo_url="$1"
     local base_path="$2"
 
@@ -156,9 +154,7 @@ download_artifact(){
     fi
 } 
 
-# ----> ^^^ <----
-
-handle_remove() {
+github_handle_remove() {
     local remove_repo="$1"
     local repo_path="$2"
     

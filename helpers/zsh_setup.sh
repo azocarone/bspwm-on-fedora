@@ -3,7 +3,7 @@
 #  Helper functions for ZSH assets setup.
 # =============================================================================
 
-handle_color_scripts(){
+zsh_handle_scripts(){
     local home_scripts="$1"
     
     local color_scripts="${home_scripts}/shell-color-scripts"
