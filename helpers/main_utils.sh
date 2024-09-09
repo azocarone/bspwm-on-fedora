@@ -1,9 +1,17 @@
 #!/bin/bash
 # =============================================================================
-#  Helper func. for manage installation flow (display banner, user confirmation).
+#  Helper func. for manage installation flow.
 # =============================================================================
 
-display_installation_banner() {
+main_check_exists() {
+    local file="$1"
+    [[ -f "$file" ]] || {
+        echo_error "File $file not found."
+        return 1
+    }
+}
+
+main_display_banner() {
     local banner="$1"
 
     clear
@@ -14,7 +22,7 @@ display_installation_banner() {
     echo_info "Hello, ${colors[purple]}${USERNAME}${colors[blue]}: deployment will begin soon."
 }
 
-confirm_installation() {
+main_confirm_installation() {
     local attempts=3
 
     while (( attempts > 0 )); do

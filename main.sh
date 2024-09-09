@@ -9,16 +9,15 @@
 #  Version     : RC5
 # =============================================================================
 
-source helpers/echo_functions.sh
-source settings/config_global.sh
-source helpers/verification.sh
-source helpers/installation_flow.sh
-source helpers/steps.sh
+source helpers/echo_func.sh
+source settings/global.sh
+source helpers/main_utils.sh
+source helpers/step.sh
 
 main() {
-    check_file_exists "${files[banner]}" || return 1
-    display_installation_banner "${files[banner]}"
-    confirm_installation || {
+    main_check_exists "${files[banner]}" || return 1
+    main_display_banner "${files[banner]}"
+    main_confirm_installation || {
         echo_error "Installation aborted."
         return 1
     }

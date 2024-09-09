@@ -8,7 +8,7 @@
 #  SUDO_USER and USER are environment variables of the Linux operating system.
 # =============================================================================
 
-source helpers/package_utils.sh
+source helpers/pkgs_utils.sh
 
 declare -A colors=(
     [red]='\033[1;31m'

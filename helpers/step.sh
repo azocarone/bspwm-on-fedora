@@ -3,11 +3,11 @@
 #  Helper functions for manage installation steps.
 # =============================================================================
 
-source helpers/github_install.sh
-source helpers/rpm_config.sh
-source helpers/font_deploy.sh
-source helpers/bspwm_setup.sh
-source helpers/zsh_setup.sh
+source helpers/steps/github_install.sh
+source helpers/steps/rpm_config.sh
+source helpers/steps/font_deploy.sh
+source helpers/steps/bspwm_setup.sh
+source helpers/steps/zsh_setup.sh
 source helpers/common.sh
 
 step_rpm_installation(){
